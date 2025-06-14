@@ -7,10 +7,28 @@
 
 namespace kochou
 {
+  template< typename T >
+  concept object_type = std::is_base_of_v< mesh, T >;
+
+  template< typename T >
+  concept info_type = requires(T itype)
+  {
+    { itype.vertex_size } -> std::convertible_to< std::size_t >;
+    { itype.index_size } -> std::convertible_to< std::size_t >;
+  };
+  
   class core;
   struct object
   {
-    static std::size_t put(core & m_core, shared_mesh obj);
+    template< object_type OBJ, info_type INF >
+    static std::size_t create(core & m_core, INF info)
+    {
+      auto vertex_memory = m_core.alloc_vertex(info.vertex_size);
+      auto index_memory = m_core.alloc_index(info.index_size);
+
+      auto new_obj = std::make_unique< OBJ >(info);
+      return m_core.put(new_obj);
+    }
   };
 }
 

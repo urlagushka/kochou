@@ -14,8 +14,8 @@ int main()
       "/Users/urlagushka/Documents/ohri/shaders/compiled/fragment/shader.spv",
       "main"
     };
-    kochou::info ohri_info = {
-      "ohri",
+    kochou::info app_info = {
+      "test app",
       {800, 600},
       false,
       false,
@@ -25,7 +25,7 @@ int main()
       std::move(frag),
       std::nullopt
     };
-    kochou::core ohri(ohri_info);
+    kochou::core app(app_info);
 
     kochou::cube_info info = {
       {0, 0, 0},
@@ -33,8 +33,7 @@ int main()
       {1, 1, 1},
       {255, 255, 255}
     };
-    kochou::shared_cube cube = std::make_shared< kochou::cube >(info);
-    kochou::object::put(ohri, cube)
+    kochou::object::create< kochou::cube, kochou::cube_info >(app, info)
   }
   catch (const vk::SystemError & err)
   {

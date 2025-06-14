@@ -23,19 +23,20 @@ namespace kochou
     public mesh
   {
     public:
-      cube(const cube_info & info);
-  
       void move(const glm::vec3 & pos) override;
       void scale(const glm::vec3 & size) override;
       void rotate(const glm::vec3 & angle) override;
 
     private:
+      cube(const cube_info & info);
+
       void init() override;
 
       cube_info __info;
       cube_uniform __uniform;
   };
 
+  using unique_cube = std::unique_ptr< cube >;
   using shared_cube = std::shared_ptr< cube >;
 }
 
