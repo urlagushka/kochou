@@ -1,4 +1,4 @@
-![logo](https://github.com/urlagushka/ohri/blob/main/pics/banner2.png)
+![logo]()
 # kochou
 ## C++ 20 | VulkanAPI | Eigen | GLFW
 
