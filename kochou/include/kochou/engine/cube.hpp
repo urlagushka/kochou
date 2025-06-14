@@ -1,7 +1,7 @@
 #ifndef KOCHOU_ENGINE_CUBE_HPP
 #define KOCHOU_ENGINE_CUBE_HPP
 
-#include <kochou/engine/object_interface.hpp>
+#include <kochou/engine/mesh.hpp>
 
 namespace kochou
 {
@@ -20,7 +20,7 @@ namespace kochou
   };
 
   class cube:
-    public object_interface
+    public mesh
   {
     public:
       cube(const cube_info & info);

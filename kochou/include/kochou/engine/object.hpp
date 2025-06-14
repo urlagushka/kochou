@@ -3,14 +3,14 @@
 
 #include <cstddef>
 
-#include <kochou/engine/core.hpp>
-#include <kochou/engine/object_interface.hpp>
+#include <kochou/engine/mesh.hpp>
 
 namespace kochou
 {
+  class core;
   struct object
   {
-    static std::size_t put(core & m_core, shared_object_interface obj);
+    static std::size_t put(core & m_core, shared_mesh obj);
   };
 }
 

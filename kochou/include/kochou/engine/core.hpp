@@ -61,7 +61,7 @@ namespace kochou
       std::vector< vk::raii::Framebuffer > __framebuffers;
       vk::raii::CommandBuffers __cmd_buffers;
 
-      std::unordered_map< std::size_t, shared_object_interface > __objects;
+      std::unordered_map< std::size_t, shared_mesh > __objects;
   };
 }
 

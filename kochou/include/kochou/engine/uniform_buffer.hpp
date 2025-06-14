@@ -4,7 +4,7 @@
 #include <vulkan/vulkan_raii.hpp>
 #include <glm/glm.hpp>
 
-#include <kochou/engine/object_interface.hpp>
+#include <kochou/engine/mesh.hpp>
 
 namespace kochou
 {
@@ -19,7 +19,7 @@ namespace kochou
   class static_uniform_buffer
   {
     public:
-      static_uniform_buffer(const std::initializer_list< shared_object_interface > & objs);
+      static_uniform_buffer(const std::initializer_list< shared_mesh > & meshs);
 
     private:
       vk::raii::Buffer __buffer;

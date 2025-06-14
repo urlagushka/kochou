@@ -1,5 +1,7 @@
 #include <kochou/engine/object.hpp>
 
+#include <kochou/engine/core.hpp>
+
 std::size_t
 kochou::object::put(core & m_core, shared_object_interface obj)
 {
