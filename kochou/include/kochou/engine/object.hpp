@@ -16,7 +16,7 @@ namespace kochou
     { itype.vertex_size } -> std::convertible_to< std::size_t >;
     { itype.index_size } -> std::convertible_to< std::size_t >;
   };
-  
+
   class core;
   struct object
   {
