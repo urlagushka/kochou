@@ -1,0 +1,56 @@
+#include <iostream>
+
+#include <kochou/kochou.hpp>
+
+int main()
+{
+  try
+  {
+    kochou::shader vert = {
+      "/Users/urlagushka/Documents/ohri/shaders/compiled/vertex/shader.spv",
+      "main"
+    };
+    kochou::shader frag = {
+      "/Users/urlagushka/Documents/ohri/shaders/compiled/fragment/shader.spv",
+      "main"
+    };
+    kochou::info ohri_info = {
+      "ohri",
+      {800, 600},
+      false,
+      false,
+      true,
+      std::nullopt,
+      std::move(vert),
+      std::move(frag),
+      std::nullopt
+    };
+    kochou::core ohri(ohri_info);
+
+    kochou::cube_info info = {
+      {0, 0, 0},
+      {0, 0, 0},
+      {1, 1, 1},
+      {255, 255, 255}
+    };
+    kochou::shared_cube cube = std::make_shared< kochou::cube >(info);
+    kochou::object::put(ohri, cube)
+  }
+  catch (const vk::SystemError & err)
+  {
+    std::cerr << "vk::SystemError: " << err.what() << std::endl;
+    return 1;
+  }
+  catch (const std::exception & err)
+  {
+    std::cerr << "std::exception: " << err.what() << std::endl;
+    return 1;
+  }
+  catch (...)
+  {
+    std::cerr << "Unknown error\n";
+    return 1;
+  }
+
+  return 0;
+}
