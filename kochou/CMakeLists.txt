@@ -6,7 +6,7 @@ add_library(kochou
   engine/core.cpp
   engine/cube.cpp
   engine/object.cpp
-  engine/uniform_buffer.cpp
+  engine/dynamic_buffer.cpp
 
   assets/shader.cpp
   assets/texture.cpp
