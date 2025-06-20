@@ -34,14 +34,11 @@ kochou::buffer uniform_buffer(uniform_info);
 
 namespace kochou
 {
-  template< typename T >
   struct memory_block
   {
     std::size_t offset;
-    const std::size_t size = sizeof(T);
+    std::size_t size;
     bool is_available;
-
-    vk::raii::Buffer buffer;
   };
 
   struct buffer_info
@@ -52,10 +49,17 @@ namespace kochou
     std::size_t align;
   };
 
+  struct only_busy
+  {
+    bool operator()
+  }
+
   template< typename T >
   class static_buffer
   {
-    using bufferpool = std::vector< memory_block >;
+    using it = std::vector< memory_block >::iterator;
+    using cit = std::vector< memory_block >::const_iterator;
+
     public:
       static_buffer() = delete;
       static_buffer(const buffer_info & info);
@@ -65,10 +69,10 @@ namespace kochou
       static_buffer< T > & operator=(static_buffer< T > && rhs);
       ~static_buffer();
 
-      bufferpool::iterator begin();
-      bufferpool::iterator end();
-      bufferpool::const_iterator cbegin();
-      bufferpool::const_iterator cend();
+      it begin();
+      it end();
+      cit cbegin() const;
+      cit cend() const;
 
       void take();
       void free();
@@ -77,7 +81,7 @@ namespace kochou
       std::size_t __cap;
       std::size_t __size;
 
-      bufferpool __pool;
+      std::vector< memory_block > __pool;
       vk::raii::DeviceMemory __memory;
       void * __mapped;
   };
