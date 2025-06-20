@@ -3,7 +3,7 @@
 
 #include <kochou/engine/info.hpp>
 #include <kochou/engine/object.hpp>
-#include <kochou/engine/uniform_buffer.hpp>
+#include <kochou/engine/buffer.hpp>
 
 #include <vulkan/vulkan_raii.hpp>
 #include <vulkan_utils/instance.hpp>
@@ -45,6 +45,11 @@ namespace kochou
       vk::raii::Semaphore __render_finished_semaphore;
       vk::raii::Fence __in_flight_fence;
 
+      buffer __vertex_buffer;
+      buffer __index_buffer;
+      buffer __uniform_buffer;
+
+      /*
       vk::raii::Buffer __vertex_buffer;
       vk::raii::DeviceMemory __vertex_memory;
       vk::raii::Buffer __index_buffer;
@@ -52,6 +57,7 @@ namespace kochou
       vk::raii::Buffer __uniform_buffer;
       vk::raii::DeviceMemory __uniform_memory;
       void * __uniform_mapped;
+      */
 
       vk::raii::DescriptorSetLayout __descriptor_set_layout;
       vk::raii::DescriptorPool __descriptor_pool;

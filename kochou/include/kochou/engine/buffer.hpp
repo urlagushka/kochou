@@ -39,47 +39,42 @@ namespace kochou
     std::size_t offset;
     std::size_t size;
     bool is_available;
+
+    vk::raii::Buffer buffer;
   };
 
   struct buffer_info
   {
     vk::utils::device & dev;
-    vk::MemoryPropertyFlags flags;
+    vk::BufferUsageFlagBits usage;
+    vk::SharingMode mode;
+    vk::MemoryPropertyFlagBits memory;
     std::size_t capacity;
-    std::size_t align;
+    bool is_resizable;
   };
 
-  struct only_busy
-  {
-    bool operator()
-  }
-
-  template< typename T >
-  class static_buffer
+  class buffer
   {
     using it = std::vector< memory_block >::iterator;
     using cit = std::vector< memory_block >::const_iterator;
 
     public:
-      static_buffer() = delete;
-      static_buffer(const buffer_info & info);
-      static_buffer(const static_buffer< T > & rhs);
-      static_buffer(static_buffer< T > && rhs);
-      static_buffer< T > & operator=(const static_buffer< T > & rhs);
-      static_buffer< T > & operator=(static_buffer< T > && rhs);
-      ~static_buffer();
+      buffer() = delete;
+      buffer(const buffer_info & info);
+      buffer(const buffer & rhs) = delete; // todo
+      buffer(buffer && rhs) = delete; // todo
+      buffer & operator=(const buffer & rhs) = delete; // todo
+      buffer & operator=(buffer && rhs) = delete; // todo
+      ~buffer();
 
-      it begin();
-      it end();
-      cit cbegin() const;
-      cit cend() const;
-
-      void take();
-      void free();
+      // std::size_t allocate();
+      // void free();
 
     private:
-      std::size_t __cap;
-      std::size_t __size;
+      vk::utils::device & __device;
+      std::size_t __capacity;
+      std::size_t __alignment;
+      bool __is_resizable;
 
       std::vector< memory_block > __pool;
       vk::raii::DeviceMemory __memory;

@@ -17,14 +17,6 @@ kochou::core::core(const info & m_info):
   __render_finished_semaphore(__device.get_device(), vk::SemaphoreCreateInfo{}),
   __in_flight_fence(__device.get_device(), vk::FenceCreateInfo(vk::FenceCreateFlagBits::eSignaled)),
 
-  __vertex_buffer(VK_NULL_HANDLE),
-  __vertex_memory(VK_NULL_HANDLE),
-  __index_buffer(VK_NULL_HANDLE),
-  __index_memory(VK_NULL_HANDLE),
-  __uniform_buffer(VK_NULL_HANDLE),
-  __uniform_memory(VK_NULL_HANDLE),
-  __uniform_mapped(nullptr),
-
   __descriptor_set_layout(VK_NULL_HANDLE),
   __descriptor_pool(VK_NULL_HANDLE),
   __descriptor_set(VK_NULL_HANDLE),
