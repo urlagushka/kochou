@@ -10,10 +10,12 @@ int main()
       "/Users/urlagushka/Documents/ohri/shaders/compiled/vertex/shader.spv",
       "main"
     };
+
     kochou::shader frag = {
       "/Users/urlagushka/Documents/ohri/shaders/compiled/fragment/shader.spv",
       "main"
     };
+
     kochou::info app_info = {
       "test app",
       {800, 600},
@@ -25,15 +27,13 @@ int main()
       std::move(frag),
       std::nullopt
     };
+
     kochou::core app(app_info);
 
-    kochou::cube_info info = {
-      {0, 0, 0},
-      {0, 0, 0},
-      {1, 1, 1},
-      {255, 255, 255}
-    };
-    kochou::object::create< kochou::cube, kochou::cube_info >(app, info)
+    while (!app.should_close())
+    {
+      app.draw();
+    }
   }
   catch (const vk::SystemError & err)
   {

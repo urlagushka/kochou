@@ -51,11 +51,14 @@ std::vector< vk::raii::Framebuffer >
 vk::utils::create_framebuffers(const device & dev, render_pass & rd, swapchain & sw)
 {
   std::vector<vk::raii::Framebuffer> framebuffers;
+  vk::raii::ImageView & depth_view = sw.get_depth_view();
 
   for (const auto & image_view : sw.get_images_view())
   {
-    std::vector< vk::ImageView > atchs;
-    atchs.push_back(*image_view);
+    std::array< vk::ImageView, 2 > atchs = {
+      *image_view,
+      *depth_view
+    };
 
     vk::FramebufferCreateInfo framebuffer_info{
       {},
@@ -78,9 +81,9 @@ vk::raii::CommandBuffers
 vk::utils::create_cmd_buffers(device & dev, const vk::raii::CommandPool & pool, uint32_t size)
 {
   vk::CommandBufferAllocateInfo alloc_info{
-      *pool,
-      vk::CommandBufferLevel::ePrimary,
-      size
+    *pool,
+    vk::CommandBufferLevel::ePrimary,
+    size
   };
   return vk::raii::CommandBuffers(dev.get_device(), alloc_info);
 }

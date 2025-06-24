@@ -1,5 +1,5 @@
-#ifndef KOCHOU_CORE_STATIC_BUFFER_HPP
-#define KOCHOU_CORE_STATIC_BUFFER_HPP
+#ifndef KOCHOU_ENGINE_MEMORY_BUFFER_HPP
+#define KOCHOU_ENGINE_MEMORY_BUFFER_HPP
 
 #include <vulkan/vulkan_raii.hpp>
 #include <glm/glm.hpp>

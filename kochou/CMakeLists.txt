@@ -4,9 +4,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_library(kochou
   engine/core.cpp
-  engine/cube.cpp
+  engine/mesh/cube.cpp
   engine/object.cpp
-  engine/buffer.cpp
+  engine/memory/buffer.cpp
 
   assets/shader.cpp
   assets/texture.cpp

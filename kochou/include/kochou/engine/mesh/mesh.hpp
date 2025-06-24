@@ -2,9 +2,7 @@
 #define KOCHOU_ENGINE_MESH_HPP
 
 #include <memory>
-#include <span>
-
-#include <glm/glm.hpp>
+#include <vector>
 
 #include <vulkan_utils/vertices.hpp>
 
@@ -14,7 +12,7 @@ namespace kochou
   {
     friend struct object;
     public:
-      mesh() = delete;
+      mesh() = default;
       mesh(const mesh &) = delete;
       mesh(mesh &&) = delete;
       mesh & operator=(const mesh &) = delete;
@@ -28,12 +26,15 @@ namespace kochou
       ~mesh() = default;
       virtual void init() = 0;
 
-      std::span< vk::utils::vertex3 > __vertices;
-      std::span< uint32_t > __indices;
+      std::vector< vk::utils::vertex3 > __vertices;
+      std::vector< uint32_t > __indices;
   };
 
   using unique_mesh = std::unique_ptr< mesh >;
   using shared_mesh = std::shared_ptr< mesh >;
+
+  template< typename T >
+  concept mesh_type = std::is_base_of_v< mesh, T >;
 }
 
 #endif

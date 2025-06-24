@@ -1,7 +1,9 @@
 #ifndef KOCHOU_ENGINE_CUBE_HPP
 #define KOCHOU_ENGINE_CUBE_HPP
 
-#include <kochou/engine/mesh.hpp>
+#include <glm/glm.hpp>
+
+#include <kochou/engine/mesh/mesh.hpp>
 
 namespace kochou
 {
@@ -15,14 +17,18 @@ namespace kochou
 
   struct cube_uniform
   {
-    alignas(16) glm::mat4 model;
-    alignas(16) glm::vec3 color;
+    glm::mat4 model;
+    glm::vec3 color;
   };
 
   class cube:
     public mesh
   {
     public:
+      struct vertex;
+      struct index;
+      struct uniform;
+
       void move(const glm::vec3 & pos) override;
       void scale(const glm::vec3 & size) override;
       void rotate(const glm::vec3 & angle) override;

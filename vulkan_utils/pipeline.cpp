@@ -6,14 +6,13 @@
 vk::utils::pipeline::pipeline(
   vk::utils::device & device,
   vk::Extent2D sw_extent2d,
-  vk::raii::RenderPass & render_pass,
-  vk::raii::DescriptorSetLayout & descriptor_set_layout
+  vk::raii::RenderPass & render_pass
 ):
   __pipeline_layout(VK_NULL_HANDLE),
   __pipeline(VK_NULL_HANDLE)
 {
-  auto vert_module = create_shader_module(device, "/Users/urlagushka/Documents/ohri/shaders/compiled/vertex/shader.spv");
-  auto frag_module = create_shader_module(device, "/Users/urlagushka/Documents/ohri/shaders/compiled/fragment/shader.spv");
+  auto vert_module = create_shader_module(device, "/Users/urlagushka/Documents/kochou/shaders/compiled/vertex/shader.spv");
+  auto frag_module = create_shader_module(device, "/Users/urlagushka/Documents/kochou/shaders/compiled/fragment/shader.spv");
 
   std::vector< vk::PipelineShaderStageCreateInfo > shader_stages = {
     {
@@ -127,8 +126,8 @@ vk::utils::pipeline::pipeline(
 
   vk::PipelineLayoutCreateInfo pipeline_layout_info = {
     {},
-    1,
-    &*descriptor_set_layout,
+    0,
+    nullptr,
     0,
     nullptr 
   };
@@ -154,6 +153,18 @@ vk::utils::pipeline::pipeline(
     VK_NULL_HANDLE,
     -1
   };
+
+  vk::PipelineDepthStencilStateCreateInfo depth_stencil = {
+    {},
+    VK_TRUE,
+    VK_TRUE,
+    vk::CompareOp::eLess,
+    VK_FALSE,
+    VK_FALSE,
+    {}, {},
+    0.0f, 1.0f
+  };
+  pipeline_info.setPDepthStencilState(&depth_stencil);
 
   __pipeline = device.create_graphics_pipeline(pipeline_info);
 }

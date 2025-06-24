@@ -8,7 +8,11 @@ vk::utils::swapchain::swapchain(device & dev, const vk::raii::SurfaceKHR & surfa
   __images({}),
   __images_view(),
   __surface_format(),
-  __extent2d()
+  __extent2d(),
+
+  __depth_image(VK_NULL_HANDLE),
+  __depth_memory(VK_NULL_HANDLE),
+  __depth_view(VK_NULL_HANDLE)
 {
   vk::SurfaceCapabilitiesKHR cap = dev.get_physical_device().getSurfaceCapabilitiesKHR(surface);
   __extent2d = cap.currentExtent;
@@ -47,6 +51,50 @@ vk::utils::swapchain::swapchain(device & dev, const vk::raii::SurfaceKHR & surfa
 
     __images_view.push_back(std::move(dev.get_device().createImageView(view_create_info)));
   }
+
+  vk::Format depth_format = vk::Format::eD32Sfloat;
+  vk::ImageCreateInfo image_info{
+    {},
+    vk::ImageType::e2D,
+    depth_format,
+    vk::Extent3D{ __extent2d.width, __extent2d.height, 1 },
+    1,
+    1,
+    vk::SampleCountFlagBits::e1,
+    vk::ImageTiling::eOptimal,
+    vk::ImageUsageFlagBits::eDepthStencilAttachment,
+    vk::SharingMode::eExclusive,
+    {},
+    vk::ImageLayout::eUndefined
+  };
+
+  __depth_image = dev.get_device().createImage(image_info);
+
+  auto mem_requirements = __depth_image.getMemoryRequirements();
+
+  // Ищем подходящий тип памяти
+  vk::MemoryAllocateInfo alloc_info{
+    mem_requirements.size,
+    dev.find_memory_type(mem_requirements.memoryTypeBits, vk::MemoryPropertyFlagBits::eDeviceLocal)
+  };
+
+  __depth_memory = dev.get_device().allocateMemory(alloc_info);
+  __depth_image.bindMemory(*__depth_memory, 0);
+
+  // Создаём image view
+  vk::ImageViewCreateInfo view_info{
+    {},
+    *__depth_image,
+    vk::ImageViewType::e2D,
+    depth_format,
+    vk::ComponentMapping{},
+    vk::ImageSubresourceRange{
+      vk::ImageAspectFlagBits::eDepth,
+      0, 1, 0, 1
+    }
+  };
+
+  __depth_view = dev.get_device().createImageView(view_info);
 }
 
 vk::raii::SwapchainKHR &
@@ -77,6 +125,12 @@ vk::Extent2D
 vk::utils::swapchain::get_extent2d() const
 {
   return __extent2d;
+}
+
+vk::raii::ImageView &
+vk::utils::swapchain::get_depth_view()
+{
+  return __depth_view;
 }
 
 vk::SurfaceFormatKHR

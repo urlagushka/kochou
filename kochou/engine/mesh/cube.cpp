@@ -1,4 +1,6 @@
-#include <kochou/engine/cube.hpp>
+#include <kochou/engine/mesh/cube.hpp>
+
+#include <glm/gtc/matrix_transform.hpp>
 
 kochou::cube::cube(const cube_info & info):
   mesh(),
@@ -43,12 +45,12 @@ kochou::cube::init()
   };
 
   __indices = {
-      0,1,2, 2,3,0,
-      5,4,7, 7,6,5,
-      1,5,6, 6,2,1,
-      4,0,3, 3,7,4,
-      3,2,6, 6,7,3,
-      4,5,1, 1,0,4
+    0, 1, 2, 2, 3, 0,
+    5, 4, 7, 7, 6, 5,
+    1, 5, 6, 6, 2, 1,
+    4, 0, 3, 3, 7, 4,
+    3, 2, 6, 6, 7, 3,
+    4, 5, 1, 1, 0, 4
   };
 
   __vertices.clear();

@@ -12,8 +12,7 @@ namespace vk::utils
       pipeline(
         vk::utils::device & device,
         vk::Extent2D sw_extent2d,
-        vk::raii::RenderPass & render_pass,
-        vk::raii::DescriptorSetLayout & descriptor_set_layout
+        vk::raii::RenderPass & render_pass
       );
 
       vk::raii::PipelineLayout & get_pipeline_layout();

@@ -2,8 +2,8 @@
 #define KOCHOU_ENGINE_CORE_HPP
 
 #include <kochou/engine/info.hpp>
-#include <kochou/engine/object.hpp>
-#include <kochou/engine/buffer.hpp>
+#include <kochou/engine/memory/pool.hpp>
+
 
 #include <vulkan/vulkan_raii.hpp>
 #include <vulkan_utils/instance.hpp>
@@ -27,10 +27,12 @@ namespace kochou
       core & operator=(const core &) = delete;
       core & operator=(core &&) = delete;
 
+      bool should_close() const;
+
+      void draw();
+
     private:
-      void update_vertex();
-      void update_index();
-      void update_uniform();
+      void prepare();
 
       vk::utils::window __window;
 
@@ -45,29 +47,16 @@ namespace kochou
       vk::raii::Semaphore __render_finished_semaphore;
       vk::raii::Fence __in_flight_fence;
 
-      buffer __vertex_buffer;
-      buffer __index_buffer;
-      buffer __uniform_buffer;
-
-      /*
       vk::raii::Buffer __vertex_buffer;
       vk::raii::DeviceMemory __vertex_memory;
       vk::raii::Buffer __index_buffer;
       vk::raii::DeviceMemory __index_memory;
-      vk::raii::Buffer __uniform_buffer;
-      vk::raii::DeviceMemory __uniform_memory;
-      void * __uniform_mapped;
-      */
-
-      vk::raii::DescriptorSetLayout __descriptor_set_layout;
-      vk::raii::DescriptorPool __descriptor_pool;
-      vk::raii::DescriptorSet __descriptor_set;
       
       vk::utils::pipeline __pipeline;
       std::vector< vk::raii::Framebuffer > __framebuffers;
       vk::raii::CommandBuffers __cmd_buffers;
 
-      std::unordered_map< std::size_t, shared_mesh > __objects;
+      // std::unordered_map< std::size_t, shared_mesh > __objects;
   };
 }
 

@@ -15,9 +15,26 @@ vk::utils::render_pass::render_pass(device & dev, vk::Format sw_format):
     vk::ImageLayout::ePresentSrcKHR
   };
 
+  vk::AttachmentDescription depth_atch = {
+    {},
+    vk::Format::eD32Sfloat,
+    vk::SampleCountFlagBits::e1,
+    vk::AttachmentLoadOp::eClear,
+    vk::AttachmentStoreOp::eDontCare,
+    vk::AttachmentLoadOp::eDontCare,
+    vk::AttachmentStoreOp::eDontCare,
+    vk::ImageLayout::eUndefined,
+    vk::ImageLayout::eDepthStencilAttachmentOptimal
+  };
+
   vk::AttachmentReference color_atch_ref = {
     0,
     vk::ImageLayout::eColorAttachmentOptimal
+  };
+
+  vk::AttachmentReference depth_atch_ref = {
+    1,
+    vk::ImageLayout::eDepthStencilAttachmentOptimal
   };
 
   vk::SubpassDescription sub_pass = {
@@ -28,15 +45,17 @@ vk::utils::render_pass::render_pass(device & dev, vk::Format sw_format):
     1,
     &color_atch_ref,
     nullptr,
-    nullptr,
+    &depth_atch_ref,
     0,
     nullptr
   };
 
+  std::array< vk::AttachmentDescription, 2 > attachments = {color_atch, depth_atch};
+
   vk::RenderPassCreateInfo render_pass_info = {
     {},
-    1,
-    &color_atch,
+    attachments.size(),
+    attachments.data(),
     1,
     &sub_pass,
     0,
