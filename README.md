@@ -1,6 +1,6 @@
-![logo]()
+![logo](https://github.com/urlagushka/kochou/blob/main/pics/kochou.png)
 # kochou
-## C++ 20 | VulkanAPI | Eigen | GLFW
+## C++ 20 | VulkanAPI | GLFW
 
 ### Compilation
 MacOS ARM64:
@@ -55,49 +55,3 @@ git ls-files --exclude-standard -- ':!**/*.png' | xargs wc -l
 4. Rendering (Рендеринг)
   14. Framebuffers
   15. Command Buffers (запись команд с привязкой текстур)
-
-
-### shaders
-```cpp
-namespace egirl
-{
-  struct shader
-  {
-    std::filesystem::path path;
-    std::string entry;
-  };
-
-  struct shaders
-  {
-    shader vert;
-    shader frag;
-  };
-}
-```
-
-
-int main()
-{
-  egirl::shaders shaders = {
-    .vert = {
-      "shader.spv",
-      "main"
-    },
-    .frag = {
-      "shader.spv",
-      "main"
-    }
-  };
-
-  egirl::textures
-
-  egirl::config = {
-    "app_name",
-    {
-      "vertex_shader.spv",
-      "fragment_shader.spv",
-    }
-  };
-  egirl::assets = {};
-  egirl::core
-}
