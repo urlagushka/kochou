@@ -19,39 +19,3 @@ make
 6. VK_COLOR_SPACE_BT709_NONLINEAR_EXT
 
 git ls-files --exclude-standard -- ':!**/*.png' | xargs wc -l
-
-### Vulkan
-1. Base (Основные объекты)
-  1. Instance
-  2. Window
-  3. Surface
-  4. Physical Device (выбор GPU)
-  5. Logical Device
-  6. Queues (графическая, презентационная)
-
-2. Resources Setup (Ресурсы)
-  7. Swapchain
-  8. Render Pass
-  9. Command Pool
-
-3. Texture Pipeline (Текстуры и конвейер)
-  10. Загрузка текстур:
-    - stbi_load → пиксельные данные
-    - Создание staging buffer
-    - Создание VkImage (текстура)
-    - Копирование данных через командный буфер
-    - Создание image view и sampler
-  11. Vertex/Index Buffers (если есть геометрия)
-  12. Descriptors:
-    - Создание Descriptor Set Layout (с указанием текстуры)
-    - Создание Descriptor Pool
-    - Выделение Descriptor Sets
-    - Привязка текстуры и uniform буферов к дескрипторам
-  13. Pipeline:
-    - Создание шейдерных модулей
-    - Создание Pipeline Layout (с привязкой descriptor set layout)
-    - Создание Graphics Pipeline
-
-4. Rendering (Рендеринг)
-  14. Framebuffers
-  15. Command Buffers (запись команд с привязкой текстур)

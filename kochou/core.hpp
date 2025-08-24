@@ -2,8 +2,6 @@
 #define KOCHOU_ENGINE_CORE_HPP
 
 #include <kochou/engine/info.hpp>
-#include <kochou/engine/memory/pool.hpp>
-
 
 #include <vulkan/vulkan_raii.hpp>
 #include <vulkan_utils/instance.hpp>

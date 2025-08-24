@@ -12,6 +12,7 @@ vk::utils::instance::instance(std::string_view app, std::string_view engine, boo
   std::vector< const char * > app_layers;
 
   #if defined(__APPLE__)
+    /*
     app_extensions = {
       VK_KHR_SURFACE_EXTENSION_NAME,
       "VK_MVK_macos_surface",
@@ -23,24 +24,20 @@ vk::utils::instance::instance(std::string_view app, std::string_view engine, boo
     instance_info.flags = vk::InstanceCreateFlagBits::eEnumeratePortabilityKHR;
     instance_info.enabledExtensionCount = static_cast< uint32_t >(app_extensions.size());
     instance_info.ppEnabledExtensionNames = app_extensions.data();
-
+    */
+    assert(false && "apple silicon not supported");
   #elif defined(__linux__)
     app_extensions = {
       VK_KHR_SURFACE_EXTENSION_NAME,
-      VK_KHR_XCB_SURFACE_EXTENSION_NAME,
+      "VK_EXT_mesh_shader",
+      "VK_KHR_xcb_surface",
       "VK_EXT_swapchain_colorspace"
     };
     instance_info.enabledExtensionCount = static_cast< uint32_t >(app_extensions.size());
     instance_info.ppEnabledExtensionNames = app_extensions.data();
-  
+
   #elif defined(_WIN32)
-    app_extensions = {
-      VK_KHR_SURFACE_EXTENSION_NAME,
-      VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
-      "VK_EXT_swapchain_colorspace"
-    };
-    instance_info.enabledExtensionCount = static_cast< uint32_t >(app_extensions.size());
-    instance_info.ppEnabledExtensionNames = app_extensions.data();
+    assert(false && "win32 not supported");
 
   #endif
 
