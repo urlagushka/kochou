@@ -67,7 +67,7 @@ vk::utils::create_framebuffers(const device & dev, render_pass & rd, swapchain &
       atchs.data(),
       sw.get_extent2d().width,
       sw.get_extent2d().height,
-      1
+      1c
     };
 
     auto framebuffer = dev.create_framebuffer(framebuffer_info);
