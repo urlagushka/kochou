@@ -16,6 +16,10 @@ namespace kochou::api
 
     class context final // ctx
     {
+        friend struct modifiers;
+        friend std::shared_ptr< context > make_shared_context(context_make_info &);
+        friend std::unique_ptr< context > make_unique_context(context_make_info &);
+
         public:
             context()                            = delete;
             context(const context &)             = delete;
@@ -25,7 +29,6 @@ namespace kochou::api
             context(/* app_name, surface */);
             void build_instance(std::string_view app_name, bool is_debug = false);
             void build_device();
-            void find_queues();
 
             vk::raii::Instance       __instance;
             vk::raii::PhysicalDevice __physical_device;

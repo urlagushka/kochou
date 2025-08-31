@@ -8,10 +8,14 @@ namespace kochou::api
         std::size_t width;
         std::size_t height;
         std::string title;
-    };
+    }; 
 
     class window final // win
     {
+        friend struct modifiers;
+        friend std::shared_ptr< window > make_shared_window(window_make_info &);
+        friend std::unique_ptr< window > make_unique_window(window_make_info &);
+
         public:
             window()                           = delete;
             window(const window &)             = delete;
@@ -30,8 +34,6 @@ namespace kochou::api
 
     shared_window make_shared_window(window_make_info & win_info); // -> throw on failure
     unique_window make_unique_window(window_make_info & win_info); // -> throw on failure
-
-    vk::SurfaceKHR make_surface_from_window(context & ctx);
 }
 
 #endif
