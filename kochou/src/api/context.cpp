@@ -1,10 +1,11 @@
 #include "context.hpp"
 
+#include "platform/vulkan.hpp"
+
 kochou::api::shared_context
 kochou::api::make_shared_context(context_make_info & info)
 {
-    #if !defined(__linux__) assert(false && "platform not supported!");
-    #endif
+
 }
 
 kochou::api::unique_context
@@ -19,12 +20,7 @@ kochou::api::context::build_instance(std::string_view app_name, bool is_debug)
     vk::ApplicationInfo app_info(app_name.data(), 1, "kochou", 1, VK_API_VERSION_1_3);
     vk::InstanceCreateInfo instance_info({}, &app_info);
 
-    std::vector< const char * > app_extensions = {
-        VK_KHR_SURFACE_EXTENSION_NAME,
-        "VK_EXT_mesh_shader",
-        "VK_KHR_xcb_surface",
-        "VK_EXT_swapchain_colorspace"
-    };
+    std::vector< const char * > app_extensions = get_instance_extensions();
     instance_info.enabledExtensionCount = static_cast< uint32_t >(app_extensions.size());
     instance_info.ppEnabledExtensionNames = app_extensions.data();
 

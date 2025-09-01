@@ -1,17 +1,33 @@
-#ifndef KOCHOU_ASSETS_SHADER_HPP
-#define KOCHOU_ASSETS_SHADER_HPP
+#ifndef KOCHOU_API_SHADERS_TYPE_HPP
+#define KOCHOU_API_SHADERS_TYPE_HPP
 
 #include <filesystem>
 #include <string>
 
 namespace kochou
 {
-    enum class shader_type
+    using fs = std::filesystem;
+
+    enum class shader_type // sh_type
     {
         task,
         mesh,
         frag
     };
+
+    struct shader_load_info // sh_info
+    {
+        fs::path path;
+        std::string entry;
+        shader_type sh_type;
+    };
+
+    struct shader // sh
+    {
+        std::string entry;
+        vk::ShaderStageFlagBits bits;
+    };
+    
 
     inline vk::ShaderStageFlagBits match_shader_bit(shader_type type)
     {

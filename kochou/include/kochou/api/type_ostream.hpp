@@ -1,11 +1,11 @@
-#ifndef VULKAN_UTILS_IO_HANDLES_HPP
-#define VULKAN_UTILS_IO_HANDLES_HPP
+#ifndef KOCHOU_API_TYPE_OSTREAM_HPP
+#define KOCHOU_API_TYPE_OSTREAM_HPP
 
 #include <ostream>
 
 #include <vulkan/vulkan.hpp>
 
-namespace vk
+namespace kochou::api
 {
   // PHYSICAL DEVICE
   std::ostream & operator<<(std::ostream & out, const MemoryHeapFlags & rhs);
