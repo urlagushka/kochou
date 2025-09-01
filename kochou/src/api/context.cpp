@@ -1,6 +1,6 @@
 #include "context.hpp"
 
-#include "platform/vulkan.hpp"
+#include "api/platform/vulkan.hpp"
 
 kochou::api::shared_context
 kochou::api::make_shared_context(context_make_info & info)
@@ -17,10 +17,10 @@ kochou::api::make_unique_context(context_make_info & info)
 void
 kochou::api::context::build_instance(std::string_view app_name, bool is_debug)
 {
-    vk::ApplicationInfo app_info(app_name.data(), 1, "kochou", 1, VK_API_VERSION_1_3);
+    vk::ApplicationInfo app_info(app_name.data(), 1, "kochou", 1, vk_api_version);
     vk::InstanceCreateInfo instance_info({}, &app_info);
 
-    std::vector< const char * > app_extensions = get_instance_extensions();
+    constexpr auto app_extensions = get_instance_extensions();
     instance_info.enabledExtensionCount = static_cast< uint32_t >(app_extensions.size());
     instance_info.ppEnabledExtensionNames = app_extensions.data();
 
