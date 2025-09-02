@@ -32,8 +32,8 @@ namespace kochou::api
     using shared_window = std::shared_ptr< window >; // s_win
     using unique_window = std::unique_ptr< window >; // u_win
 
-    shared_window make_shared_window(window_make_info & win_info); // -> throw on failure
-    unique_window make_unique_window(window_make_info & win_info); // -> throw on failure
+    shared_window make_shared_window(const window_make_info & win_info); // -> throw on failure
+    unique_window make_unique_window(const window_make_info & win_info); // -> throw on failure
 }
 
 #endif

@@ -1,32 +1,52 @@
-#include "context.hpp"
+#include <kochou/api/context.hpp>
 
-#include "api/platform/vulkan.hpp"
+#include <iostream>
+
+#include <kochou/api/platform/vulkan.hpp>
+#include <kochou/api/platform/gpu.hpp>
+#include <kochou/api/type_ostream.hpp>
 
 kochou::api::shared_context
-kochou::api::make_shared_context(context_make_info & info)
+kochou::api::make_shared_context(const context_make_info & info)
 {
-
+    auto * ctx = new context(info);
+    return std::shared_ptr< context >(ctx);
 }
 
 kochou::api::unique_context
-kochou::api::make_unique_context(context_make_info & info)
+kochou::api::make_unique_context(const context_make_info & info)
 {
+    auto * ctx = new context(info);
+    return std::unique_ptr< context >(ctx);
+}
 
+kochou::api::context::context(const context_make_info & ctx_info)
+    : __instance(nullptr)
+{
+    build_instance(ctx_info.app_name, ctx_info.is_debug);
+
+    const auto gpus = enumerate_gpu(__instance);
+    for (const auto gp : gpus)
+    {
+        std::cout << gp << std::endl;
+    }
 }
 
 void
 kochou::api::context::build_instance(std::string_view app_name, bool is_debug)
 {
-    vk::ApplicationInfo app_info(app_name.data(), 1, "kochou", 1, vk_api_version);
+    vk::ApplicationInfo app_info(app_name.data(), 1, "kochou", 1, VK_API_VERSION_1_2);
     vk::InstanceCreateInfo instance_info({}, &app_info);
 
-    constexpr auto app_extensions = get_instance_extensions();
+    const auto app_extensions = get_instance_extensions();
     instance_info.enabledExtensionCount = static_cast< uint32_t >(app_extensions.size());
     instance_info.ppEnabledExtensionNames = app_extensions.data();
+    instance_info.flags |= vk::InstanceCreateFlagBits::eEnumeratePortabilityKHR;
 
+    std::vector< ccarray > app_layers;
     if (is_debug)
     {
-        std::vector< const char * > app_layers = {
+        app_layers = {
             "VK_LAYER_KHRONOS_validation"
         };
 
@@ -37,6 +57,7 @@ kochou::api::context::build_instance(std::string_view app_name, bool is_debug)
     __instance = vk::raii::Instance({}, instance_info);
 }
 
+/*
 void
 kochou::api::context::find_queues()
 {
@@ -48,7 +69,7 @@ kochou::api::context::find_queues()
         {
             __graphic_queues.push_back(i);
         }
-        if (__physical_device.getSurfaceSupportKHR(i, /* surface */))
+        if (__physical_device.getSurfaceSupportKHR(i, ))
         {
             __present_queues.push_back(i);
         }
@@ -59,3 +80,4 @@ kochou::api::context::find_queues()
         throw std::runtime_error("can't find queues!");
     }
 }
+*/

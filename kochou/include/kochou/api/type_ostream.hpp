@@ -5,36 +5,41 @@
 
 #include <vulkan/vulkan.hpp>
 
+#include <kochou/api/platform/gpu.hpp>
+
 namespace kochou::api
 {
   // PHYSICAL DEVICE
-  std::ostream & operator<<(std::ostream & out, const MemoryHeapFlags & rhs);
-  std::ostream & operator<<(std::ostream & out, const MemoryPropertyFlags & rhs);
-  std::ostream & operator<<(std::ostream & out, const MemoryHeap & rhs);
-  std::ostream & operator<<(std::ostream & out, const MemoryType & rhs);
-  std::ostream & operator<<(std::ostream & out, const PhysicalDeviceMemoryProperties & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::MemoryHeapFlags & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::MemoryPropertyFlags & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::MemoryHeap & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::MemoryType & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::PhysicalDeviceMemoryProperties & rhs);
 
-  std::ostream & operator<<(std::ostream & out, const PhysicalDeviceType & rhs);
-  std::ostream & operator<<(std::ostream & out, const PhysicalDevice & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::PhysicalDeviceType & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::PhysicalDevice & rhs);
 
   // QUEUE
-  std::ostream & operator<<(std::ostream & out, const Extent2D & rhs);
-  std::ostream & operator<<(std::ostream & out, const Extent3D & rhs);
-  std::ostream & operator<<(std::ostream & out, const QueueFlags & rhs);
-  std::ostream & operator<<(std::ostream & out, const QueueFamilyProperties & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::Extent2D & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::Extent3D & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::QueueFlags & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::QueueFamilyProperties & rhs);
 
   // LOGICAL DEVICE
   // todo
 
   // SURFACE
-  std::ostream & operator<<(std::ostream & out, const Format & rhs);
-  std::ostream & operator<<(std::ostream & out, const ColorSpaceKHR & rhs);
-  std::ostream & operator<<(std::ostream & out, const SurfaceFormatKHR & rhs);
-  std::ostream & operator<<(std::ostream & out, const SurfaceTransformFlagsKHR & rhs);
-  std::ostream & operator<<(std::ostream & out, const SurfaceTransformFlagBitsKHR & rhs);
-  std::ostream & operator<<(std::ostream & out, const CompositeAlphaFlagsKHR & rhs);
-  std::ostream & operator<<(std::ostream & out, const ImageUsageFlags & rhs);
-  std::ostream & operator<<(std::ostream & out, const SurfaceCapabilitiesKHR & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::Format & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::ColorSpaceKHR & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::SurfaceFormatKHR & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::SurfaceTransformFlagsKHR & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::SurfaceTransformFlagBitsKHR & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::CompositeAlphaFlagsKHR & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::ImageUsageFlags & rhs);
+  std::ostream & operator<<(std::ostream & out, const vk::SurfaceCapabilitiesKHR & rhs);
+
+  // PLATFORM
+  std::ostream & operator<<(std::ostream & out, const gpu & rhs);
 }
 
 #endif

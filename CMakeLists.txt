@@ -10,7 +10,6 @@ find_package(glm REQUIRED)
 
 set(SOURCES main.cpp)
 
-add_subdirectory(vulkan_utils)
 add_subdirectory(kochou)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -26,5 +25,4 @@ elseif (UNIX)
     target_compile_definitions(${PROJECT_NAME} PRIVATE VK_USE_PLATFORM_XLIB_KHR)
 endif()
 
-target_link_libraries(${PROJECT_NAME} vulkan_utils)
 target_link_libraries(${PROJECT_NAME} kochou)
