@@ -1,6 +1,7 @@
 #include <kochou/api/context.hpp>
 
 #include <iostream>
+#include <ranges>
 
 #include <kochou/api/platform/vulkan.hpp>
 #include <kochou/api/platform/gpu.hpp>
@@ -25,10 +26,15 @@ kochou::api::context::context(const context_make_info & ctx_info)
 {
     build_instance(ctx_info.app_name, ctx_info.is_debug);
 
-    const auto gpus = enumerate_gpu(__instance);
-    for (const auto gp : gpus)
+    constexpr gpu_requirements any_gpu = {
+        .type = gpu_type::any,
+        .extensions = 0
+    };
+
+    const auto devices = enumerate_gpu(__instance);
+    for (const auto device : devices | std::views::filter(gpu_filter< any_gpu >))
     {
-        std::cout << gp << std::endl;
+        std::cout << device << std::endl;
     }
 }
 

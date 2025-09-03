@@ -39,7 +39,7 @@ namespace kochou::api
   std::ostream & operator<<(std::ostream & out, const vk::SurfaceCapabilitiesKHR & rhs);
 
   // PLATFORM
-  std::ostream & operator<<(std::ostream & out, const gpu & rhs);
+  std::ostream & operator<<(std::ostream & out, const gpu_device & rhs);
 }
 
 #endif

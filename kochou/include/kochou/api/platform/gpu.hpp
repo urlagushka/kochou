@@ -1,7 +1,7 @@
 #ifndef KOCHOU_API_PLATFORM_PHYSICAL_DEVICE_HPP
 #define KOCHOU_API_PLATFORM_PHYSICAL_DEVICE_HPP
 
-#include <ranges>
+#include <iostream>
 
 #include <vulkan/vulkan_raii.hpp>
 
@@ -20,10 +20,11 @@ namespace kochou::api
         integrated = 1,
         discrete   = 2,
         vvirtual   = 3,
-        cpu        = 4
+        cpu        = 4,
+        any        = 5
     };
 
-    struct gpu final
+    struct gpu_device final
     {
         vk::raii::PhysicalDevice naked = nullptr;
 
@@ -32,7 +33,7 @@ namespace kochou::api
         const uint32_t extensions;
     };
 
-    inline static std::vector< gpu > // can't be constexpr
+    inline static std::vector< gpu_device > // can't be constexpr
     enumerate_gpu(vk::raii::Instance & instance)
     {
         auto gpu_list = std::move(instance.enumeratePhysicalDevices());
@@ -41,12 +42,11 @@ namespace kochou::api
             return {};
         }
 
-        std::vector< gpu > resolve;
+        std::vector< gpu_device > resolve;
         for (auto & device : gpu_list)
         {
             const auto extensions = device.enumerateDeviceExtensionProperties();
             const auto properties = device.getProperties();
-            // const auto features = device.getFeatures();
 
             const gpu_type type = static_cast< const gpu_type >(properties.deviceType);
             uint32_t exts = 0;
@@ -88,8 +88,27 @@ namespace kochou::api
     };
 
     template< gpu_requirements gpu_ex >
-    bool gpu_filter(const gpu & rhs)
+    bool gpu_filter(const gpu_device & device)
     {
+        if (gpu_ex.type != gpu_type::any && device.type != gpu_ex.type)
+        {
+            return false;
+        }
+
+        if (gpu_ex.extensions & descriptor_indexing_bit && !(device.extensions & descriptor_indexing_bit))
+        {
+            return false;
+        }
+        if (gpu_ex.extensions & dynamic_render_bit && !(device.extensions & dynamic_render_bit))
+        {
+            return false;
+        }
+        if (gpu_ex.extensions & mesh_ext_bit && !(device.extensions & mesh_ext_bit))
+        {
+            return false;
+        }
+
+        return true;
     }
 }
 

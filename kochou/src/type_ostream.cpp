@@ -491,7 +491,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::SurfaceCapa
     return out;
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const gpu & rhs)
+std::ostream & kochou::api::operator<<(std::ostream & out, const gpu_device & rhs)
 {
     static const std::unordered_map< gpu_type, std::string_view > gpu_type_map = {
         {gpu_type::other, "other"},
