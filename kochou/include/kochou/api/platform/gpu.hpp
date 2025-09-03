@@ -30,12 +30,10 @@ namespace kochou::api
         const std::string name;
         const gpu_type type;
         const uint32_t extensions;
-        const gpu_queue_vector graphic_queue;
-        const gpu_queue_vector present_queue;
     };
 
     inline static std::vector< gpu > // can't be constexpr
-    enumerate_gpu(vk::raii::Instance & instance, std::optional< vk::SurfaceKHR > surface_khr = std::nullopt)
+    enumerate_gpu(vk::raii::Instance & instance)
     {
         auto gpu_list = std::move(instance.enumeratePhysicalDevices());
         if (gpu_list.empty())
@@ -69,17 +67,11 @@ namespace kochou::api
                 }
             }
 
-            if (surface_khr)
-            {
-                assert(false && "TODO: find queues for physical device!");
-            }
-
             resolve.push_back({
                 std::move(device),
                 properties.deviceName,
                 type,
-                exts,
-                {}, {}
+                exts
             });
         }
 
@@ -98,30 +90,6 @@ namespace kochou::api
     template< gpu_requirements gpu_ex >
     bool gpu_filter(const gpu & rhs)
     {
-        if (gpu_ex.type != rhs.type)
-        {
-            return false;
-        }
-        if (gpu_ex.type)
-        {
-            if (gpu_ex.type.value() != rhs.value)
-            {
-                res = false;
-            }
-        }
-
-        if (gpu_ex.extensions)
-        {
-            const auto & exts = gpu_ex.extensions.value();
-            const bool is_descriptor_indexing_req = exts & descriptor_indexing_bit;
-            const bool is_dynamic_render_req = exts & dynamic_render_bit;
-            const bool is_req_mesh = exts & mesh_ext_bit;
-            if (is_descriptor_indexing_req)
-            {
-                
-            }
-            //
-        }
     }
 }
 
