@@ -5,6 +5,8 @@
 
 #include <vulkan/vulkan_raii.hpp>
 
+#include "vulkan.hpp"
+
 namespace kochou::api
 {
     using gpu_queue_vector = std::vector< uint32_t >;
@@ -29,6 +31,7 @@ namespace kochou::api
         vk::raii::PhysicalDevice naked = nullptr;
 
         const std::string name;
+        const vk_api_version api;
         const gpu_type type;
         const uint32_t extensions;
     };
@@ -48,7 +51,6 @@ namespace kochou::api
             const auto extensions = device.enumerateDeviceExtensionProperties();
             const auto properties = device.getProperties();
 
-            const gpu_type type = static_cast< const gpu_type >(properties.deviceType);
             uint32_t exts = 0;
             for (const auto & extension : extensions)
             {
@@ -70,7 +72,8 @@ namespace kochou::api
             resolve.push_back({
                 std::move(device),
                 properties.deviceName,
-                type,
+                static_cast< const vk_api_version >(properties.apiVersion & ~(uint32_t)0xFFF),
+                static_cast< const gpu_type >(properties.deviceType),
                 exts
             });
         }
@@ -83,6 +86,7 @@ namespace kochou::api
 {
     struct gpu_requirements
     {
+        const vk_api_version api;
         const gpu_type type;
         const uint32_t extensions;
     };
@@ -90,6 +94,10 @@ namespace kochou::api
     template< gpu_requirements gpu_ex >
     bool gpu_filter(const gpu_device & device)
     {
+        if (static_cast< uint32_t >(gpu_ex.api) != 0 && device.api < gpu_ex.api)
+        {
+            return false;
+        }
         if (gpu_ex.type != gpu_type::any && device.type != gpu_ex.type)
         {
             return false;

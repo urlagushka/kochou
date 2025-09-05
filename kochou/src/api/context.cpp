@@ -24,9 +24,10 @@ kochou::api::make_unique_context(const context_make_info & info)
 kochou::api::context::context(const context_make_info & ctx_info)
     : __instance(nullptr)
 {
-    build_instance(ctx_info.app_name, ctx_info.is_debug);
+    build_instance(ctx_info.app_name, ctx_info.api, ctx_info.is_debug);
 
     constexpr gpu_requirements any_gpu = {
+        .api = vk_api_version::v1_2,
         .type = gpu_type::any,
         .extensions = 0
     };
@@ -39,9 +40,9 @@ kochou::api::context::context(const context_make_info & ctx_info)
 }
 
 void
-kochou::api::context::build_instance(std::string_view app_name, bool is_debug)
+kochou::api::context::build_instance(std::string_view app_name, vk_api_version api, bool is_debug)
 {
-    vk::ApplicationInfo app_info(app_name.data(), 1, "kochou", 1, VK_API_VERSION_1_2);
+    vk::ApplicationInfo app_info(app_name.data(), 1, core_name, 1, static_cast< uint32_t >(api));
     vk::InstanceCreateInfo instance_info({}, &app_info);
 
     const auto app_extensions = get_instance_extensions();

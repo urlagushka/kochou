@@ -9,8 +9,17 @@ namespace kochou::api
 {
     using ccarray = const char *;
 
+    enum class vk_api_version
+        : uint32_t
+    {
+        v1_0 = VK_API_VERSION_1_0,
+        v1_1 = VK_API_VERSION_1_1,
+        v1_2 = VK_API_VERSION_1_2,
+        v1_3 = VK_API_VERSION_1_3,
+        v1_4 = VK_API_VERSION_1_4
+    };
+
     static constexpr ccarray core_name = "kochou";
-    static constexpr uint32_t vk_api_version = VK_API_VERSION_1_3;
     constexpr std::vector< ccarray > get_instance_extensions()
     {
         switch (os)

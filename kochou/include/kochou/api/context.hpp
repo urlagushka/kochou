@@ -13,6 +13,7 @@ namespace kochou::api
     struct context_make_info // ctx_info
     {
         std::string app_name;
+        vk_api_version api;
         bool is_debug;
     };
 
@@ -30,9 +31,9 @@ namespace kochou::api
         private:
             context(const context_make_info & ctx_info);
 
-            void build_instance(std::string_view app_name, bool is_debug = false);
+            void build_instance(std::string_view app_name, vk_api_version api, bool is_debug = false);
 
-            vk::raii::Instance       __instance;
+            vk::raii::Instance __instance;
     };
 
     using shared_context = std::shared_ptr< context >; // s_ctx

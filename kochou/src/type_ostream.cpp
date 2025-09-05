@@ -501,15 +501,24 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const gpu_device & rh
         {gpu_type::cpu, "cpu"}
     };
 
+    static const std::unordered_map< vk_api_version, std::string_view > vk_api_map = {
+        {vk_api_version::v1_0, "1.0"},
+        {vk_api_version::v1_1, "1.1"},
+        {vk_api_version::v1_2, "1.2"},
+        {vk_api_version::v1_3, "1.3"},
+        {vk_api_version::v1_4, "1.4"}
+    };
+
     out << "name: " << rhs.name << "\n";
     
-    out << "mesh shading support: " << (rhs.extensions & mesh_ext_bit) << "\n";
-    out << "dynamic render support: " << (rhs.extensions & dynamic_render_bit) << "\n";
-    out << "descriptor indexing support: " << (rhs.extensions & descriptor_indexing_bit) << "\n";
+    out << "mesh shading support: " << static_cast< bool >(rhs.extensions & mesh_ext_bit) << "\n";
+    out << "dynamic render support: " << static_cast< bool >(rhs.extensions & dynamic_render_bit) << "\n";
+    out << "descriptor indexing support: " << static_cast< bool >(rhs.extensions & descriptor_indexing_bit) << "\n";
 
     try
     {
-        return out << "type: " << gpu_type_map.at(rhs.type) << "\n";;
+        out << "api version: " << vk_api_map.at(rhs.api) << "\n";
+        return out << "type: " << gpu_type_map.at(rhs.type) << "\n";
     }
     catch (const std::out_of_range & error)
     {
