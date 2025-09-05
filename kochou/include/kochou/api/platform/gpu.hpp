@@ -6,34 +6,19 @@
 #include <vulkan/vulkan_raii.hpp>
 
 #include "vulkan.hpp"
+#include "type.hpp"
+#include "mask.hpp"
 
 namespace kochou::api
 {
-    using gpu_queue_vector = std::vector< uint32_t >;
-
-    constexpr uint32_t descriptor_indexing_bit = 0x00000001;
-    constexpr uint32_t dynamic_render_bit      = 0x00000010;
-    constexpr uint32_t mesh_ext_bit            = 0x00000100;
-
-    enum class gpu_type
-        : uint32_t
-    {
-        other      = 0,
-        integrated = 1,
-        discrete   = 2,
-        vvirtual   = 3,
-        cpu        = 4,
-        any        = 5
-    };
-
-    struct gpu_device final
+    struct gpu_device final // gpu_dev
     {
         vk::raii::PhysicalDevice naked = nullptr;
 
-        const std::string name;
+        const std::string    name;
         const vk_api_version api;
-        const gpu_type type;
-        const uint32_t extensions;
+        const gpu_mask       gpu;
+        const ext_mask       ext;
     };
 
     inline static std::vector< gpu_device > // can't be constexpr
@@ -51,21 +36,21 @@ namespace kochou::api
             const auto extensions = device.enumerateDeviceExtensionProperties();
             const auto properties = device.getProperties();
 
-            uint32_t exts = 0;
+            extension_mask exts;
             for (const auto & extension : extensions)
             {
                 const auto & name = extension.extensionName;
                 if (std::string_view(name) == "VK_EXT_mesh_shader")
                 {
-                    exts ^= mesh_ext_bit;
+                    exts ^= extension_mask::bits::mesh_shading;
                 }
                 if (std::string_view(name) == "VK_KHR_dynamic_rendering")
                 {
-                    exts ^= dynamic_render_bit;
+                    exts ^= extension_mask::bits::dynamic_render;
                 }
                 if (std::string_view(name) == "VK_EXT_descriptor_indexing")
                 {
-                    exts ^= descriptor_indexing_bit;
+                    exts ^= extension_mask::bits::descriptor_indexing;
                 }
             }
 
@@ -84,34 +69,34 @@ namespace kochou::api
 
 namespace kochou::api
 {
-    struct gpu_requirements
+    struct gpu_requirements // gpu_req
     {
         const vk_api_version api;
-        const gpu_type type;
-        const uint32_t extensions;
+        const gpu_mask       gpu;
+        const ext_mask       ext;
     };
 
-    template< gpu_requirements gpu_ex >
-    bool gpu_filter(const gpu_device & device)
+    template< gpu_requirements gpu_req >
+    bool gpu_filter(const gpu_device & gpu_dev)
     {
-        if (static_cast< uint32_t >(gpu_ex.api) != 0 && device.api < gpu_ex.api)
+        if (gpu_req.api != 0 && gpu_req.api > gpu_dev.api)
         {
             return false;
         }
-        if (gpu_ex.type != gpu_type::any && device.type != gpu_ex.type)
+        if (gpu_req.gpu != 0 && gpu_req.gpu & gpu_dev.gpu)
         {
             return false;
         }
 
-        if (gpu_ex.extensions & descriptor_indexing_bit && !(device.extensions & descriptor_indexing_bit))
+        if (gpu_ex.extensions & descriptor_indexing_bit && !(device.extensions & extension_mask::descriptor_indexing))
         {
             return false;
         }
-        if (gpu_ex.extensions & dynamic_render_bit && !(device.extensions & dynamic_render_bit))
+        if (gpu_ex.extensions & dynamic_render_bit && !(device.extensions & extension_mask::dynamic_render))
         {
             return false;
         }
-        if (gpu_ex.extensions & mesh_ext_bit && !(device.extensions & mesh_ext_bit))
+        if (gpu_ex.extensions & mesh_ext_bit && !(device.extensions & extension_mask::mesh_shading))
         {
             return false;
         }
