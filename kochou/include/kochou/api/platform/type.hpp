@@ -3,7 +3,7 @@
 
 namespace kochou::api
 {
-    enum class vk_api_version // apiv
+    enum class vk_api_version
         : uint32_t
     {
         v1_0 = VK_API_VERSION_1_0,

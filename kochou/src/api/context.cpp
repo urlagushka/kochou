@@ -28,8 +28,8 @@ kochou::api::context::context(const context_make_info & ctx_info)
 
     constexpr gpu_requirements any_gpu = {
         .api = vk_api_version::v1_2,
-        .type = gpu_mask::integrated | gpu_mask::discrete,
-        .extensions = extension_mask::dynamic_render
+        .gpu = gpu_mask::integrated | gpu_mask::discrete,
+        .ext = ext_mask::dynamic_render
     };
 
     const auto devices = enumerate_gpu(__instance);

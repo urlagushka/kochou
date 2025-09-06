@@ -370,7 +370,6 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::ColorSpaceK
         {vk::ColorSpaceKHR::eDisplayNativeAMD, "eDisplayNativeAMD"},
         {vk::ColorSpaceKHR::eDisplayP3LinearEXT, "eDisplayP3LinearEXT"},
         {vk::ColorSpaceKHR::eDisplayP3NonlinearEXT, "eDisplayP3NonlinearEXT"},
-        {vk::ColorSpaceKHR::eDolbyvisionEXT, "eDolbyvisionEXT"},
         {vk::ColorSpaceKHR::eExtendedSrgbLinearEXT, "eExtendedSrgbLinearEXT"},
         {vk::ColorSpaceKHR::eExtendedSrgbNonlinearEXT, "eExtendedSrgbNonlinearEXT"},
         {vk::ColorSpaceKHR::eHdr10HlgEXT, "eHdr10HlgEXT"},
@@ -493,15 +492,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::SurfaceCapa
 
 std::ostream & kochou::api::operator<<(std::ostream & out, const gpu_device & rhs)
 {
-    static const std::unordered_map< gpu_type, std::string_view > gpu_type_map = {
-        {gpu_type::other, "other"},
-        {gpu_type::integrated, "integrated"},
-        {gpu_type::discrete, "discrete"},
-        {gpu_type::vvirtual, "virtual"},
-        {gpu_type::cpu, "cpu"}
-    };
-
-    static const std::unordered_map< vk_api_version, std::string_view > vk_api_map = {
+    static const std::unordered_map< vk_api_version, std::string_view > vk_api_version_map = {
         {vk_api_version::v1_0, "1.0"},
         {vk_api_version::v1_1, "1.1"},
         {vk_api_version::v1_2, "1.2"},
@@ -510,19 +501,20 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const gpu_device & rh
     };
 
     out << "name: " << rhs.name << "\n";
-    
-    out << "mesh shading support: " << static_cast< bool >(rhs.extensions & mesh_ext_bit) << "\n";
-    out << "dynamic render support: " << static_cast< bool >(rhs.extensions & dynamic_render_bit) << "\n";
-    out << "descriptor indexing support: " << static_cast< bool >(rhs.extensions & descriptor_indexing_bit) << "\n";
+    out << "type: ";
+    out << (((rhs.gpu & gpu_mask::other) == gpu_mask::other) ? "other\n" : "");
+    out << (((rhs.gpu & gpu_mask::integrated) == gpu_mask::integrated) ? "integrated\n" : "");
+    out << (((rhs.gpu & gpu_mask::discrete) == gpu_mask::discrete) ? "discrete\n" : "");
+    out << (((rhs.gpu & gpu_mask::vvirtual) == gpu_mask::vvirtual) ? "virtual\n" : "");
+    out << (((rhs.gpu & gpu_mask::cpu) == gpu_mask::cpu) ? "cpu\n" : "");
 
     try
     {
-        out << "api version: " << vk_api_map.at(rhs.api) << "\n";
-        return out << "type: " << gpu_type_map.at(rhs.type) << "\n";
+        return out << "api version: " << vk_api_version_map.at(rhs.api);
     }
     catch (const std::out_of_range & error)
     {
-        return out << "type: unknown" << "\n";
+        return out << "api version: unknown";
     }
 }
    

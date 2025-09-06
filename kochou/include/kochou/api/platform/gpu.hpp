@@ -36,31 +36,29 @@ namespace kochou::api
             const auto extensions = device.enumerateDeviceExtensionProperties();
             const auto properties = device.getProperties();
 
-            extension_mask exts;
+            const std::string name = properties.deviceName;
+            const vk_api_version api = static_cast< const vk_api_version >(properties.apiVersion & ~(uint32_t)0xFFF);
+            gpu_mask gpu = static_cast< gpu_mask >(1 << static_cast< uint32_t >(properties.deviceType));
+
+            ext_mask ext;
             for (const auto & extension : extensions)
             {
                 const auto & name = extension.extensionName;
                 if (std::string_view(name) == "VK_EXT_mesh_shader")
                 {
-                    exts ^= extension_mask::bits::mesh_shading;
+                    ext ^= ext_mask::mesh_shader;
                 }
                 if (std::string_view(name) == "VK_KHR_dynamic_rendering")
                 {
-                    exts ^= extension_mask::bits::dynamic_render;
+                    ext ^= ext_mask::dynamic_render;
                 }
                 if (std::string_view(name) == "VK_EXT_descriptor_indexing")
                 {
-                    exts ^= extension_mask::bits::descriptor_indexing;
+                    ext ^= ext_mask::descriptor_indexing;
                 }
             }
 
-            resolve.push_back({
-                std::move(device),
-                properties.deviceName,
-                static_cast< const vk_api_version >(properties.apiVersion & ~(uint32_t)0xFFF),
-                static_cast< const gpu_type >(properties.deviceType),
-                exts
-            });
+            resolve.push_back({std::move(device), std::move(name), api, gpu, ext});
         }
 
         return resolve;
@@ -79,24 +77,17 @@ namespace kochou::api
     template< gpu_requirements gpu_req >
     bool gpu_filter(const gpu_device & gpu_dev)
     {
-        if (gpu_req.api != 0 && gpu_req.api > gpu_dev.api)
-        {
-            return false;
-        }
-        if (gpu_req.gpu != 0 && gpu_req.gpu & gpu_dev.gpu)
+        if (gpu_req.api > gpu_dev.api)
         {
             return false;
         }
 
-        if (gpu_ex.extensions & descriptor_indexing_bit && !(device.extensions & extension_mask::descriptor_indexing))
+        if ((gpu_req.gpu & gpu_dev.gpu) != gpu_dev.gpu)
         {
             return false;
         }
-        if (gpu_ex.extensions & dynamic_render_bit && !(device.extensions & extension_mask::dynamic_render))
-        {
-            return false;
-        }
-        if (gpu_ex.extensions & mesh_ext_bit && !(device.extensions & extension_mask::mesh_shading))
+
+        if ((gpu_req.ext & gpu_dev.ext) != gpu_req.ext)
         {
             return false;
         }
