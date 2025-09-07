@@ -23,6 +23,13 @@ namespace kochou::api
         cpu        = 0x10
     };
 
+    enum class pipeline_mask
+    {
+        mesh = 0x1,
+        p_2d = 0x2,
+        p_3d = 0x4
+    };
+
     template< typename T >
         requires std::is_enum_v< T >
     constexpr inline T operator~(T a)

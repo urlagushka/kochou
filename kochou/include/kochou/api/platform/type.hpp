@@ -19,6 +19,14 @@ namespace kochou::api
         macos,
         windows
     };
+
+    enum class vendor_type
+        : uint32_t
+    {
+        nvidia = 0x10DE,
+        amd = 0x1002,
+        other
+    };
 }
 
 #endif

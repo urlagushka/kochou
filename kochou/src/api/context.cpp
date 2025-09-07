@@ -29,13 +29,13 @@ kochou::api::context::context(const context_make_info & ctx_info)
     constexpr gpu_requirements any_gpu = {
         .api = vk_api_version::v1_2,
         .gpu = gpu_mask::integrated | gpu_mask::discrete,
-        .ext = ext_mask::dynamic_render
+        .ext = ext_mask::dynamic_render | ext_mask::descriptor_indexing
     };
 
-    const auto devices = enumerate_gpu(__instance);
-    for (const auto device : devices | std::views::filter(gpu_filter< any_gpu >))
+    const auto gpu_devs = enumerate_gpu(__instance);
+    for (const auto gpu_dev : gpu_devs | std::views::filter(gpu_filter< any_gpu >))
     {
-        std::cout << device << std::endl;
+        std::cout << gpu_dev << std::endl;
     }
 }
 

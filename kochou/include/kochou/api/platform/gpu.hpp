@@ -16,6 +16,8 @@ namespace kochou::api
         vk::raii::PhysicalDevice naked = nullptr;
 
         const std::string    name;
+        const vendor_type    vendor;
+    
         const vk_api_version api;
         const gpu_mask       gpu;
         const ext_mask       ext;
