@@ -24,8 +24,7 @@ namespace kochou::api
         : uint32_t
     {
         nvidia = 0x10DE,
-        amd = 0x1002,
-        other
+        amd    = 0x1002
     };
 }
 

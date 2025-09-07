@@ -23,7 +23,17 @@ namespace kochou::api
         cpu        = 0x10
     };
 
+    enum class queue_mask
+        : uint32_t
+    {
+        graphics = static_cast< uint32_t >(vk::QueueFlagBits::eGraphics),
+        compute  = static_cast< uint32_t >(vk::QueueFlagBits::eCompute),
+        transfer = static_cast< uint32_t >(vk::QueueFlagBits::eTransfer),
+        sparse   = static_cast< uint32_t >(vk::QueueFlagBits::eSparseBinding)
+    };
+
     enum class pipeline_mask
+        : uint32_t
     {
         mesh = 0x1,
         p_2d = 0x2,
