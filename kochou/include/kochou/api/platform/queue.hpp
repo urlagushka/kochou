@@ -5,8 +5,25 @@
 
 #include "mask.hpp"
 
+/*
+
+struct culling : cmd< compute, high >
+
+*/
+
 namespace kochou::api
 {
+    enum class queue_priority
+        : float
+    {
+        critical   = 1.0f,
+        high       = 0.8f,
+        medium     = 0.6f,
+        async      = 0.4f,
+        background = 0.2f,
+        low        = 0.1f
+    };
+
     template< vendor_type T >
     struct queue_distribution final
     {
