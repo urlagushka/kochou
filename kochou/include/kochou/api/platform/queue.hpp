@@ -7,7 +7,17 @@
 
 /*
 
-struct culling : cmd< compute, high >
+RENDER - HIGH | PRESENT
+class render
+    : context< present, critical >
+    , require< mesh >
+{
+    render(device)
+        : context(device)
+        , 
+}
+
+class culling : context< compute, high >
 
 */
 
