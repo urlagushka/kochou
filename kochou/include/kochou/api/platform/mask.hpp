@@ -9,7 +9,7 @@ namespace kochou::api
         : uint32_t
     {
         descriptor_indexing = 0x1,
-        dynamic_render      = 0x2,
+        dynamic_rendering   = 0x2,
         mesh_shader         = 0x4,
     };
 

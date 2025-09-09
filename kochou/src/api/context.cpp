@@ -27,9 +27,9 @@ kochou::api::context::context(const context_make_info & ctx_info)
     build_instance(ctx_info.app_name, ctx_info.api, ctx_info.is_debug);
 
     constexpr gpu_requirements any_gpu = {
-        .api = vk_api_version::v1_2,
+        .api = vk_api_version::v1_3,
         .gpu = gpu_mask::integrated | gpu_mask::discrete,
-        .ext = ext_mask::dynamic_render | ext_mask::descriptor_indexing
+        .ext = ext_mask::mesh_shader | ext_mask::dynamic_rendering
     };
 
     const auto gpu_devs = enumerate_gpu(__instance);
@@ -48,7 +48,7 @@ kochou::api::context::build_instance(std::string_view app_name, vk_api_version a
     const auto app_extensions = get_instance_extensions();
     instance_info.enabledExtensionCount = static_cast< uint32_t >(app_extensions.size());
     instance_info.ppEnabledExtensionNames = app_extensions.data();
-    instance_info.flags |= vk::InstanceCreateFlagBits::eEnumeratePortabilityKHR;
+    // instance_info.flags |= vk::InstanceCreateFlagBits::eEnumeratePortabilityKHR;
 
     std::vector< ccarray > app_layers;
     if (is_debug)

@@ -12,7 +12,7 @@ namespace kochou::api
 
     #elif defined(__APPLE__)
         static constexpr os_type os_defined = os_type::macos;
-        // assert(false && "macos not supported!");
+        assert(false && "macos not supported!");
 
     #elif defined(_WIN32)
         static constexpr os_type os_defined = os_type::windows;

@@ -1,8 +1,6 @@
 #ifndef KOCHOU_API_PLATFORM_PHYSICAL_DEVICE_HPP
 #define KOCHOU_API_PLATFORM_PHYSICAL_DEVICE_HPP
 
-#include <iostream>
-
 #include <vulkan/vulkan_raii.hpp>
 
 #include "vulkan.hpp"
@@ -38,29 +36,31 @@ namespace kochou::api
             const auto extensions = device.enumerateDeviceExtensionProperties();
             const auto properties = device.getProperties();
 
-            const std::string name = properties.deviceName;
+            const std::string name   = properties.deviceName;
+            const vendor_type vendor = static_cast< const vendor_type >(properties.vendorID);
             const vk_api_version api = static_cast< const vk_api_version >(properties.apiVersion & ~(uint32_t)0xFFF);
-            gpu_mask gpu = static_cast< gpu_mask >(1 << static_cast< uint32_t >(properties.deviceType));
+            const gpu_mask gpu       = static_cast< const gpu_mask >(1 << static_cast< uint32_t >(properties.deviceType));
 
             ext_mask ext;
             for (const auto & extension : extensions)
             {
                 const auto & name = extension.extensionName;
-                if (std::string_view(name) == "VK_EXT_mesh_shader")
+                
+                if (std::string_view(name) == "VK_EXT_mesh_shader" && (ext & ext_mask::mesh_shader) != ext_mask::mesh_shader)
                 {
                     ext ^= ext_mask::mesh_shader;
                 }
-                if (std::string_view(name) == "VK_KHR_dynamic_rendering")
+                if (std::string_view(name) == "VK_KHR_dynamic_rendering" && (ext & ext_mask::dynamic_rendering) != ext_mask::dynamic_rendering)
                 {
-                    ext ^= ext_mask::dynamic_render;
+                    ext ^= ext_mask::dynamic_rendering;
                 }
-                if (std::string_view(name) == "VK_EXT_descriptor_indexing")
+                if (std::string_view(name) == "VK_EXT_descriptor_indexing" && (ext & ext_mask::descriptor_indexing) != ext_mask::descriptor_indexing)
                 {
                     ext ^= ext_mask::descriptor_indexing;
                 }
             }
 
-            resolve.push_back({std::move(device), std::move(name), api, gpu, ext});
+            resolve.push_back({std::move(device), std::move(name), vendor, api, gpu, ext});
         }
 
         return resolve;

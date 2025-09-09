@@ -18,7 +18,7 @@ namespace kochou::api
             return {
                 "VK_KHR_surface",
                 "VK_KHR_xcb_surface",
-                "VK_EXT_mesh_shader",
+                // "VK_EXT_mesh_shader",
                 "VK_EXT_swapchain_colorspace"
             };
 
@@ -27,11 +27,13 @@ namespace kochou::api
                 "VK_KHR_surface",
                 "VK_MVK_macos_surface",
                 "VK_EXT_metal_surface",
-                VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME,
-                VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME,
+                "VK_KHR_portability_enumeration",
+                "VK_KHR_get_physical_device_properties_2",
                 "VK_EXT_swapchain_colorspace"
             };
         };
+
+        return {};
     }
 }
 
