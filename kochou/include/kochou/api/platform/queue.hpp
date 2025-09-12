@@ -23,43 +23,45 @@ class culling : context< compute, high >
 
 namespace kochou::api
 {
-    enum class queue_priority
-        : float
-    {
-        critical   = 1.0f,
-        high       = 0.8f,
-        medium     = 0.6f,
-        async      = 0.4f,
-        background = 0.2f,
-        low        = 0.1f
-    };
-
     template< vendor_type T >
     struct queue_distribution final
     {
-        constexpr queue_mask graphics = queue_mask::graphics | queue_mask::compute | queue_mask::transfer;
-        constexpr queue_mask compute  = queue_mask::graphics | queue_mask::compute | queue_mask::transfer;
-        constexpr queue_mask transfer = queue_mask::graphics | queue_mask::compute | queue_mask::transfer;
-        constexpr queue_mask sparse   = queue_mask::graphics | queue_mask::compute | queue_mask::transfer;
+        static constexpr queue_mask graphics = queue_mask::graphics | queue_mask::compute | queue_mask::transfer;
+        static constexpr queue_mask compute  = queue_mask::graphics | queue_mask::compute | queue_mask::transfer;
+        static constexpr queue_mask transfer = queue_mask::graphics | queue_mask::compute | queue_mask::transfer;
+        static constexpr queue_mask sparse   = queue_mask::graphics | queue_mask::compute | queue_mask::transfer;
     };
 
     template< >
     struct queue_distribution< vendor_type::nvidia > final
     {
-        constexpr queue_mask graphics = queue_mask::graphics;
-        constexpr queue_mask compute  = queue_mask::graphics | queue_mask::compute;
-        constexpr queue_mask transfer = queue_mask::transfer;
-        constexpr queue_mask sparse   = queue_mask::graphics | queue_mask::sparse;
+        static constexpr queue_mask graphics = queue_mask::graphics;
+        static constexpr queue_mask compute  = queue_mask::graphics | queue_mask::compute;
+        static constexpr queue_mask transfer = queue_mask::transfer;
+        static constexpr queue_mask sparse   = queue_mask::graphics | queue_mask::sparse;
     };
 
-    template< >
+    template< > 
     struct queue_distribution< vendor_type::amd > final
     {
-        constexpr queue_mask graphics = queue_mask::graphics;
-        constexpr queue_mask compute  = queue_mask::graphics | queue_mask::compute;
-        constexpr queue_mask transfer = queue_mask::transfer;
-        constexpr queue_mask sparse   = queue_mask::graphics | queue_mask::sparse;
+        static constexpr queue_mask graphics = queue_mask::graphics;
+        static constexpr queue_mask compute  = queue_mask::graphics | queue_mask::compute;
+        static constexpr queue_mask transfer = queue_mask::transfer;
+        static constexpr queue_mask sparse   = queue_mask::graphics | queue_mask::sparse;
     };
+
+    template< vendor_type T >
+    queue_distribution< T > get_queue_distribution(vendor_type vendor)
+    {
+        switch (vendor)
+        {
+        case vendor_type::nvidia:
+            return queue_distribution< vendor_type::nvidia >;
+        
+        default:
+            break;
+        }
+    }
 }
 
 #endif

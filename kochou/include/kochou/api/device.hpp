@@ -5,15 +5,31 @@
 
 #include "platform/mask.hpp"
 
+/*
+GPU
+ensure< ext_mask T >
+ensure< gpu_mask T >
+ensure< vk_api_version T >
+
+QUEUE
+ensure< queue_mask >
+*/
+
 namespace kochou::api
 {
-    // allowed mesh_pipeline
-    struct device final
+    class device final // dev
     {
-        vk::raii::Device naked;
+        friend struct ensure;
+        friend struct module;
+        public:
+            template<  >
+            auto invoke(const INFO & info) -> decltype()
+            {
 
-        pipeline_mask allowed_pipelines;
-        
+            }
+        private:
+            vk::raii::Device naked;
+            gpu_device gpu;
     };
 }
 

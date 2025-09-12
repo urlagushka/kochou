@@ -4,6 +4,7 @@
 #include <vulkan/vulkan_raii.hpp>
 
 #include "vulkan.hpp"
+#include "queue.hpp"
 #include "type.hpp"
 #include "mask.hpp"
 
@@ -19,6 +20,8 @@ namespace kochou::api
         const vk_api_version api;
         const gpu_mask       gpu;
         const ext_mask       ext;
+
+        const queue_distribution< vendor > queues;
     };
 
     inline static std::vector< gpu_device > // can't be constexpr
