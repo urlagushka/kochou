@@ -19,14 +19,12 @@ namespace kochou::api
 {
     class device final // dev
     {
-        friend struct ensure;
-        friend struct module;
         public:
-            template<  >
-            auto invoke(const INFO & info) -> decltype()
-            {
+            queue_link< queue_type::present > present_queue;
+            queue_link< queue_type::graphic > graphic_queue;
+            queue_link< queue_type::compute > compute_queue;
+            queue_link< queue_type::trnsfer > trnsfer_queue;
 
-            }
         private:
             vk::raii::Device naked;
             gpu_device gpu;
