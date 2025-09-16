@@ -1,1 +1,0 @@
-#ifndef KOCHOU_RENDER
