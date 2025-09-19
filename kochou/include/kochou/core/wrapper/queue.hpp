@@ -17,8 +17,10 @@ namespace kochou::api
         trnsfer = 3
     };
 
+    using queue_wrapper = vk::raii:Queue;
+
     class queue_wrapper final
-        : external< hold::shared, queue_wrapper >
+        : external< hold::unique, queue_wrapper >
     {
         using vk_queue = vk::raii::Queue;
 
@@ -27,14 +29,14 @@ namespace kochou::api
             queue_wrapper(const queue_wrapper &)             = delete;
             queue_wrapper(queue_wrapper &&)                  = delete;
             queue_wrapper & operator=(const queue_wrapper &) = delete;
-            queue_wrapper & operator=(queue_wrapper &&).     = delete;
+            queue_wrapper & operator=(queue_wrapper &&)      = delete;
 
             struct info final
             {
                 queue_mask mask;
             };
 
-            inline vk_queue access() const
+            inline auto access() const
             {
                 return __naked;
             }

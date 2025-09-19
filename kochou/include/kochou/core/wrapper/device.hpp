@@ -7,7 +7,20 @@ namespace kochou::api
 {
     struct device_info
     {
-        
+        struct
+        {
+
+        } queue_req;
+
+        struct
+        {
+
+        } extension_req;
+
+        struct
+        {
+
+        } feature_req;
     };
 
     class device_wrapper final
@@ -20,16 +33,20 @@ namespace kochou::api
             device_wrapper & operator=(const device_wrapper &) = delete;
             device_wrapper & operator=(device_wrapper &&)      = delete;
 
-            queue_link present() const noexcept;
-            queue_link graphic() const noexcept;
-            queue_link compute() const noexcept;
-            queue_link trnsfer() const noexcept;
+            inline auto present() const noexcept;
+            inline auto graphic() const noexcept;
+            inline auto compute() const noexcept;
+            inline auto trnsfer() const noexcept;
 
         private:
             device_wrapper(const device_info & info);
 
             vk::raii::Device __naked;
-    }
+            vk::raii::Queue __present;
+            vk::raii::Queue __graphic;
+            vk::raii::Queue __compute;
+            vk::raii::Queue __trnsfer;
+    };
 }
 
 /*
