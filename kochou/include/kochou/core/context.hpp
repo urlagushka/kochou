@@ -1,46 +1,25 @@
-#ifndef KOCHOU_API_CONTEXT_HPP
-#define KOCHOU_API_CONTEXT_HPP
+#ifndef KOCHOU_CORE_VULKAN_CONTEXT_HPP
+#define KOCHOU_CORE_VULKAN_CONTEXT_HPP
 
-#include <memory>
-#include <string>
+#include <string_view>
 
 #include <vulkan/vulkan_raii.hpp>
 
-#include <kochou/api/platform/gpu.hpp>
+#include "kochou/utils/external.hpp"
 
-namespace kochou::api
+namespace kochou::core
 {
-    struct context_make_info // ctx_info
+    class context final
+        : external< hold::unique, context >
     {
-        std::string app_name;
-        vk_api_version api;
-        bool is_debug;
-    };
-
-    class context final // ctx
-    {
-        friend struct modifiers;
-        friend std::shared_ptr< context > make_shared_context(const context_make_info &);
-        friend std::unique_ptr< context > make_unique_context(const context_make_info &);
-
-        public:
-            context()                            = delete;
-            context(const context &)             = delete;
-            context & operator=(const context &) = delete;
-
         private:
-            context(const context_make_info & ctx_info);
+            context(std::string_view app_name, /* req list */ bool is_debug);
 
             void build_instance(std::string_view app_name, vk_api_version api, bool is_debug = false);
 
             vk::raii::Instance __instance;
     };
-
-    using shared_context = std::shared_ptr< context >; // s_ctx
-    using unique_context = std::unique_ptr< context >; // u_ctx
-
-    shared_context make_shared_context(const context_make_info & ctx_info); // -> throw on failure
-    unique_context make_unique_context(const context_make_info & ctx_info); // -> throw on failure
 }
 
 #endif
+ 

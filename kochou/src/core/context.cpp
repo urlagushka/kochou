@@ -7,20 +7,6 @@
 #include <kochou/api/platform/gpu.hpp>
 #include <kochou/api/type_ostream.hpp>
 
-kochou::api::shared_context
-kochou::api::make_shared_context(const context_make_info & info)
-{
-    auto * ctx = new context(info);
-    return std::shared_ptr< context >(ctx);
-}
-
-kochou::api::unique_context
-kochou::api::make_unique_context(const context_make_info & info)
-{
-    auto * ctx = new context(info);
-    return std::unique_ptr< context >(ctx);
-}
-
 kochou::api::context::context(const context_make_info & ctx_info)
     : __instance(nullptr)
 {

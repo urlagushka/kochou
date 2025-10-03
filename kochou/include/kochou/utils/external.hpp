@@ -7,43 +7,54 @@ namespace kochou
     {
         unique,
         shared
-    }
-
-    template< hold PTR, typename T >
-    struct external
-    {
-
     };
 
+    template< hold, typename >
+    class external {};
+
     template< typename T >
-    struct external< hold::unique >
+    class external< hold::unique >
     {
         using ptr_type = std::unique_ptr< T >;
-        using info_type = typename T::info;
 
-        static ptr_type make(const info_type & info)
-        {
-            return std::make_unique< T >(info);
-        }
+        public:
+            external(const external &)             = delete;
+            external(external &&)                  = delete;
+            external & operator=(const external &) = delete;
+            external & operator=(external &&)      = delete;
+            
+            template< typename ... Args >
+            static ptr_type make(Args ...&& args)
+            {
+                return ptr_type< T >(new T(std::forward<Args>(args)...));
+            }
+
+        private:
+            external()  = default;
+            ~external() = default;
     };
 
     template< typename T >
-    struct external< hold::shared >
+    class external< hold::shared >
     {
         using ptr_type = std::shared_ptr< T >;
-        using info_type = typename T::info;
 
-        static ptr_type make(const info_type & info)
-        {
-            return std::make_shared< T >(info);
-        }
+        public:
+            external(const external &)             = delete;
+            external(external &&)                  = delete;
+            external & operator=(const external &) = delete;
+            external & operator=(external &&)      = delete;
+            
+            template< typename ... Args >
+            static ptr_type make(Args ...&& args)
+            {
+                return ptr_type< T >(new T(std::forward<Args>(args)...));
+            }
+
+        private:
+            external()  = default;
+            ~external() = default;
     };
 }
-
-/*
-
-auto queue = external< hold::unique, queue_wrapper >::make(queue_info);
-
-*/
 
 #endif

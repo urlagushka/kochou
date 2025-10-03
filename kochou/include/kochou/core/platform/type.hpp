@@ -12,20 +12,6 @@ namespace kochou::api
         v1_3 = VK_API_VERSION_1_3,
         v1_4 = VK_API_VERSION_1_4
     };
-
-    enum class os_type
-    {
-        linux,
-        macos,
-        windows
-    };
-
-    enum class vendor_type
-        : uint32_t
-    {
-        nvidia = 0x10DE,
-        amd    = 0x1002
-    };
 }
 
 #endif

@@ -10,6 +10,12 @@ cmake -DCMAKE_OSX_ARCHITECTURES="arm64" ..
 make
 ```
 
+```
+1.2 - descriptor_indexing
+1.3 - mesh_shader, pipeline_callback, dynamic_rendering
+```
+
+
 ### Color space priority
 1. VK_COLOR_SPACE_HDR10_ST2084_EXT
 2. VK_COLOR_SPACE_DISPLAY_P3_NONLINEAR_EXT
