@@ -1,4 +1,4 @@
-#include "kochou/api/type_ostream.hpp"
+#include "kochou/core/type_ostream.hpp"
 
 #include <string_view>
 #include <unordered_map>
@@ -490,6 +490,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::SurfaceCapa
     return out;
 }
 
+/*
 std::ostream & kochou::api::operator<<(std::ostream & out, const gpu_device & rhs)
 {
     static const std::unordered_map< vk_api_version, std::string_view > vk_api_version_map = {
@@ -518,4 +519,5 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const gpu_device & rh
         return out << "api version: unknown";
     }
 }
+    */
    

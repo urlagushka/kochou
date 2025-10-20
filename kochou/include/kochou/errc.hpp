@@ -1,31 +1,27 @@
 #ifndef KOCHOU_ERRC_HPP
 #define KOCHOU_ERRC_HPP
 
+#include <ostream>
+
 namespace kochou
 {
-    struct errc
+    enum class errc
     {
-        enum _errc
-        {
-            unspecified,
-            extension_not_provides,
-            bad_vk_api_version
+        unspecified,
+        extension_not_provided,
+        bad_vk_api_version
+    };
+
+    std::ostream & operator<<(std::ostream & _out, const errc & _errc)
+    {
+        static const std::unordered_map< errc, std::string > mapper = {
+            {errc::unspecified, "unspecified"},
+            {errc::extension_not_provided, "extension_not_provides"},
+            {errc::bad_vk_api_version, "bad_vk_api_version"}
         };
 
-        _errc code = _errc::unspecified;
-
-        std::string to_string()
-        {
-            using errc_pair = std::pair< _errc, std::string >
-            static constexpr std::vector< errc_pair > mapper = {
-                {_errc::unspecified, "unspecified"},
-                {_errc::extension_not_provides, "extension_not_provides"},
-                {_errc::bad_vk_api_version, "bad_vk_api_version"}
-            };
-
-            return std::find(mapper.cbegin(), mapper.cend(), code)->second;
-        }
-    };
+        return _out << mapper.at(_errc);
+    }
 }
 
 #endif

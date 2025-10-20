@@ -27,11 +27,11 @@ namespace kochou::core
         _type type;
         _target target;
 
-        inline static extension from(std::string_view name)
+        inline static extension from(std::string_view _name)
         {
             auto get_type = [](std::string_view name) -> _type
             {
-                std::string_view tmp = name.substr(3, 3);
+                std::string_view tmp = _name.substr(3, 3);
                 switch (tmp)
                 {
                 case "KHR":
@@ -45,17 +45,17 @@ namespace kochou::core
                 }
             };
 
-            auto get_target = [](std::string_view name) -> _target
+            auto get_target = [](std::string_view _name) -> _target
             {
                 static const auto instance_set = vk::getInstanceExtensions();
                 static const auto device_set = vk::getDeviceExtensions();
 
-                if (instance_set.find(name) != instance_set.end())
+                if (instance_set.find(_name) != instance_set.end())
                 {
                     return _target::instance;
                 }
 
-                if (device_set.find(name) != device_set.end())
+                if (device_set.find(_name) != device_set.end())
                 {
                     return _target::device;
                 }
@@ -63,7 +63,7 @@ namespace kochou::core
                 return _target::not_supported;
             };
 
-            return {name, get_type(name), get_target(name)};
+            return {_name, get_type(_name), get_target(_name)};
         }
     };
 }

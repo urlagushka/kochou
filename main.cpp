@@ -1,15 +1,31 @@
 #include <iostream>
 
-#include <kochou/api/context.hpp>
+#include <kochou/kochou.hpp>
+
+struct test
+    : kochou::unit< test >
+{
+    test()
+    {
+        throw kochou::exception(this, "bad args");
+    }
+};
 
 int main()
 {
-    kochou::api::context_make_info ctx_info = {
-        "kochou",
-        kochou::api::vk_api_version::v1_4,
-        true
-    };
-
-    auto context = kochou::api::make_unique_context(ctx_info);
+    try
+    {
+        /*
+        enumerate modules
+        create render module
+        */
+       auto error = kochou::errc::bad_vk_api_version;
+       std::cout << error << std::endl;
+       test t;
+    }
+    catch (const kochou::exception & exception)
+    {
+        std::cout << exception << std::endl;
+    }
     return 0;
 }

@@ -5,7 +5,7 @@
 
 #include <vulkan/vulkan.hpp>
 
-#include <kochou/api/platform/gpu.hpp>
+// #include <kochou/api/platform/gpu.hpp>
 
 namespace kochou::api
 {
@@ -38,8 +38,8 @@ namespace kochou::api
   std::ostream & operator<<(std::ostream & out, const vk::ImageUsageFlags & rhs);
   std::ostream & operator<<(std::ostream & out, const vk::SurfaceCapabilitiesKHR & rhs);
 
-  // PLATFORM
-  std::ostream & operator<<(std::ostream & out, const gpu_device & rhs);
+  // KOCHOU
+  // std::ostream & operator<<(std::ostream & out, const gpu_device & rhs);
 }
 
 #endif

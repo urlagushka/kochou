@@ -5,10 +5,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(Vulkan REQUIRED)
 
 add_library(kochou
-  "src/api/context.cpp"
-  "src/api/window.cpp"
-
-  "src/api/type_ostream.cpp"
+  "src/core/type_ostream.cpp"
 )
 
 target_include_directories(kochou PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

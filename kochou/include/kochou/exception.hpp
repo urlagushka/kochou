@@ -6,53 +6,50 @@
 #include <ostream>
 #include <format>
 
-#include "unit.hpp"
-
 namespace kochou
 {
     struct exception final
         : std::runtime_error
     {
-        explicit exception(const unit * const _unit, std::string_view _message = {})
-            : unit_name_(_unit->unit_name_)
-            , pointer_(reinterpret_cast< uintptr_t >(_unit))
-            , message_(_message)
-            , location_(std::source_location::current())
+        using trace = std::source_location;
+        explicit exception(const void * const _unit, std::string_view _message = {}, trace _trace = trace::current())
+            : std::runtime_error(std::string(_message))
+            , pointer(reinterpret_cast< uintptr_t >(_unit))
+            , message(_message)
+            , backtrace(_trace)
         {
             if (_message.empty())
             {
-                message_ = "empty message";
+                message = "empty message";
             }
         }
 
-        std::string unit_name;
         uintptr_t pointer;
         std::string message;
-        std::source_location location;
+        trace backtrace;
     };
 
     std::ostream & operator<<(std::ostream & _out, const exception & _exception)
     {
-        out << std::format(
-            "KOCHOU - exception called by {}, {}\n",
-            _exception.unit_name,
+        _out << std::format(
+            "KOCHOU - exception called by 0x{}\n",
             _exception.pointer
         );
 
-        out << std::format(
+        _out << std::format(
             "MESSAGE - {}\n",
             _exception.message
         );
 
-        out << std::format(
-            "BACKTRACE - {}({}:{}) `{}`\n",
-            _exception.location.file_name(),
-            _exception.location.line(),
-            _exception.location.column(),
-            _exception.location.function_name()
+        _out << std::format(
+            "BACKTRACE - {}({}:{}) `{}`",
+            _exception.backtrace.file_name(),
+            _exception.backtrace.line(),
+            _exception.backtrace.column(),
+            _exception.backtrace.function_name()
         );
 
-        return out;
+        return _out;
     }
 }
 

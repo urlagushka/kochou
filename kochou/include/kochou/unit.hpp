@@ -3,11 +3,9 @@
 
 namespace kochou
 {
-    template< typename UNIT >
+    template< typename T >
     struct unit
-    {
-        constexpr std::string unit_name = #UNIT;
-    };
+    {}; // ???
 }
 
 #endif
