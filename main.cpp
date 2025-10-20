@@ -19,9 +19,10 @@ int main()
         enumerate modules
         create render module
         */
-       auto error = kochou::errc::bad_vk_api_version;
-       std::cout << error << std::endl;
-       test t;
+        auto error = kochou::errc::bad_vk_api_version;
+        // std::cout << error << std::endl;
+        // test t;
+        throw kochou::exception(nullptr, error, "reason");
     }
     catch (const kochou::exception & exception)
     {

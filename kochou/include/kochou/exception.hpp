@@ -6,17 +6,24 @@
 #include <ostream>
 #include <format>
 
+#include "errc.hpp"
+
 namespace kochou
 {
     struct exception final
         : std::runtime_error
     {
         using trace = std::source_location;
-        explicit exception(const void * const _unit, std::string_view _message = {}, trace _trace = trace::current())
+
+        explicit exception(
+            const void * const _unit,
+            std::string_view _message = {},
+            std::source_location _backtrace = std::source_location::current()
+        )
             : std::runtime_error(std::string(_message))
             , pointer(reinterpret_cast< uintptr_t >(_unit))
             , message(_message)
-            , backtrace(_trace)
+            , backtrace(_backtrace)
         {
             if (_message.empty())
             {
@@ -24,9 +31,26 @@ namespace kochou
             }
         }
 
+        explicit exception(
+            const void * const _unit,
+            errc _errc,
+            std::string_view _message = {},
+            std::source_location _backtrace = std::source_location::current()
+        )
+            : std::runtime_error(errc_to_string(_errc))
+            , pointer(reinterpret_cast< uintptr_t >(_unit))
+            , message(errc_to_string(_errc))
+            , backtrace(_backtrace)
+        {
+            if (!_message.empty())
+            {
+                message = std::format("{}, {}", errc_to_string(_errc), _message);
+            }
+        }
+
         uintptr_t pointer;
         std::string message;
-        trace backtrace;
+        std::source_location backtrace;
     };
 
     std::ostream & operator<<(std::ostream & _out, const exception & _exception)
