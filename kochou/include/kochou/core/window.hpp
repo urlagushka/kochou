@@ -9,6 +9,7 @@ namespace kochou::core
 {
     class window final
         : external< hold::shared, window >
+        , ensure< extension::from("VK_KHR_surface") >
     {
         public:
             bool should_close() const;

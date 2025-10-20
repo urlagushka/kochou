@@ -8,13 +8,16 @@ construct pipeline from modules
 -> failure - conflict
 using ext_pipeline_feedback
 
+static_pipeline
+dynamic_pipeline
+
 sub modules:
     shaders          | required
-    vertex           | if 2d | if not mesh
-    assembly         | if 2d | if not mesh
-    viewport         | +     | ?
-    scissor          | +     | ?
-    viewport_state   | +     | ?
+    vertex           | if 2d |
+    assembly         | if 2d |
+    viewport         | +     | allow dynamic
+    scissor          | +     | allow dynamic
+    viewport_state   | +     | allow dynamic
     rasterization    | +     | ?
     multisample      | +     | ?
     color_blend      | +     | ?

@@ -7,16 +7,14 @@
 
 namespace kochou::core
 {
-    enum class os_type
-        : uint32_t
+    enum class os_flag
     {
         linux,
         macos,
         windows
     };
 
-    enum class api_type
-        : uint32_t
+    enum class api_flag
     {
         vulkan,
         metal,
