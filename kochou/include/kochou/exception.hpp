@@ -13,8 +13,6 @@ namespace kochou
     struct exception final
         : std::runtime_error
     {
-        using trace = std::source_location;
-
         explicit exception(
             const void * const _unit,
             std::string_view _message = {},

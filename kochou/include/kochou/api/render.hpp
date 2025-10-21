@@ -1,5 +1,5 @@
-#ifndef KOCHOU_RENDER_HPP
-#define KOCHOU_RENDER_HPP
+#ifndef KOCHOU_API_RENDER_HPP
+#define KOCHOU_API_RENDER_HPP
 
 #include "kochou/utils/ensure.hpp"
 #include "kochou/utils/external.hpp"
@@ -34,15 +34,13 @@ by modules:
     fxgraph -> ???
 */
 
-namespace kochou
+namespace kochou::api
 {
-    class render final // final?
+    class render
         : external< hold::shared >
     {
 
     };
-
-
 }
 
 #endif
