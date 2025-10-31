@@ -9,7 +9,9 @@ namespace kochou
     {
         unspecified,
         extension_not_provided,
-        bad_vk_api_version
+        extension_is_deprecated,
+        bad_vk_api_version,
+        queue_is_not_dedicated
     };
 
     std::string errc_to_string(errc _errc)
@@ -17,7 +19,9 @@ namespace kochou
         static const std::unordered_map< errc, std::string > mapper = {
             {errc::unspecified, "unspecified"},
             {errc::extension_not_provided, "extension_not_provides"},
-            {errc::bad_vk_api_version, "bad_vk_api_version"}
+            {errc::extension_is_deprecated, "extension_is_deprecated"},
+            {errc::bad_vk_api_version, "bad_vk_api_version"},
+            {errc::queue_is_not_dedicated, "queue_is_not_dedicated"}
         };
 
         return mapper.at(_errc);

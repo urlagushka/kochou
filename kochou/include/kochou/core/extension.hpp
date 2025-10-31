@@ -23,9 +23,19 @@ namespace kochou::core
             not_supported
         };
 
+        enum _version
+        {
+            vk_api_version_1_0,
+            vk_api_version_1_1,
+            vk_api_version_1_2,
+            vk_api_version_1_3,
+            vk_api_version_1_4
+        };
+
         std::string name;
         _type type;
         _target target;
+        _version version;
 
         inline static extension from(std::string_view _name)
         {

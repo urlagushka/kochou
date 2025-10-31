@@ -1,7 +1,10 @@
-#ifndef KOCHOU_UTILS_EXTERNAL_HPP
-#define KOCHOU_UTILS_EXTERNAL_HPP
+#ifndef KOCHOU_EXTERNAL_EXTERNAL_HPP
+#define KOCHOU_EXTERNAL_EXTERNAL_HPP
 
-namespace kochou
+#include "kochou/result.hpp"
+#include "kochou/errc.hpp"
+
+namespace kochou::core
 {
     enum class hold
     {
@@ -16,15 +19,16 @@ namespace kochou
     class external< hold::unique >
     {
         using ptr_type = std::unique_ptr< T >;
+        using result_type = result< ptr_type, errc >;
 
         public:
             external(const external &)             = delete;
             external(external &&)                  = delete;
             external & operator=(const external &) = delete;
             external & operator=(external &&)      = delete;
-            
+
             template< typename ... Args >
-            static ptr_type make(Args ...&& args)
+            static result_type make(Args ...&& args)
             {
                 return ptr_type< T >(new T(std::forward<Args>(args)...));
             }
@@ -44,7 +48,7 @@ namespace kochou
             external(external &&)                  = delete;
             external & operator=(const external &) = delete;
             external & operator=(external &&)      = delete;
-            
+
             template< typename ... Args >
             static ptr_type make(Args ...&& args)
             {

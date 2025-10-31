@@ -13,6 +13,7 @@ struct test
 
 int main()
 {
+    using kochou_result = kochou::result< std::size_t, kochou::errc >;
     try
     {
         /*
