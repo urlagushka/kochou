@@ -27,7 +27,7 @@ namespace kochou::core
         }
 
         vk::raii::Instance vk_instance_;
-    }
+    };
 }
 
 #endif

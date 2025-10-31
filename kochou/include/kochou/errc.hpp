@@ -11,7 +11,9 @@ namespace kochou
         extension_not_provided,
         extension_is_deprecated,
         bad_vk_api_version,
-        queue_is_not_dedicated
+        queue_is_not_dedicated,
+
+        cpp_bad_alloc
     };
 
     std::string errc_to_string(errc _errc)

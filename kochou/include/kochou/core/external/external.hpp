@@ -1,6 +1,10 @@
 #ifndef KOCHOU_EXTERNAL_EXTERNAL_HPP
 #define KOCHOU_EXTERNAL_EXTERNAL_HPP
 
+#include <stdexcept>
+#include <cassert>
+
+#include "kochou/exception.hpp"
 #include "kochou/result.hpp"
 #include "kochou/errc.hpp"
 
@@ -13,51 +17,79 @@ namespace kochou::core
     };
 
     template< hold, typename >
-    class external {};
+    class external
+    {
+        // assert(false && "usage of unspecified external template!");
+    };
 
     template< typename T >
-    class external< hold::unique >
+    struct external< hold::unique, T >
     {
         using ptr_type = std::unique_ptr< T >;
         using result_type = result< ptr_type, errc >;
 
-        public:
-            external(const external &)             = delete;
-            external(external &&)                  = delete;
-            external & operator=(const external &) = delete;
-            external & operator=(external &&)      = delete;
+        external() = default;
+        ~external() = default;
 
-            template< typename ... Args >
-            static result_type make(Args ...&& args)
+        external(const external &) = delete;
+        external(external &&) = delete;
+        external & operator=(const external &) = delete;
+        external & operator=(external &&) = delete;
+
+        template< typename ... ARGS >
+        static result_type make(ARGS &&... _args)
+        {
+            T * object = nullptr;
+            try
             {
-                return ptr_type< T >(new T(std::forward<Args>(args)...));
+                object = new T(std::forward<ARGS>(_args)...);
+            }
+            catch (const std::bad_alloc &)
+            {
+                return err{errc::cpp_bad_alloc};
+            }
+            catch (const exception & error)
+            {
+                // return err{error.errc.value_or(errc::unspecified)};
             }
 
-        private:
-            external()  = default;
-            ~external() = default;
+            return ok{std::move(ptr_type(object))};
+        }
     };
 
     template< typename T >
-    class external< hold::shared >
+    struct external< hold::shared, T >
     {
         using ptr_type = std::shared_ptr< T >;
+        using result_type = result< ptr_type, errc >;
 
-        public:
-            external(const external &)             = delete;
-            external(external &&)                  = delete;
-            external & operator=(const external &) = delete;
-            external & operator=(external &&)      = delete;
+        external() = default;
+        ~external() = default;
 
-            template< typename ... Args >
-            static ptr_type make(Args ...&& args)
+        external(const external &) = delete;
+        external(external &&) = delete;
+        external & operator=(const external &) = delete;
+        external & operator=(external &&) = delete;
+
+        template< typename ... ARGS >
+        static result_type make(ARGS &&... _args)
+        {
+            T * object = nullptr;
+            try
             {
-                return ptr_type< T >(new T(std::forward<Args>(args)...));
+                object = new T(std::forward<ARGS>(_args)...);
+            }
+            catch (const std::bad_alloc &)
+            {
+                return err{errc::cpp_bad_alloc};
+            }
+            catch (const exception & error)
+            {
+                // return err{error.errc.value_or(errc::unspecified)};
             }
 
-        private:
-            external()  = default;
-            ~external() = default;
+            return ok{std::move(ptr_type(object))};
+        }
     };
 }
 
