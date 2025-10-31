@@ -33,11 +33,11 @@ namespace kochou
             using err_type = err< ERR >;
             using value_type = std::variant< ok_type, err_type >;
 
-            explicit result(ok_type _value)
+            constexpr result(ok_type _value)
                 : value_(std::move(_value))
             {}
 
-            explicit result(err_type _value)
+            constexpr result(err_type _value)
                 : value_(std::move(_value))
             {}
 
@@ -51,12 +51,12 @@ namespace kochou
                 return std::holds_alternative< err_type >(value_);
             }
 
-            constexpr OK & view_ok() const
+            constexpr const OK & view_ok() const
             {
                 return std::get< ok_type >(value_).value;
             }
 
-            constexpr ERR & view_err() const
+            constexpr const ERR & view_err() const
             {
                 return std::get< err_type >(value_).value;
             }
