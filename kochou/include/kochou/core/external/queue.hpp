@@ -1,5 +1,5 @@
-#ifndef KOCHOU_API_WRAPPER_QUEUE_HPP
-#define KOCHOU_API_WRAPPER_QUEUE_HPP
+#ifndef KOCHOU_CORE_EXTERNAL_QUEUE_HPP
+#define KOCHOU_CORE_WRAPPER_QUEUE_HPP
 
 #include <vulkan/vulkan_raii.hpp>
 

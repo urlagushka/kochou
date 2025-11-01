@@ -37,7 +37,7 @@ namespace kochou::core
         external & operator=(external &&) = delete;
 
         template< typename ... ARGS >
-        static result_type make(ARGS &&... _args)
+        static result_type make(ARGS &&... _args) noexcept
         {
             T * object = nullptr;
             try
@@ -72,7 +72,7 @@ namespace kochou::core
         external & operator=(external &&) = delete;
 
         template< typename ... ARGS >
-        static result_type make(ARGS &&... _args)
+        static result_type make(ARGS &&... _args) noexcept
         {
             T * object = nullptr;
             try

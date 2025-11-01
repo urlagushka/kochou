@@ -76,6 +76,8 @@ namespace kochou::core
             return {_name, get_type(_name), get_target(_name)};
         }
     };
+
+    using extension_set = std::set< extension >;
 }
 
 #endif
