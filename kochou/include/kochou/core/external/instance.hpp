@@ -20,12 +20,12 @@ namespace
 {
     using namespace kochou::core;
 
-    extension::_version get_min_vk_version(const extension_set & _set)
+    vk_version get_min_vk_version(const extension_set & _set)
     {
-        return std::min_element(_set.cbegin(), _set.cend(), [](const extension & lhs, const extension & rhs) -> bool
+        return std::min_element(_set.cbegin(), _set.cend(), [](const extension & _lhs, const extension & _rhs) -> bool
         {
-            return lhs.version > rhs.version;       
-        })->version;
+            return _lhs.copy_version() > _rhs.copy_version();       
+        })->copy_version();
     }
 }
 

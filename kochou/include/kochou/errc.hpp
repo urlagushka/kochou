@@ -16,7 +16,7 @@ namespace kochou
         cpp_bad_alloc
     };
 
-    std::string errc_to_string(errc _errc)
+    inline std::string errc_to_string(errc _errc)
     {
         static const std::unordered_map< errc, std::string > mapper = {
             {errc::unspecified, "unspecified"},
@@ -29,7 +29,7 @@ namespace kochou
         return mapper.at(_errc);
     }
 
-    std::ostream & operator<<(std::ostream & _out, const errc & _errc)
+    inline std::ostream & operator<<(std::ostream & _out, const errc & _errc)
     {
         return _out << errc_to_string(_errc);
     }

@@ -1,95 +1,61 @@
 #ifndef KOCHOU_CORE_EXTENSION_HPP
 #define KOCHOU_CORE_EXTENSION_HPP
 
-#include <stdexcept>
-
-#include <vulkan/vulkan_extension_inspection.hpp>
+#include <optional>
+#include <set>
 
 #include <kochou/result.hpp>
 #include <kochou/errc.hpp>
+#include <kochou/core/version.hpp>
 
 namespace kochou::core
 {
-    struct extension
-    {
+class extension final
+{
+    public:
         using result_type = result< extension, errc >;
-        enum _type
+        enum type
+            : uint32_t
         {
             khr,
             ext
         };
 
-        enum _target
+        enum target
+            : uint32_t
         {
             instance,
             device
         };
 
-        enum _version
-        {
-            vk_api_version_1_0,
-            vk_api_version_1_1,
-            vk_api_version_1_2,
-            vk_api_version_1_3,
-            vk_api_version_1_4
-        };
+        extension(std::string_view name);
+        extension(const extension &) = default;
+        extension(extension &&) = default;
+        extension & operator=(const extension &) = default;
+        extension & operator=(extension &&) = default;
+        ~extension() = default;
 
-        std::string name;
-        _type type;
-        _target target;
-        _version version;
+        static result_type from(std::string_view _name);
+        std::optional< errc > make();
 
-        inline static result_type from(std::string_view _name)
-        {
-            auto get_type = [&]() -> result< _type, errc >
-            {
-                std::string_view prefix = _name.substr(3, 3);
+        std::string_view view_name() const;
+        type copy_type() const;
+        target copy_target() const;
+        vk_version copy_version() const;
 
-                if (prefix == "KHR")
-                {
-                    return ok(_type::khr);
-                }
-                if (prefix == "EXT")
-                {
-                    return ok(_type::ext);
-                }
+    private:
+        bool is_deprecated() const;
+        result< type, errc > get_type() const;
+        result< target, errc > get_target() const;
 
-                return err(errc::extension_not_provided);
-            };
+    private:
+        std::string name_;
+        type type_;
+        target target_;
+        vk_version version_;
+};
 
-            auto get_target = [&]() -> result< _target, errc >
-            {
-                static const auto instance_set = vk::getInstanceExtensions();
-                static const auto device_set = vk::getDeviceExtensions();
-                const std::string str_name(_name);
-
-                if (instance_set.contains(str_name))
-                {
-                    return ok(_target::instance);
-                }
-                if (device_set.contains(str_name))
-                {
-                    return ok(_target::device);
-                }
-
-                return err(errc::extension_not_provided);
-            };
-
-            auto type_result = get_type();
-            if (type_result.is_err())
-            {
-                return err(type_result.take_err());
-            }
-            auto target_result = get_target();
-            if (target_result.is_err())
-            {
-                return err(target_result.take_err());
-            }
-            return ok(extension{_name.data(), type_result.take_ok(), target_result.take_ok()});
-        }
-    };
-
-    using extension_set = std::set< extension >;
+using extension_set = std::set< extension >;
 }
 
 #endif
