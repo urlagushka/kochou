@@ -1,13 +1,14 @@
-#ifndef KOCHOU_API_TYPE_OSTREAM_HPP
-#define KOCHOU_API_TYPE_OSTREAM_HPP
+#ifndef KOCHOU_CORE_TYPE_OSTREAM_HPP
+#define KOCHOU_CORE_TYPE_OSTREAM_HPP
 
 #include <ostream>
 
 #include <vulkan/vulkan.hpp>
 
 // #include <kochou/api/platform/gpu.hpp>
+#include <kochou/core/extension.hpp>
 
-namespace kochou::api
+namespace kochou::core
 {
   // PHYSICAL DEVICE
   std::ostream & operator<<(std::ostream & out, const vk::MemoryHeapFlags & rhs);
@@ -40,6 +41,7 @@ namespace kochou::api
 
   // KOCHOU
   // std::ostream & operator<<(std::ostream & out, const gpu_device & rhs);
+  // std::ostream & operator<<(std::ostream & out, const extension & _extension);
 }
 
 #endif

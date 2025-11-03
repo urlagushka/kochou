@@ -3,7 +3,7 @@
 #include <string_view>
 #include <unordered_map>
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::MemoryHeapFlags & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::MemoryHeapFlags & rhs)
 {
     out << ((rhs & vk::MemoryHeapFlagBits::eDeviceLocal) ? "DEVICE_LOCAL_BIT\n" : "");
     out << ((rhs & vk::MemoryHeapFlagBits::eMultiInstance) ? "MULTI_INSTANCE_BIT\n" : "");
@@ -11,7 +11,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::MemoryHeapF
     return out;
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::MemoryPropertyFlags & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::MemoryPropertyFlags & rhs)
 {
     out << ((rhs & vk::MemoryPropertyFlagBits::eDeviceLocal) ? "DEVICE_LOCAL_BIT\n" : "");
     out << ((rhs & vk::MemoryPropertyFlagBits::eHostVisible) ? "HOST_VISIBLE_BIT\n" : "");
@@ -22,7 +22,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::MemoryPrope
     return out;
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::MemoryHeap & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::MemoryHeap & rhs)
 {
     out << "size: " << rhs.size << "\n";
     out << rhs.flags;
@@ -30,7 +30,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::MemoryHeap 
     return out;
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::MemoryType & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::MemoryType & rhs)
 {
     out << "heapIndex: " << rhs.heapIndex << "\n";
     out << rhs.propertyFlags;
@@ -38,7 +38,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::MemoryType 
     return out;
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::PhysicalDeviceMemoryProperties & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::PhysicalDeviceMemoryProperties & rhs)
 {
     out << "memoryTypeCount: " << rhs.memoryTypeCount << "\n";
     out << "memoryTypes:\n";
@@ -58,7 +58,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::PhysicalDev
     return out;
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::PhysicalDeviceType & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::PhysicalDeviceType & rhs)
 {
     static const std::unordered_map< vk::PhysicalDeviceType, std::string_view > dev_type = {
         {vk::PhysicalDeviceType::eIntegratedGpu, "INTEGRATED GPU"},
@@ -78,7 +78,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::PhysicalDev
     }
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::PhysicalDevice & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::PhysicalDevice & rhs)
 {
     vk::PhysicalDeviceProperties ptrs = rhs.getProperties();
 
@@ -92,7 +92,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::PhysicalDev
     return out;
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::Extent2D & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::Extent2D & rhs)
 {
     out << "width: " << rhs.width << "\n";
     out << "height: " << rhs.height;
@@ -100,7 +100,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::Extent2D & 
     return out;
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::Extent3D & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::Extent3D & rhs)
 {
     out << "width: " << rhs.width << "\n";
     out << "height: " << rhs.height << "\n";
@@ -109,7 +109,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::Extent3D & 
     return out;
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::QueueFlags & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::QueueFlags & rhs)
 {
     out << ((rhs & vk::QueueFlagBits::eGraphics) ? "GRAPHICS_BIT\n" : "");
     out << ((rhs & vk::QueueFlagBits::eCompute) ? "COMPUTE_BIT\n" : "");
@@ -119,7 +119,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::QueueFlags 
     return out;
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::QueueFamilyProperties & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::QueueFamilyProperties & rhs)
 {
     out << "queueCount: " << rhs.queueCount << "\n";
     out << "queueFlags:\n" << rhs.queueFlags;
@@ -129,7 +129,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::QueueFamily
     return out;
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::Format & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::Format & rhs)
 {
     static const std::unordered_map<vk::Format, std::string_view> format_type = {
         {vk::Format::eUndefined, "eUndefined"},
@@ -357,7 +357,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::Format & rh
     }
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::ColorSpaceKHR & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::ColorSpaceKHR & rhs)
 {
     static const std::unordered_map< vk::ColorSpaceKHR, std::string_view > color_space_type = {
         {vk::ColorSpaceKHR::eAdobergbLinearEXT, "eAdobergbLinearEXT"},
@@ -389,12 +389,12 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::ColorSpaceK
     }
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::SurfaceFormatKHR & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::SurfaceFormatKHR & rhs)
 {
     return out << rhs.colorSpace << "    " << rhs.format;
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::SurfaceTransformFlagsKHR & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::SurfaceTransformFlagsKHR & rhs)
 {
     out << ((rhs & vk::SurfaceTransformFlagBitsKHR::eHorizontalMirror) ? "TRANSFORM_HORIZONTAL_MIRROR_BIT\n" : "");
     out << ((rhs & vk::SurfaceTransformFlagBitsKHR::eHorizontalMirrorRotate180) ? "TRANSFORM_HORIZONTAL_MIRROR_ROTATE_180_BIT\n" : "");
@@ -408,7 +408,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::SurfaceTran
 
     return out;
 }
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::SurfaceTransformFlagBitsKHR & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::SurfaceTransformFlagBitsKHR & rhs)
 {
     static const std::unordered_map< vk::SurfaceTransformFlagBitsKHR, std::string_view > surface_transform_type = {
         {vk::SurfaceTransformFlagBitsKHR::eHorizontalMirror, "TRANSFORM_HORIZONTAL_MIRROR_BIT"},
@@ -432,7 +432,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::SurfaceTran
     }
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::CompositeAlphaFlagsKHR & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::CompositeAlphaFlagsKHR & rhs)
 {
     out << ((rhs & vk::CompositeAlphaFlagBitsKHR::eInherit) ? "COMPOSITE_ALPHA_INHERIT_BIT_KHR\n" : "");
     out << ((rhs & vk::CompositeAlphaFlagBitsKHR::eOpaque) ? "COMPOSITE_ALPHA_OPAQUE_BIT_KHR\n" : "");
@@ -442,7 +442,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::CompositeAl
     return out;
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::ImageUsageFlags & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::ImageUsageFlags & rhs)
 {
     out << ((rhs & vk::ImageUsageFlagBits::eAttachmentFeedbackLoopEXT) ? "IMAGE_USAGE_ATTACHMENT_FEEDBACK_LOOP_BIT_EXT\n" : "");
     out << ((rhs & vk::ImageUsageFlagBits::eColorAttachment) ? "IMAGE_USAGE_COLOR_ATTACHMENT_BIT\n" : "");
@@ -474,7 +474,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const vk::ImageUsageF
     return out;
 }
 
-std::ostream & kochou::api::operator<<(std::ostream & out, const vk::SurfaceCapabilitiesKHR & rhs)
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk::SurfaceCapabilitiesKHR & rhs)
 {
     out << "minImageCount: " << rhs.minImageCount << "\n";
     out << "maxImageCount: " << rhs.maxImageCount << "\n";
@@ -519,5 +519,5 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const gpu_device & rh
         return out << "api version: unknown";
     }
 }
-    */
+*/
    

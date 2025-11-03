@@ -6,6 +6,8 @@
 #include "result.hpp"
 #include "exception.hpp"
 
+#include "core/extension.hpp"
+
 #include "core/external/external.hpp"
 #include "core/external/instance.hpp"
 // #include "core/external/device.hpp"

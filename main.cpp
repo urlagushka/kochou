@@ -32,10 +32,10 @@ int main()
         create render module
         */
         // auto error = kochou::errc::bad_vk_api_version;
-        auto result = return_err();
-        if (result.is_err())
+        auto ext = kochou::core::extension::from("VK_KHR_dynamic_rendering");
+        if (ext.is_err())
         {
-            std::cout << result.view_err() << std::endl;
+            std::cout << ext.view_err() << std::endl;
         }
         // std::cout << error << std::endl;
         // test t;

@@ -5,22 +5,24 @@
 
 #include <vulkan/vulkan_extension_inspection.hpp>
 
+#include <kochou/result.hpp>
+#include <kochou/errc.hpp>
+
 namespace kochou::core
 {
     struct extension
     {
+        using result_type = result< extension, errc >;
         enum _type
         {
             khr,
-            ext,
-            not_supported
+            ext
         };
 
         enum _target
         {
             instance,
-            device,
-            not_supported
+            device
         };
 
         enum _version
@@ -37,43 +39,53 @@ namespace kochou::core
         _target target;
         _version version;
 
-        inline static extension from(std::string_view _name)
+        inline static result_type from(std::string_view _name)
         {
-            auto get_type = [](std::string_view name) -> _type
+            auto get_type = [&]() -> result< _type, errc >
             {
-                std::string_view tmp = _name.substr(3, 3);
-                switch (tmp)
-                {
-                case "KHR":
-                    return _type::khr;
+                std::string_view prefix = _name.substr(3, 3);
 
-                case "EXT":
-                    return _type::ext;
-                
-                default:
-                    return _type::not_supported;
+                if (prefix == "KHR")
+                {
+                    return ok(_type::khr);
                 }
+                if (prefix == "EXT")
+                {
+                    return ok(_type::ext);
+                }
+
+                return err(errc::extension_not_provided);
             };
 
-            auto get_target = [](std::string_view _name) -> _target
+            auto get_target = [&]() -> result< _target, errc >
             {
                 static const auto instance_set = vk::getInstanceExtensions();
                 static const auto device_set = vk::getDeviceExtensions();
+                const std::string str_name(_name);
 
-                if (instance_set.find(_name) != instance_set.end())
+                if (instance_set.contains(str_name))
                 {
-                    return _target::instance;
+                    return ok(_target::instance);
+                }
+                if (device_set.contains(str_name))
+                {
+                    return ok(_target::device);
                 }
 
-                if (device_set.find(_name) != device_set.end())
-                {
-                    return _target::device;
-                }
-
-                return _target::not_supported;
+                return err(errc::extension_not_provided);
             };
 
-            return {_name, get_type(_name), get_target(_name)};
+            auto type_result = get_type();
+            if (type_result.is_err())
+            {
+                return err(type_result.take_err());
+            }
+            auto target_result = get_target();
+            if (target_result.is_err())
+            {
+                return err(target_result.take_err());
+            }
+            return ok(extension{_name.data(), type_result.take_ok(), target_result.take_ok()});
         }
     };
 
