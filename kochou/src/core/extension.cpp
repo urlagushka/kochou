@@ -84,19 +84,83 @@ kochou::core::extension::is_deprecated() const
 kochou::result< kochou::core::extension::type, kochou::errc >
 kochou::core::extension::get_type() const
 {
-    if (name_.size() < 6)
+    if (name_.size() < 3)
     {
         return err{errc::extension_not_provided};
     }
 
-    std::string prefix = name_.substr(3, 3);
-    if (prefix == "KHR")
+    std::string prefix = name_.substr(3, name_.size() - 3);
+    if (prefix.starts_with("KHR"))
     {
         return ok{type::khr};
     }
-    if (prefix == "EXT")
+    if (prefix.starts_with("EXT"))
     {
         return ok{type::ext};
+    }
+    if (prefix.starts_with("NV"))
+    {
+        return ok{type::nv};
+    }
+    if (prefix.starts_with("AMD"))
+    {
+        return ok{type::amd};
+    }
+    if (prefix.starts_with("INTEL"))
+    {
+        return ok{type::intel};
+    }
+    if (prefix.starts_with("ARM"))
+    {
+        return ok{type::arm};
+    }
+    if (prefix.starts_with("IMG"))
+    {
+        return ok{type::img};
+    }
+    if (prefix.starts_with("QCOM"))
+    {
+        return ok{type::qcom};
+    }
+    if (prefix.starts_with("MVK"))
+    {
+        return ok{type::mvk};
+    }
+    if (prefix.starts_with("FUCHSIA"))
+    {
+        return ok{type::fuchsia};
+    }
+    if (prefix.starts_with("GGP"))
+    {
+        return ok{type::ggp};
+    }
+    if (prefix.starts_with("NN"))
+    {
+        return ok{type::nn};
+    }
+    if (prefix.starts_with("GOOGLE"))
+    {
+        return ok{type::google};
+    }
+    if (prefix.starts_with("VALVE"))
+    {
+        return ok{type::valve};
+    }
+    if (prefix.starts_with("HUAWEI"))
+    {
+        return ok{type::huawei};
+    }
+    if (prefix.starts_with("BRCM"))
+    {
+        return ok{type::brcm};
+    }
+    if (prefix.starts_with("SEC"))
+    {
+        return ok{type::sec};
+    }
+    if (prefix.starts_with("MESA"))
+    {
+        return ok{type::mesa};
     }
 
     return err{errc::extension_not_provided};

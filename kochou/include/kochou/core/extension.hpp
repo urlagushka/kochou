@@ -18,7 +18,23 @@ class extension final
             : uint32_t
         {
             khr,
-            ext
+            ext,
+            nv,
+            amd,
+            intel,
+            arm,
+            img,
+            qcom,
+            mvk,
+            fuchsia,
+            ggp,
+            nn,
+            google,
+            valve,
+            huawei,
+            brcm,
+            sec,
+            mesa
         };
 
         enum target
