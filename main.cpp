@@ -32,11 +32,13 @@ int main()
         create render module
         */
         // auto error = kochou::errc::bad_vk_api_version;
-        auto ext = kochou::core::extension::from("VK_AMD_shader_ballot");
+        auto ext = kochou::core::extension::from("VK_EXT_pipeline_creation_feedback");
         if (ext.is_err())
         {
             std::cout << ext.view_err() << std::endl;
+            return 0;
         }
+        std::cout << ext.view_ok() << std::endl;
         // std::cout << error << std::endl;
         // test t;
         // throw kochou::exception(nullptr, error, "reason");

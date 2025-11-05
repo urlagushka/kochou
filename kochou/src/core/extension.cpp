@@ -38,9 +38,16 @@ kochou::core::extension::make()
     {
         return target_result.take_err();
     }
+    
+    auto version_result = get_version();
+    if (version_result.is_err())
+    {
+        return version_result.take_err();
+    }
 
     type_ = type_result.take_ok();
     target_ = target_result.take_ok();
+    version_ = version_result.view_ok();
 
     return std::nullopt;
 }
@@ -182,4 +189,39 @@ kochou::core::extension::get_target() const
     }
 
     return err{errc::extension_not_provided};
+}
+
+kochou::result< kochou::core::vk_version, kochou::errc >
+kochou::core::extension::get_version() const
+{
+    static auto version_map = vk::getPromotedExtensions();
+
+    if (!version_map.contains(name_))
+    {
+        return err{errc::unknown_vk_api_version};
+    }
+
+    const auto & version = version_map[name_];
+    if (version == "VK_VERSION_1_0")
+    {
+        return ok{vk_version::v1_0};
+    }
+    if (version == "VK_VERSION_1_1")
+    {
+        return ok{vk_version::v1_1};
+    }
+    if (version == "VK_VERSION_1_2")
+    {
+        return ok{vk_version::v1_2};
+    }
+    if (version == "VK_VERSION_1_3")
+    {
+        return ok{vk_version::v1_3};
+    }
+    if (version == "VK_VERSION_1_4")
+    {
+        return ok{vk_version::v1_4};
+    }
+
+    return err{errc::unknown_vk_api_version};
 }

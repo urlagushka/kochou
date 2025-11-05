@@ -63,6 +63,7 @@ class extension final
         bool is_deprecated() const;
         result< type, errc > get_type() const;
         result< target, errc > get_target() const;
+        result< vk_version, errc > get_version() const;
 
     private:
         std::string name_;

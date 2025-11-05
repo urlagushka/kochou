@@ -11,6 +11,7 @@ namespace kochou
         extension_not_provided,
         extension_is_deprecated,
         bad_vk_api_version,
+        unknown_vk_api_version,
         queue_is_not_dedicated,
 
         cpp_bad_alloc
@@ -23,6 +24,7 @@ namespace kochou
             {errc::extension_not_provided, "extension_not_provides"},
             {errc::extension_is_deprecated, "extension_is_deprecated"},
             {errc::bad_vk_api_version, "bad_vk_api_version"},
+            {errc::unknown_vk_api_version, "unknown_vk_api_version"},
             {errc::queue_is_not_dedicated, "queue_is_not_dedicated"}
         };
 

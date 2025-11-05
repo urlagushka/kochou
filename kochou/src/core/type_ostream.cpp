@@ -60,7 +60,7 @@ std::ostream & kochou::core::operator<<(std::ostream & out, const vk::PhysicalDe
 
 std::ostream & kochou::core::operator<<(std::ostream & out, const vk::PhysicalDeviceType & rhs)
 {
-    static const std::unordered_map< vk::PhysicalDeviceType, std::string_view > dev_type = {
+    static std::unordered_map< vk::PhysicalDeviceType, std::string_view > device_map = {
         {vk::PhysicalDeviceType::eIntegratedGpu, "INTEGRATED GPU"},
         {vk::PhysicalDeviceType::eDiscreteGpu, "DISCRETE GPU"},
         {vk::PhysicalDeviceType::eVirtualGpu, "VIRTUAL GPU"},
@@ -68,14 +68,11 @@ std::ostream & kochou::core::operator<<(std::ostream & out, const vk::PhysicalDe
         {vk::PhysicalDeviceType::eOther, "OTHER"}
     };
 
-    try
+    if (!device_map.contains(rhs))
     {
-        return out << dev_type.at(rhs);
+        return out << "UNKNOWN";
     }
-    catch (const std::out_of_range & error)
-    {
-        return out << "UNKNOWN PHYSICAL_DEVICE";
-    }
+    return out << device_map[rhs];
 }
 
 std::ostream & kochou::core::operator<<(std::ostream & out, const vk::PhysicalDevice & rhs)
@@ -131,7 +128,7 @@ std::ostream & kochou::core::operator<<(std::ostream & out, const vk::QueueFamil
 
 std::ostream & kochou::core::operator<<(std::ostream & out, const vk::Format & rhs)
 {
-    static const std::unordered_map<vk::Format, std::string_view> format_type = {
+    static std::unordered_map<vk::Format, std::string_view> format_map = {
         {vk::Format::eUndefined, "eUndefined"},
         {vk::Format::eR4G4UnormPack8, "eR4G4UnormPack8"},
         {vk::Format::eR4G4B4A4UnormPack16, "eR4G4B4A4UnormPack16"},
@@ -347,19 +344,16 @@ std::ostream & kochou::core::operator<<(std::ostream & out, const vk::Format & r
         {vk::Format::eG16B16R163Plane444Unorm, "eG16B16R163Plane444Unorm"},
     };
 
-    try
+    if (!format_map.contains(rhs))
     {
-        return out << format_type.at(rhs);
+        return out << "UNKNOWN";
     }
-    catch (const std::out_of_range & error)
-    {
-        return out << "UNKNOWN COLOR_FORMAT";
-    }
+    return out << format_map[rhs];
 }
 
 std::ostream & kochou::core::operator<<(std::ostream & out, const vk::ColorSpaceKHR & rhs)
 {
-    static const std::unordered_map< vk::ColorSpaceKHR, std::string_view > color_space_type = {
+    static std::unordered_map< vk::ColorSpaceKHR, std::string_view > color_space_map = {
         {vk::ColorSpaceKHR::eAdobergbLinearEXT, "eAdobergbLinearEXT"},
         {vk::ColorSpaceKHR::eAdobergbNonlinearEXT, "eAdobergbNonlinearEXT"},
         {vk::ColorSpaceKHR::eBt2020LinearEXT, "eBt2020LinearEXT"},
@@ -379,14 +373,11 @@ std::ostream & kochou::core::operator<<(std::ostream & out, const vk::ColorSpace
         {vk::ColorSpaceKHR::eVkColorspaceSrgbNonlinear, "eVkColorspaceSrgbNonlinear"}
     };
 
-    try
+    if (!color_space_map.contains(rhs))
     {
-        return out << color_space_type.at(rhs);
+        return out << "unknown";
     }
-    catch (const std::out_of_range & error)
-    {
-        return out << "UNKNOWN COLOR SPACE";
-    }
+    return out << color_space_map[rhs];
 }
 
 std::ostream & kochou::core::operator<<(std::ostream & out, const vk::SurfaceFormatKHR & rhs)
@@ -410,7 +401,7 @@ std::ostream & kochou::core::operator<<(std::ostream & out, const vk::SurfaceTra
 }
 std::ostream & kochou::core::operator<<(std::ostream & out, const vk::SurfaceTransformFlagBitsKHR & rhs)
 {
-    static const std::unordered_map< vk::SurfaceTransformFlagBitsKHR, std::string_view > surface_transform_type = {
+    static std::unordered_map< vk::SurfaceTransformFlagBitsKHR, std::string_view > surface_transform_map = {
         {vk::SurfaceTransformFlagBitsKHR::eHorizontalMirror, "TRANSFORM_HORIZONTAL_MIRROR_BIT"},
         {vk::SurfaceTransformFlagBitsKHR::eHorizontalMirrorRotate180, "TRANSFORM_HORIZONTAL_MIRROR_ROTATE_180_BIT"},
         {vk::SurfaceTransformFlagBitsKHR::eHorizontalMirrorRotate270, "TRANSFORM_HORIZONTAL_MIRROR_ROTATE_270_BIT"},
@@ -422,14 +413,11 @@ std::ostream & kochou::core::operator<<(std::ostream & out, const vk::SurfaceTra
         {vk::SurfaceTransformFlagBitsKHR::eRotate90, "TRANSFORM_ROTATE_90_BIT"},
     };
 
-    try
+    if (!surface_transform_map.contains(rhs))
     {
-        return out << surface_transform_type.at(rhs);
+        return out << "UNKNOWN";
     }
-    catch (const std::out_of_range & error)
-    {
-        return out << "UNKNOWN SURFACE_TRANSFORM_BIT";
-    }
+    return out << surface_transform_map[rhs];
 }
 
 std::ostream & kochou::core::operator<<(std::ostream & out, const vk::CompositeAlphaFlagsKHR & rhs)
@@ -520,4 +508,74 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const gpu_device & rh
     }
 }
 */
-   
+
+std::ostream & kochou::core::operator<<(std::ostream & out, const vk_version & _version)
+{
+    static std::unordered_map< vk_version, std::string_view > vk_version_map = {
+        {vk_version::v1_0, "1.0"},
+        {vk_version::v1_1, "1.1"},
+        {vk_version::v1_2, "1.2"},
+        {vk_version::v1_3, "1.3"},
+        {vk_version::v1_4, "1.4"}
+    };
+
+    if (!vk_version_map.contains(_version))
+    {
+        return out << "unknown";
+    }
+    return out << vk_version_map[_version];
+}
+
+std::ostream & kochou::core::operator<<(std::ostream & out, const extension::type & _type)
+{
+    static std::unordered_map< extension::type, std::string_view > type_map = {
+        {extension::khr, "KHR"},
+        {extension::ext, "EXT"},
+        {extension::nv, "NV"},
+        {extension::amd, "AMD"},
+        {extension::intel, "INTEL"},
+        {extension::arm, "ARM"},
+        {extension::img, "IMG"},
+        {extension::qcom, "QCOM"},
+        {extension::mvk, "MVK"},
+        {extension::fuchsia, "FUCHSIA"},
+        {extension::ggp, "GGP"},
+        {extension::nn, "NN"},
+        {extension::google, "GOOGLE"},
+        {extension::valve, "VALVE"},
+        {extension::huawei, "HUAWEI"},
+        {extension::brcm, "BRCM"},
+        {extension::sec, "SEC"},
+        {extension::mesa, "MESA"}
+    };
+
+    if (!type_map.contains(_type))
+    {
+        return out << "unknown";
+    }
+    return out << type_map[_type];
+}
+
+std::ostream & kochou::core::operator<<(std::ostream & out, const extension::target & _target)
+{
+    static std::unordered_map< extension::target, std::string_view > target_map = {
+        {extension::instance, "instance"},
+        {extension::device, "device"}
+    };
+
+    if (!target_map.contains(_target))
+    {
+        return out << "unknown";
+    }
+    return out << target_map[_target];
+}
+
+std::ostream & kochou::core::operator<<(std::ostream & out, const extension & _extension)
+{
+    out << "name: " << _extension.view_name() << std::endl;
+    out << "type: " << _extension.copy_type() << std::endl;
+    out << "target: " << _extension.copy_target() << std::endl;
+    out << "vk_version: " << _extension.copy_version();
+
+    return out;
+}

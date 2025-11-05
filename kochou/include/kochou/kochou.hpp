@@ -7,6 +7,7 @@
 #include "exception.hpp"
 
 #include "core/extension.hpp"
+#include "core/type_ostream.hpp"
 
 #include "core/external/external.hpp"
 #include "core/external/instance.hpp"
