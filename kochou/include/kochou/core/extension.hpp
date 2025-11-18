@@ -6,16 +6,17 @@
 
 #include <kochou/result.hpp>
 #include <kochou/errc.hpp>
+#include <kochou/fixed_string.hpp>
 #include <kochou/core/version.hpp>
 
 namespace kochou::core
 {
+template< fixed_string NAME >
 class extension final
 {
     public:
         using result_type = result< extension, errc >;
         enum type
-            : uint32_t
         {
             khr,
             ext,
@@ -38,7 +39,6 @@ class extension final
         };
 
         enum target
-            : uint32_t
         {
             instance,
             device

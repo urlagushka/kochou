@@ -5,6 +5,7 @@
 #include "errc.hpp"
 #include "result.hpp"
 #include "exception.hpp"
+#include "fixed_string.hpp"
 
 #include "core/extension.hpp"
 #include "core/type_ostream.hpp"

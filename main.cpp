@@ -2,8 +2,9 @@
 
 #include <kochou/kochou.hpp>
 
-struct test
-    : kochou::unit< test >
+struct window
+    : ensure< kochou::extension< "VK_EXT_pipeline_creation_feedback" > >
+    , ensure< kochou::extension< "VK_EXT_surface_wayland" > >
 {
     test()
     {
@@ -39,6 +40,15 @@ int main()
             return 0;
         }
         std::cout << ext.view_ok() << std::endl;
+        
+        extension_set exts;
+        exts.insert(ext);
+        auto instance = kochou::core::instance::make(exts);
+        if (instance.is_err())
+        {
+            std::cout << instance.view_err() << std::endl;
+            return 0;
+        }
         // std::cout << error << std::endl;
         // test t;
         // throw kochou::exception(nullptr, error, "reason");
