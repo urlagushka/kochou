@@ -2,7 +2,6 @@
 #define KOCHOU_CORE_EXTENSION_HPP
 
 #include <optional>
-#include <set>
 
 #include <kochou/result.hpp>
 #include <kochou/errc.hpp>
@@ -11,7 +10,7 @@
 
 namespace kochou::core
 {
-template< fixed_string NAME >
+// template< fixed_string NAME >
 class extension final
 {
     public:
@@ -71,8 +70,6 @@ class extension final
         target target_;
         vk_version version_;
 };
-
-using extension_set = std::set< extension >;
 }
 
 #endif

@@ -1,61 +1,26 @@
+#include <kochou/ktl/reflection.hpp>
+// #include <kochou/ktl/memory/direct_storage.hpp>
+
 #include <iostream>
+#include <glm/glm.hpp>
 
-#include <kochou/kochou.hpp>
-
-struct window
-    : ensure< kochou::extension< "VK_EXT_pipeline_creation_feedback" > >
-    , ensure< kochou::extension< "VK_EXT_surface_wayland" > >
+struct pohui
 {
-    test()
-    {
-        throw kochou::exception(this, "bad args");
-    }
+    int a, b, c, d;
 };
 
-using kochou_result = kochou::result< int, kochou::errc >;
-
-kochou_result return_ok()
+struct pohui2
 {
-    return kochou::ok{0};
-}
-
-kochou_result return_err()
-{
-    return kochou::err{kochou::errc::bad_vk_api_version};
-}
+    glm::vec3 * asda;
+    glm::vec4 * asfa;
+    glm::mat3 * sadf;
+    glm::mat4 asss;
+};
 
 int main()
 {
-    try
-    {
-        /*
-        enumerate modules
-        create render module
-        */
-        // auto error = kochou::errc::bad_vk_api_version;
-        auto ext = kochou::core::extension::from("VK_EXT_pipeline_creation_feedback");
-        if (ext.is_err())
-        {
-            std::cout << ext.view_err() << std::endl;
-            return 0;
-        }
-        std::cout << ext.view_ok() << std::endl;
-        
-        extension_set exts;
-        exts.insert(ext);
-        auto instance = kochou::core::instance::make(exts);
-        if (instance.is_err())
-        {
-            std::cout << instance.view_err() << std::endl;
-            return 0;
-        }
-        // std::cout << error << std::endl;
-        // test t;
-        // throw kochou::exception(nullptr, error, "reason");
-    }
-    catch (const kochou::exception & exception)
-    {
-        std::cout << exception << std::endl;
-    }
-    return 0;
+    std::cout << ktl::reflection::fields_amount< pohui > << std::endl;
+    std::cout << ktl::reflection::fields_amount< pohui2 > << std::endl;
+
+    static_assert(std::same_as< ktl::reflection::field_type< pohui2, 0 >, glm::vec3 * >);
 }
