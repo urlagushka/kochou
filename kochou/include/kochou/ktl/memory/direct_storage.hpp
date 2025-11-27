@@ -6,47 +6,43 @@
 
 #include <kochou/ktl/reflection.hpp>
 
-namespace ktl::memory::details
-{
-    template< typename T, std::size_t SIZE >
-    struct layer_type
-    {
-        using value_type = T;
-
-        void * ptr = new value_type[SIZE];
-        std::size_t size = sizeof(value_type);
-        std::size_t align = alignof(value_type);
-    };
-}
-
 namespace ktl::memory
 {
     template< typename LAYOUT, std::size_t SIZE >
     class direct_storage final
     {
         public:
-            static constexpr auto fields_amount = reflection::pod_fields_amount< LAYOUT >;
+            static constexpr auto fields_amount = reflection::fields_amount< LAYOUT >;
 
         public:
             direct_storage()
                 : layers_()
             {
-                for (auto & layer : layers_)
+                static_assert(fields_amount > 0);
+                [&]< std::size_t ... I >(std::index_sequence< I ... >)
                 {
-                    layer = details::layer_type{};
+                    ((layers_[I] = new reflection::field_type< LAYOUT, I >[SIZE]), ...);
                 }
+                (std::make_index_sequence< fields_amount >{});
             }
 
             ~direct_storage()
             {
-                for (auto & layer : layers_)
+                [&]< std::size_t ... I >(std::index_sequence< I ... >)
                 {
-                    delete [] static_cast< details::layer::value_type * >(layer.ptr);
+                    (delete [] static_cast< reflection::field_type< LAYOUT, I > * >(layers_[I]), ...);
                 }
+                (std::make_index_sequence< fields_amount >{});
+            }
+
+            template< std::size_t I >
+            reflection::field_type< LAYOUT, I > * get()
+            {
+                return static_cast< reflection::field_type< LAYOUT, I > * >(layers_[I]);
             }
 
         private:
-            std::array< std::any, fields_amount > layers_;
+            std::array< void *, fields_amount > layers_;
     };
 }
 
