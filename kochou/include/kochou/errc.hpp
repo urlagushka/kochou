@@ -3,9 +3,12 @@
 
 #include <ostream>
 
+#include <kochou/ktl/mask.hpp>
+
 namespace kochou
 {
     enum class errc
+        : ktl::mask_underlying_type
     {
         unspecified,
         extension_not_provided,

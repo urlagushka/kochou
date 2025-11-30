@@ -1,9 +1,9 @@
-#ifndef KOCHOU_UTILS_MASK_HPP
-#define KOCHOU_UTILS_MASK_HPP
+#ifndef KTL_MASK_HPP
+#define KTL_MASK_HPP
 
 #include <cstdint>
 
-namespace kochou::core
+namespace ktl
 {
     using mask_underlying_type = uint32_t;
 

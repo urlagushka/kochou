@@ -59,8 +59,6 @@ namespace kochou::core
                 {
                     throw exception(this, "ensure satisfy error!", result.take_err());
                 }
-
-                ensure_collector::get()->add(result.take_ok());
             }
     };
 }

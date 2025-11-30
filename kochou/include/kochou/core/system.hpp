@@ -3,11 +3,12 @@
 
 #include <cassert>
 
-#include "kochou/utils/mask.hpp"
+#include <kochou/ktl/mask.hpp>
 
 namespace kochou::core
 {
     enum class os_flag
+        : ktl::mask_underlying_type
     {
         linux,
         macos,
@@ -15,6 +16,7 @@ namespace kochou::core
     };
 
     enum class api_flag
+        : ktl::mask_underlying_type
     {
         vulkan,
         metal,

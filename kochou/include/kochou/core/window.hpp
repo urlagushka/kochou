@@ -3,15 +3,18 @@
 
 #include <string_view>
 
-#include "kochou/unit.hpp"
-#include "kochou/utils/external.hpp"
+#include "ensure.hpp"
+#include "external/external.hpp"
+
+/*
+no ensure here
+glfwGetRequiredInstanceExtensions(); use for get extension in constructor
+*/
 
 namespace kochou::core
 {
     class window final
-        : unit< window >
-        , external< hold::shared, window >
-        , 
+        : external< hold::shared, window >
     {
         public:
             window(std::size_t width, std::size_t height, std::string_view title);

@@ -3,7 +3,7 @@
 
 #include <optional>
 
-#include <kochou/result.hpp>
+#include <kochou/ktl/result.hpp>
 #include <kochou/errc.hpp>
 #include <kochou/fixed_string.hpp>
 #include <kochou/core/version.hpp>
@@ -11,65 +11,67 @@
 namespace kochou::core
 {
 // template< fixed_string NAME >
-class extension final
-{
-    public:
-        using result_type = result< extension, errc >;
-        enum type
-        {
-            khr,
-            ext,
-            nv,
-            amd,
-            intel,
-            arm,
-            img,
-            qcom,
-            mvk,
-            fuchsia,
-            ggp,
-            nn,
-            google,
-            valve,
-            huawei,
-            brcm,
-            sec,
-            mesa
-        };
+    class extension final
+    {
+        public:
+            using result_type = result< extension, errc >;
+            enum type
+                : ktl::mask_underlying_type
+            {
+                khr,
+                ext,
+                nv,
+                amd,
+                intel,
+                arm,
+                img,
+                qcom,
+                mvk,
+                fuchsia,
+                ggp,
+                nn,
+                google,
+                valve,
+                huawei,
+                brcm,
+                sec,
+                mesa
+            };
 
-        enum target
-        {
-            instance,
-            device
-        };
+            enum target
+                : ktl::mask_underlying_type
+            {
+                instance,
+                device
+            };
 
-        extension(std::string_view name);
-        extension(const extension &) = default;
-        extension(extension &&) = default;
-        extension & operator=(const extension &) = default;
-        extension & operator=(extension &&) = default;
-        ~extension() = default;
+            extension(std::string_view name);
+            extension(const extension &) = default;
+            extension(extension &&) = default;
+            extension & operator=(const extension &) = default;
+            extension & operator=(extension &&) = default;
+            ~extension() = default;
 
-        static result_type from(std::string_view _name);
-        std::optional< errc > make();
+            static result_type from(std::string_view _name);
+            std::optional< errc > make();
 
-        std::string_view view_name() const;
-        type copy_type() const;
-        target copy_target() const;
-        vk_version copy_version() const;
+            std::string_view view_name() const;
+            type copy_type() const;
+            target copy_target() const;
+            vk_version copy_version() const;
 
-    private:
-        bool is_deprecated() const;
-        result< type, errc > get_type() const;
-        result< target, errc > get_target() const;
-        result< vk_version, errc > get_version() const;
+        private:
+            bool is_deprecated() const;
+            result< type, errc > get_type() const;
+            result< target, errc > get_target() const;
+            result< vk_version, errc > get_version() const;
 
-    private:
-        std::string name_;
-        type type_;
-        target target_;
-        vk_version version_;
-};
+        private:
+            std::string name_;
+            type type_;
+            target target_;
+            vk_version version_;
+    };
 }
 
 #endif

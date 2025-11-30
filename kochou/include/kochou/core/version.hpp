@@ -3,14 +3,14 @@
 
 #include <cstdint>
 
+#include <kochou/ktl/mask.hpp>
+
 #include <vulkan/vulkan.hpp>
 
 namespace kochou::core
 {
-    constexpr uint32_t version = 1;
-
     enum class vk_version
-        : uint32_t
+        : ktl::mask_underlying_type
     {
         v1_0 = VK_API_VERSION_1_0,
         v1_1 = VK_API_VERSION_1_1,
