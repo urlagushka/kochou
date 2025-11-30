@@ -22,16 +22,16 @@ namespace kochou::core
     };
 
     #if defined(__linux__)
-        static constexpr api_type api_defined = api_type::vulkan;
+        // static constexpr api_type api_defined = api_type::vulkan;
         static constexpr os_type os_defined = os_type::linux;
 
     #elif defined(__APPLE__)
-        static constexpr api_type api_defined = api_type::metal;
+        // static constexpr api_type api_defined = api_type::metal;
         static constexpr os_type os_defined = os_type::macos;
-        static_assert("macos not supported!" && false);
+        // static_assert("macos not supported!" && false);
 
     #elif defined(_WIN32)
-        static constexpr api_type api_defined = api_type::vulkan | api_type::directx;
+        // static constexpr api_type api_defined = api_type::vulkan | api_type::directx;
         static constexpr os_type os_defined = os_type::windows;
         static_assert("windows not supported!" && false);
 

@@ -17,10 +17,7 @@ namespace kochou::core
     };
 
     template< hold, typename >
-    class external
-    {
-        // assert(false && "usage of unspecified external template!");
-    };
+    class external {};
 
     template< typename T >
     struct external< hold::unique, T >

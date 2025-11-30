@@ -3,7 +3,7 @@
 
 #include "wrapper.hpp"
 
-namespace kochou::api
+namespace kochou::core
 {
     class device final
         : wrapper< device >

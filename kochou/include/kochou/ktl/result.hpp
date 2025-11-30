@@ -1,5 +1,5 @@
-#ifndef KOCHOU_RESULT_HPP
-#define KOCHOU_RESULT_HPP
+#ifndef KTL_RESULT_HPP
+#define KTL_RESULT_HPP
 
 #include <variant>
 

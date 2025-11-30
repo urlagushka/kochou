@@ -40,7 +40,7 @@ class some_render_module
 };
 */
 
-namespace kochou
+namespace kochou::core
 {
     template< typename T >
     concept ensure_type = requires()
@@ -62,27 +62,6 @@ namespace kochou
 
                 ensure_collector::get()->add(result.take_ok());
             }
-    };
-
-    class ensure_collector final
-    {
-        public:
-            inline static auto get()
-            {
-                static auto instance = std::make_shared< ensure_collector >();
-                return instance;
-            }
-
-            inline void add(std::shared_ptr< void > ptr)
-            {
-                ensures_.insert(ptr);
-            }
-
-        private:
-            ensure_collector() = default;
-        
-        private:
-            std::set< std::shared_ptr< void > > ensures_;
     };
 }
 
