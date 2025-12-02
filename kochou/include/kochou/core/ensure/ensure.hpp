@@ -8,38 +8,6 @@
 #include "result.hpp"
 #include "errc.hpp"
 
-/*
-template< kochou::fixed_string NAME >
-class extension
-{
-    public:
-        static result< std::shared_ptr< void >, kochou::errc > satisfy()
-        {
-            auto result = kochou::context::get()->verify_extension(NAME);
-            if (result.is_err())
-            {
-                return kochou::err(result.take_err());
-            }
-            
-            return kochou::ok(kochou::context::get());
-        }
-
-        ...
-
-    private:
-        ...
-};
-
-class some_render_module
-    : ensure< extension< "VK_EXT_dynamic_rendering" > >
-{
-    public:
-        ...
-    private:
-        ...
-};
-*/
-
 namespace kochou::core
 {
     template< typename T >

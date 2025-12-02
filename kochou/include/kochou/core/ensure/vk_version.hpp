@@ -1,7 +1,5 @@
-#ifndef KOCHOU_CORE_VERSION_HPP
-#define KOCHOU_CORE_VERSION_HPP
-
-#include <cstdint>
+#ifndef KOCHOU_CORE_ENSURE_VK_VERSION_HPP
+#define KOCHOU_CORE_ENSURE_VK_VERSION_HPP
 
 #include <kochou/ktl/mask.hpp>
 

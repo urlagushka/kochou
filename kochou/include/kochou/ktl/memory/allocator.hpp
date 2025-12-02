@@ -6,12 +6,9 @@ namespace ktl::memory
     class allocator_interface
     {
         public:
-            /*
-
-                gpu_allocator - host_visible memory
-                cpu_allocator - new/delete
-
-            */
+            virtual ~allocator_interface() = default;
+            virtual void * allocate() = 0;
+            virtual void deallocate() = 0;
     };
 }
 

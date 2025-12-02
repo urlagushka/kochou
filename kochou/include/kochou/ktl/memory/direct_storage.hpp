@@ -7,10 +7,6 @@
 #include <kochou/ktl/reflection.hpp>
 
 #include "allocator.hpp"
-/*
-need pass allocator for every layer
-
-*/
 
 namespace ktl::memory
 {
@@ -51,17 +47,5 @@ namespace ktl::memory
             std::array< void *, fields_amount > layers_;
     };
 }
-
-class cube : object;
-/*
-pos
-size
-
-*/
-
-class sphere : object;
-class other : object;
-
-
 
 #endif

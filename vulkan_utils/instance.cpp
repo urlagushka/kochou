@@ -10,7 +10,7 @@ vk::utils::instance::instance(std::string_view app, std::string_view engine, boo
   vk::InstanceCreateInfo instance_info({}, &app_info);
   std::vector< const char * > app_extensions;
   std::vector< const char * > app_layers;
-
+ 
   #if defined(__linux__)
     app_extensions = {
       VK_KHR_SURFACE_EXTENSION_NAME,

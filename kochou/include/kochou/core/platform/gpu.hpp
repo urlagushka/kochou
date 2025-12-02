@@ -3,17 +3,16 @@
 
 #include <vulkan/vulkan_raii.hpp>
 
-#include "vulkan.hpp"
-#include "queue.hpp"
-#include "type.hpp"
-#include "mask.hpp"
+#include <kochou/ktl/mask.hpp>
 
-namespace kochou::api
+#include "version.hpp"
+
+namespace kochou::core
 {
     struct gpu final
     {
         enum _type
-            : uint32_t
+            : ktl::mask_underlying_type
         {
             other      = 0x1,
             integrated = 0x2,
@@ -23,17 +22,17 @@ namespace kochou::api
         };
 
         enum _vendor
-            : uint32_t
+            : ktl::mask_underlying_type
         {
             nvidia = 0x10DE,
-            amd = 0x1002
+            amd    = 0x1002
         };
 
         std::string name;
-        vendor_type vendor;
-        vk_api_version api;
+        _type type;
+        _vendor vendor;
+        vk_version api;
     };
-
 
     inline static std::vector< gpu_device > // can't be constexpr
     enumerate_gpu(vk::raii::Instance & instance)

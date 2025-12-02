@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace kochou
+namespace ktl
 {
     template< std::size_t SIZE >
     struct fixed_string
