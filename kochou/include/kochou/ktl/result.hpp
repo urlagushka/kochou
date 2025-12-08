@@ -3,7 +3,7 @@
 
 #include <variant>
 
-namespace kochou
+namespace ktl
 {
     template< typename T >
     struct ok

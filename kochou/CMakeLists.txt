@@ -6,7 +6,7 @@ find_package(Vulkan REQUIRED)
 
 add_library(kochou
   "src/core/type_ostream.cpp"
-  "src/core/extension.cpp"
+  "src/core/context.cpp"
 )
 
 target_include_directories(kochou PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

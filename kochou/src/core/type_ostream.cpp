@@ -508,7 +508,7 @@ std::ostream & kochou::api::operator<<(std::ostream & out, const gpu_device & rh
     }
 }
 */
-
+/*
 std::ostream & kochou::core::operator<<(std::ostream & out, const vk_version & _version)
 {
     static std::unordered_map< vk_version, std::string_view > vk_version_map = {
@@ -579,3 +579,4 @@ std::ostream & kochou::core::operator<<(std::ostream & out, const extension & _e
 
     return out;
 }
+*/

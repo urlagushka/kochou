@@ -1,12 +1,13 @@
-#ifndef KOCHOU_ENSURE_HPP
-#define KOCHOU_ENSURE_HPP
+#ifndef KOCHOU_ENSURE_ENSURE_HPP
+#define KOCHOU_ENSURE_ENSURE_HPP
 
 #include <concepts>
-#include <set>
 
 #include "exception.hpp"
 #include "result.hpp"
 #include "errc.hpp"
+
+#include <kochou/core/context.hpp>
 
 namespace kochou::core
 {
@@ -25,7 +26,7 @@ namespace kochou::core
                 auto result = T::satisfy();
                 if (result.is_err())
                 {
-                    throw exception(this, "ensure satisfy error!", result.take_err());
+                    context::get()->register_error(result.take_err());
                 }
             }
     };

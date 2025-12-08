@@ -5,8 +5,7 @@
 
 #include <vulkan/vulkan.hpp>
 
-// #include <kochou/api/platform/gpu.hpp>
-#include <kochou/core/extension.hpp>
+// #include <kochou/core/extension.hpp>
 
 namespace kochou::core
 {
@@ -41,10 +40,9 @@ namespace kochou::core
 
   // KOCHOU
   // std::ostream & operator<<(std::ostream & out, const gpu_device & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk_version & _version);
-  std::ostream & operator<<(std::ostream & out, const extension::type & _type);
-  std::ostream & operator<<(std::ostream & out, const extension::target & _target);
-  std::ostream & operator<<(std::ostream & out, const extension & _extension);
+  // std::ostream & operator<<(std::ostream & out, const vulkan_version & _version);
+  // std::ostream & operator<<(std::ostream & out, const extension_type & _type);
+  // std::ostream & operator<<(std::ostream & out, const extension_target & _target);
 }
 
 #endif

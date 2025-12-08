@@ -1,15 +1,13 @@
 #ifndef KOCHOU_CORE_EXTERNAL_DEVICE_HPP
 #define KOCHOU_CORE_EXTERNAL_DEVICE_HPP
 
-#include "wrapper.hpp"
+#include <vulkan/vulkan_raii.hpp>
 
 namespace kochou::core
 {
     class device final
-        : wrapper< device >
     {
         public:
-            device_wrapper() = default;
 
         private:
             vk::raii::Device __naked;

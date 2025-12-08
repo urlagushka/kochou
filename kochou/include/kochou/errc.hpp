@@ -8,9 +8,10 @@
 namespace kochou
 {
     enum class errc
-        : ktl::mask_underlying_type
     {
+        ok,
         unspecified,
+
         extension_not_provided,
         extension_is_deprecated,
         bad_vk_api_version,
