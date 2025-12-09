@@ -1,6 +1,9 @@
 #ifndef KOCHOU_CORE_ENSURE_EXTENSION_HPP
 #define KOCHOU_CORE_ENSURE_EXTENSION_HPP
 
+#include <set>
+#include <string_view>
+
 #include <kochou/ktl/result.hpp>
 #include <kochou/ktl/fixed_string.hpp>
 #include <kochou/ktl/mask.hpp>
@@ -12,6 +15,7 @@
 
 namespace kochou::core
 {
+    using extensions_set = std::set< std::string_view >;
     enum class extension_type
         : ktl::mask_underlying_type
     {

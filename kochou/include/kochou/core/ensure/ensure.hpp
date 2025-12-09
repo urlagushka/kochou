@@ -14,7 +14,7 @@ namespace kochou::core
     template< typename T >
     concept ensure_type = requires()
     {
-        { T::satisfy() } -> std::same_as< result< std::shared_ptr< void >, errc > >;
+        { T::satisfy() } -> std::same_as< ktl::result< std::string_view, errc > >;
     };
 
     template< ensure_type T >
@@ -26,10 +26,15 @@ namespace kochou::core
                 auto result = T::satisfy();
                 if (result.is_err())
                 {
-                    context::get()->register_error(result.take_err());
+                    context::get()->register_error(result.take_err()); // what src?
                 }
+                /*
+                if debug -> log error, else nothing?
+                */
             }
     };
+
+
 }
 
 #endif

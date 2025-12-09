@@ -7,6 +7,12 @@
 
 namespace kochou
 {
+    /*
+        use errc level?
+        fatal
+        warning
+        
+    */
     enum class errc
     {
         ok,

@@ -45,11 +45,11 @@ namespace kochou::core
             errc finalize();
 
         private:
-            std::set< std::string_view > instance_extensions_;
-            std::set< std::string_view > device_extensions_;
-            std::set< std::string_view > features_;
-            std::set< std::string_view > layers_;
-            std::set< std::string_view > versions_;
+            std::set< std::string_view > instance_extensions_; // instance
+            std::set< std::string_view > device_extensions_;   // device
+            std::set< std::string_view > features_;            // device
+            std::set< std::string_view > layers_;              // instance
+            std::set< std::string_view > versions_;            // instance
 
             std::shared_ptr< instance > instance_;
             std::shared_ptr< device > device_;

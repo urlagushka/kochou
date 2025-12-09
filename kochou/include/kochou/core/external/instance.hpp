@@ -6,6 +6,9 @@
 #include "external.hpp"
 
 #include <kochou/core/ensure/extension.hpp>
+#include <kochou/core/ensure/feature.hpp>
+#include <kochou/core/ensure/layer.hpp>
+#include <kochou/core/ensure/version.hpp>
 
 /*
 instance is not default constructable
@@ -63,14 +66,19 @@ namespace kochou::core
         : public external< hold::shared, instance >
     {
         public:
-            instance(std::set< std::string_view > _set)
-                : vk_instance_(VK_NULL_HANDLE)
-            {
+            using set_type = std::set< std::string_view, std::greater<  > >;
 
+        public:
+            instance(set_type _extensions, set_type _layers, set_type _versions)
+                : instance_(VK_NULL_HANDLE)
+            {
+                auto version = std::min
             }
 
         private:
-            vk::raii::Instance vk_instance_;
+
+        private:
+            vk::raii::Instance instance_;
     };
 }
 

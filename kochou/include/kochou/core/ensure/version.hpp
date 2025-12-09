@@ -1,6 +1,9 @@
 #ifndef KOCHOU_CORE_ENSURE_VERSION_HPP
 #define KOCHOU_CORE_ENSURE_VERSION_HPP
 
+#include <set>
+#include <string_view>
+
 #include <kochou/ktl/mask.hpp>
 
 #include <vulkan/vulkan.hpp>
@@ -17,12 +20,13 @@ namespace kochou::core
         v1_4 = VK_API_VERSION_1_4
     };
 
+    using versions_set = std::set< vulkan_version >;
     template< vulkan_version VERSION >
     struct version final
     {
         using enum vulkan_version;
 
-
+        static ktl::result< vulkan_version, errc > satisfy();
     };
 }
 
