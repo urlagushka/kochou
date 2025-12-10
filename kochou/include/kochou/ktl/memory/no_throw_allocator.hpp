@@ -3,6 +3,7 @@
 
 #include <cstddef>
 
+#include <vulkan/vulkan_core.h>
 #include <kochou/ktl/result.hpp>
 
 namespace ktl::memory

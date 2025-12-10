@@ -9,6 +9,7 @@
 #include <kochou/ktl/mask.hpp>
 
 #include <kochou/errc.hpp>
+#include <kochou/core/ensure/feature.hpp>
 #include <kochou/core/ensure/version.hpp>
 
 #include <vulkan/vulkan_extension_inspection.hpp>
@@ -46,7 +47,7 @@ namespace kochou::core
         device
     };
 
-    template< ktl::fixed_string NAME >
+    template< ktl::fixed_string NAME, typename FEATURE_TYPE = no_feature, FEATURE_TYPE FEATURE = {} >
     struct extension final
     {
         using enum extension_type;
