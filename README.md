@@ -2,6 +2,8 @@
 # kochou
 ## C++ 20 | VulkanAPI | GLFW
 
+# ITS WILL BE GPU DRIVEN CORE WITH CPU METADATA ONLY
+
 ### Compilation
 MacOS ARM64:
 ```sh
