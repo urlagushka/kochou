@@ -8,6 +8,7 @@
 #include "kochou/errc.hpp"
 
 #include <kochou/ktl/result.hpp>
+#include <kochou/ktl/memory.hpp>
 
 namespace kochou::core
 {
@@ -37,6 +38,7 @@ namespace kochou::core
         template< typename ... ARGS >
         static result_type make(ARGS &&... _args) noexcept
         {
+            // auto result = ktl::malloc< T >(std::forward< ARGS >(_args)...)
             T * object = nullptr;
             try
             {
