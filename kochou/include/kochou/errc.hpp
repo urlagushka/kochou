@@ -4,6 +4,7 @@
 #include <ostream>
 
 #include <kochou/ktl/mask.hpp>
+#include <kochou/ktl/errc.hpp>
 
 namespace kochou
 {
@@ -11,7 +12,7 @@ namespace kochou
         use errc level?
         fatal
         warning
-        
+
     */
     enum class errc
     {

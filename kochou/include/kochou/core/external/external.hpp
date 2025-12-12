@@ -24,7 +24,7 @@ namespace kochou::core
     template< typename T >
     struct external< hold::unique, T >
     {
-        using ptr_type = std::unique_ptr< T >;
+        using ptr_type = ktl::memory::unique_ptr< T >;
         using result_type = ktl::result< ptr_type, errc >;
 
         external() = default;
@@ -38,29 +38,19 @@ namespace kochou::core
         template< typename ... ARGS >
         static result_type make(ARGS &&... _args) noexcept
         {
-            // auto result = ktl::malloc< T >(std::forward< ARGS >(_args)...)
-            T * object = nullptr;
-            try
+            auto result = ktl::memory::make_unique< T >(std::forward< ARGS >(_args)...);
+            if (result.is_err())
             {
-                object = new T(std::forward< ARGS >(_args)...);
+                return ktl::err{result.take_err()};
             }
-            catch (const std::bad_alloc &)
-            {
-                return ktl::err{errc::cpp_bad_alloc};
-            }
-            catch (const exception & error)
-            {
-                // return err{error.errc.value_or(errc::unspecified)};
-            }
-
-            return ktl::ok{std::move(ptr_type(object))};
+            return ktl::ok{result.take_ok()};
         }
     };
 
     template< typename T >
     struct external< hold::shared, T >
     {
-        using ptr_type = std::shared_ptr< T >;
+        using ptr_type = ktl::memory::shared_ptr< T >;
         using result_type = ktl::result< ptr_type, errc >;
 
         external() = default;
@@ -74,21 +64,12 @@ namespace kochou::core
         template< typename ... ARGS >
         static result_type make(ARGS &&... _args) noexcept
         {
-            T * object = nullptr;
-            try
+            auto result = ktl::memory::make_shared< T >(std::forward< ARGS >(_args)...);
+            if (result.is_err())
             {
-                object = new T(std::forward< ARGS >(_args)...);
+                return ktl::err{result.take_err()};
             }
-            catch (const std::bad_alloc &)
-            {
-                return ktl::err{errc::cpp_bad_alloc};
-            }
-            catch (const exception & error)
-            {
-                // return err{error.errc.value_or(errc::unspecified)};
-            }
-
-            return ktl::ok{std::move(ptr_type(object))};
+            return ktl::ok{result.take_ok()};
         }
     };
 }

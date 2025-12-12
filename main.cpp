@@ -1,5 +1,4 @@
-#include <kochou/ktl/reflection.hpp>
-#include <kochou/ktl/memory/direct_storage.hpp>
+#include <kochou>
 
 #include <ranges>
 #include <iostream>
