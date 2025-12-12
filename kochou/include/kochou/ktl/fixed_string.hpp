@@ -1,5 +1,5 @@
-#ifndef KOCHOU_FIXED_STRING_HPP
-#define KOCHOU_FIXED_STRING_HPP
+#ifndef KTL_FIXED_STRING_HPP
+#define KTL_FIXED_STRING_HPP
 
 #include <cstddef>
 

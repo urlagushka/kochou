@@ -1,5 +1,5 @@
-#ifndef KOCHOU_KTL_ERRC_HPP
-#define KOCHOU_KTL_ERRC_HPP
+#ifndef KTL_ERRC_HPP
+#define KTL_ERRC_HPP
 
 namespace ktl
 {

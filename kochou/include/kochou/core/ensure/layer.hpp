@@ -1,5 +1,5 @@
-#ifndef KOCHOU_CORE_ENSURE_VK_LAYER_HPP
-#define KOCHOU_CORE_ENSURE_VK_LAYER_HPP
+#ifndef KOCHOU_CORE_ENSURE_LAYER_HPP
+#define KOCHOU_CORE_ENSURE_LAYER_HPP
 
 #include <kochou/ktl/fixed_string.hpp>
 #include <kochou/errc.hpp>
