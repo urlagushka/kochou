@@ -9,7 +9,7 @@ namespace ktl
     struct fixed_string
     {
         char data[SIZE]{};
-        std::size_t size = SIZE;
+        std::size_t size = SIZE - 1;
 
         constexpr fixed_string(const char (&str)[SIZE])
         {

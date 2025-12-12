@@ -14,6 +14,7 @@ namespace kochou::core
     concept ensure_type = requires()
     {
         { T::apply() } -> std::same_as< errc >;
+        requires noexcept(T::apply());
     };
 
     template< ensure_type T >

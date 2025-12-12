@@ -24,6 +24,10 @@
 #include "core/external/physical_device.hpp"
 #include "core/external/queue.hpp"
 
+// KOCHOU MASKS
+#include "core/masks/extension.hpp"
+#include "core/masks/version.hpp"
+
 // KOCHOU PIPELINE
 // KOCHOU PLATFORM
 

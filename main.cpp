@@ -4,6 +4,11 @@
 #include <iostream>
 #include <glm/glm.hpp>
 
+class metadata_render
+    : kochou::core::ensure< kochou::core::extension< "KHR" > >
+    , kochou::core::ensure< kochou::core::version< kochou::core::vulkan_version::v1_0 > >
+{};
+
 struct pohui
 {
     int a, b, c, d;
@@ -19,8 +24,9 @@ struct pohui2
 
 int main()
 {
-    std::cout << ktl::reflection::fields_amount< pohui > << std::endl;
-    std::cout << ktl::reflection::fields_amount< pohui2 > << std::endl;
+    metadata_render tmp;
+    // std::cout << ktl::reflection::fields_amount< pohui > << std::endl;
+    // std::cout << ktl::reflection::fields_amount< pohui2 > << std::endl;
 
     static_assert(std::same_as< ktl::reflection::field_type< pohui2, 0 >, glm::vec3 >);
 

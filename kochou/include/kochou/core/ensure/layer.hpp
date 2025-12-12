@@ -10,9 +10,23 @@ namespace kochou::core
     class layer final
     {
         public:
-            static errc apply();
+            static errc apply() noexcept;
         private:
     };
+}
+
+template< ktl::fixed_string NAME >
+kochou::errc
+kochou::core::layer< NAME >::apply() noexcept
+{
+    std::string name = NAME;
+    if (!name.starts_with("VK_LAYER_"))
+    {
+        return errc::layer_not_provided;
+    }
+
+    context::get()->apply_layer(NAME);
+    return errc::ok;
 }
 
 #endif

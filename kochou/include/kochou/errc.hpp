@@ -24,6 +24,7 @@ namespace kochou
         bad_vk_api_version,
         unknown_vk_api_version,
         queue_is_not_dedicated,
+        layer_not_provided,
 
         cpp_bad_alloc
     };

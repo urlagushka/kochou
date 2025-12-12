@@ -17,54 +17,23 @@
 
 namespace kochou::core
 {
-    using extensions_set = std::set< std::string_view >;
-    enum class extension_type
-        : ktl::mask_underlying_type
-    {
-        khr,
-        ext,
-        nv,
-        amd,
-        intel,
-        arm,
-        img,
-        qcom,
-        mvk,
-        fuchsia,
-        ggp,
-        nn,
-        google,
-        valve,
-        huawei,
-        brcm,
-        sec,
-        mesa
-    };
-
-    enum class extension_target
-        : ktl::mask_underlying_type
-    {
-        instance,
-        device
-    };
-
     template< ktl::fixed_string NAME, typename FEATURE_TYPE = no_feature, FEATURE_TYPE FEATURE = FEATURE_TYPE{} >
     struct extension final
     {
         using enum extension_type;
         using enum extension_target;
 
-        static errc apply();
-        static ktl::result< extension_type, errc > type();
-        static ktl::result< extension_target, errc > target();
-        static ktl::result< vulkan_version, errc > version();
-        static bool is_deprecated();
+        static errc apply() noexcept;
+        static ktl::result< extension_type, errc > type() noexcept;
+        static ktl::result< extension_target, errc > target() noexcept;
+        static ktl::result< vulkan_version, errc > version() noexcept;
+        static bool is_deprecated() noexcept;
     };
 }
 
 template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
 kochou::errc
-kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply()
+kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
 {
     using this_extension = extension< NAME >;
     if (this_extension::is_deprecated())
@@ -90,7 +59,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply()
         return version_result.take_err();
     }
 
-    //context::get()->apply_extension(NAME);
+    context::get()->apply_extension(NAME.data, target_result.take_ok());
     if constexpr (!std::is_same_v< FEATURE_TYPE, no_feature >)
     {
         // context::get()->apply_feature()
@@ -101,9 +70,9 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply()
 
 template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
 ktl::result< kochou::core::extension_type, kochou::errc >
-kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type()
+kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
 {
-    std::string name = NAME;
+    std::string name = NAME.data;
     if (name.size() < 3)
     {
         return ktl::err{errc::extension_not_provided};
@@ -188,16 +157,16 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type()
 
 template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
 ktl::result< kochou::core::extension_target, kochou::errc >
-kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target()
+kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
 {
     static const auto instance_set = vk::getInstanceExtensions();
     static const auto device_set = vk::getDeviceExtensions();
 
-    if (instance_set.contains(NAME))
+    if (instance_set.contains(NAME.data))
     {
         return ktl::ok{extension_target::instance};
     }
-    if (device_set.contains(NAME))
+    if (device_set.contains(NAME.data))
     {
         return ktl::ok{extension_target::device};
     }
@@ -207,16 +176,16 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target()
 
 template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
 ktl::result< kochou::core::vulkan_version, kochou::errc >
-kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version()
+kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
 {
     static const auto version_map = vk::getPromotedExtensions();
 
-    if (!version_map.contains(NAME))
+    if (!version_map.contains(NAME.data))
     {
         return ktl::err{errc::unknown_vk_api_version};
     }
 
-    const auto & version = version_map[NAME];
+    const auto & version = version_map.at(NAME.data);
     if (version == "VK_VERSION_1_0")
     {
         return ktl::ok{vulkan_version::v1_0};
@@ -243,10 +212,10 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version()
 
 template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
 bool
-kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::is_deprecated()
+kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::is_deprecated() noexcept
 {
     static const auto deprecated_map = vk::getDeprecatedExtensions();
-    if (deprecated_map.contains(NAME))
+    if (deprecated_map.contains(NAME.data))
     {
         return true;
     }

@@ -17,7 +17,7 @@ namespace kochou::core
             return FEATURE;
         }
 
-        static errc apply();
+        static errc apply() noexcept;
     };
 }
 
