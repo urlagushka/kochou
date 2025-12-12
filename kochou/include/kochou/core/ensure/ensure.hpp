@@ -10,10 +10,10 @@
 
 namespace kochou::core
 {
-    template< typename T, typename OK_TYPE >
+    template< typename T >
     concept ensure_type = requires()
     {
-        { T::satisfy() } -> std::same_as< ktl::result< OK_TYPE, errc > >;
+        { T::apply() } -> std::same_as< errc >;
     };
 
     template< ensure_type T >
@@ -22,18 +22,13 @@ namespace kochou::core
         protected:
             ensure()
             {
-                auto result = T::satisfy();
-                if (result.is_err())
+                auto rc = T::satisfy();
+                if (rc != errc::ok)
                 {
-                    context::get()->register_error(result.take_err()); // what src?
+                    context::get()->register_errc(rc);
                 }
-                /*
-                if debug -> log error, else nothing?
-                */
             }
     };
-
-
 }
 
 #endif

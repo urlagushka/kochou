@@ -1,5 +1,5 @@
-#ifndef KOCHOU_API_CONTEXT_HPP
-#define KOCHOU_API_CONTEXT_HPP
+#ifndef KOCHOU_CORE_CONTEXT_HPP
+#define KOCHOU_CORE_CONTEXT_HPP
 
 #include <memory>
 
@@ -38,11 +38,13 @@ namespace kochou::core
                 return instance;
             }
 
-            errc verify_version(std::string_view _name);
-            errc verify_extension(std::string_view _name);
-            errc verify_feature(std::string_view _name);
-            errc verify_layer(std::string_view _name);
+            errc apply_version(std::string_view _name);
+            errc apply_extension(std::string_view _name);
+            errc apply_feature(std::string_view _name);
+            errc apply_layer(std::string_view _name);
             errc finalize();
+
+            void register_errc(errc _errc, std::source_location _backtrace = std::source_location::current());
 
         private:
             std::set< std::string_view > instance_extensions_; // instance

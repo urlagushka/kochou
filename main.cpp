@@ -1,4 +1,4 @@
-#include <kochou/kochou.hpp>c
+#include <kochou/kochou.hpp>
 
 #include <ranges>
 #include <iostream>

@@ -8,6 +8,7 @@
 #include <kochou/ktl/fixed_string.hpp>
 #include <kochou/ktl/mask.hpp>
 
+#include <kochou/core/context.hpp>
 #include <kochou/errc.hpp>
 #include <kochou/core/ensure/feature.hpp>
 #include <kochou/core/ensure/version.hpp>
@@ -53,7 +54,7 @@ namespace kochou::core
         using enum extension_type;
         using enum extension_target;
 
-        static ktl::result< std::string_view, errc > satisfy();
+        static errc apply();
         static ktl::result< extension_type, errc > type();
         static ktl::result< extension_target, errc > target();
         static ktl::result< vulkan_version, errc > version();
@@ -62,34 +63,40 @@ namespace kochou::core
 }
 
 template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
-ktl::result< std::string_view, kochou::errc >
-kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::satisfy()
+kochou::errc
+kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply()
 {
     using this_extension = extension< NAME >;
     if (this_extension::is_deprecated())
     {
-        return ktl::err{errc::extension_is_deprecated};
+        return errc::extension_is_deprecated;
     }
 
     auto type_result = this_extension::type();
     if (type_result.is_err())
     {
-        return ktl::err{type_result.take_err()};
+        return type_result.take_err();
     }
 
     auto target_result = this_extension::target();
     if (target_result.is_err())
     {
-        return ktl::err{target_result.take_err()};
+        return target_result.take_err();
     }
     
     auto version_result = this_extension::version();
     if (version_result.is_err())
     {
-        return ktl::err{version_result.take_err()};
+        return version_result.take_err();
     }
 
-    return ktl::ok{NAME};
+    //context::get()->apply_extension(NAME);
+    if constexpr (!std::is_same_v< FEATURE_TYPE, no_feature >)
+    {
+        // context::get()->apply_feature()
+    }
+
+    return errc::ok;
 }
 
 template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >

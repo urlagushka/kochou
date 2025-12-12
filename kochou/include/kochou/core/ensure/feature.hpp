@@ -14,7 +14,7 @@ namespace kochou::core
         {
             return FEATURE;
         }
-    };c
+    };
 }
 
 #endif
