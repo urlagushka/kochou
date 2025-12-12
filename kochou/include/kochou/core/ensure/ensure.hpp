@@ -22,7 +22,7 @@ namespace kochou::core
         protected:
             ensure()
             {
-                auto rc = T::satisfy();
+                auto rc = T::apply();
                 if (rc != errc::ok)
                 {
                     context::get()->register_errc(rc);

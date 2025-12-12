@@ -7,10 +7,10 @@
 namespace kochou::core
 {
     template< ktl::fixed_string NAME >
-    class vk_layer final
+    class layer final
     {
         public:
-            static errc satisfy();
+            static errc apply();
         private:
     };
 }

@@ -1,6 +1,7 @@
 #ifndef KOCHOU_CORE_CONTEXT_HPP
 #define KOCHOU_CORE_CONTEXT_HPP
 
+#include <source_location>
 #include <memory>
 
 #include <kochou/core/external/instance.hpp>
@@ -38,7 +39,7 @@ namespace kochou::core
                 return instance;
             }
 
-            errc apply_version(std::string_view _name);
+            errc apply_version(uint32_t _version);
             errc apply_extension(std::string_view _name);
             errc apply_feature(std::string_view _name);
             errc apply_layer(std::string_view _name);
@@ -51,7 +52,7 @@ namespace kochou::core
             std::set< std::string_view > device_extensions_;   // device
             std::set< std::string_view > features_;            // device
             std::set< std::string_view > layers_;              // instance
-            std::set< std::string_view > versions_;            // instance
+            std::set< uint32_t > versions_;            // instance
 
             std::shared_ptr< instance > instance_;
             std::shared_ptr< device > device_;

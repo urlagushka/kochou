@@ -4,8 +4,7 @@
 #include <stdexcept>
 #include <cassert>
 
-#include "kochou/exception.hpp"
-#include "kochou/errc.hpp"
+#include <kochou/errc.hpp>
 
 #include <kochou/ktl/result.hpp>
 #include <kochou/ktl/memory.hpp>

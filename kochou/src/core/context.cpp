@@ -2,7 +2,7 @@
 #include <kochou/core/type_ostream.hpp>
 
 kochou::errc 
-kochou::core::context::apply_version(std::string_view _name)
+kochou::core::context::apply_version(uint32_t _version)
 {
 
 }

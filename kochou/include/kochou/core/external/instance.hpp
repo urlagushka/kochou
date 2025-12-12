@@ -1,14 +1,12 @@
 #ifndef KOCHOU_CORE_EXTERNAL_INSTANCE_HPP
 #define KOCHOU_CORE_EXTERNAL_INSTANCE_HPP
 
+#include <functional>
+#include <set>
+
 #include <vulkan/vulkan_raii.hpp>
 
 #include "external.hpp"
-
-#include <kochou/core/ensure/extension.hpp>
-#include <kochou/core/ensure/feature.hpp>
-#include <kochou/core/ensure/layer.hpp>
-#include <kochou/core/ensure/version.hpp>
 
 /*
 instance is not default constructable

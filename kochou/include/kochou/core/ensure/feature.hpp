@@ -1,6 +1,8 @@
 #ifndef KOCHOU_CORE_ENSURE_FEATURE_HPP
 #define KOCHOU_CORE_ENSURE_FEATURE_HPP
 
+#include <kochou/errc.hpp>
+
 namespace kochou::core
 {
     struct no_feature final
@@ -14,6 +16,8 @@ namespace kochou::core
         {
             return FEATURE;
         }
+
+        static errc apply();
     };
 }
 

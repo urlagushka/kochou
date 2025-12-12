@@ -10,9 +10,6 @@
 #include "ktl/result.hpp"
 #include "ktl/xml.hpp"
 
-#include "errc.hpp"
-#include "exception.hpp"
-
 // KOCHOU ENSURE
 #include "core/ensure/ensure.hpp"
 #include "core/ensure/extension.hpp"
@@ -33,5 +30,7 @@
 #include "core/context.hpp"
 #include "core/system.hpp"
 #include "core/type_ostream.hpp"
+
+#include "errc.hpp"
 
 #endif
