@@ -1,6 +1,7 @@
 #ifndef KTL_MASK_HPP
 #define KTL_MASK_HPP
 
+#include <concepts>
 #include <cstdint>
 
 namespace ktl

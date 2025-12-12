@@ -72,7 +72,7 @@ namespace kochou::core
             instance(set_type _extensions, set_type _layers, set_type _versions)
                 : instance_(VK_NULL_HANDLE)
             {
-                auto version = std::min
+                // cauto version = std::min
             }
 
         private:

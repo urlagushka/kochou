@@ -1,7 +1,7 @@
 #ifndef KOCHOU_FIXED_STRING_HPP
 #define KOCHOU_FIXED_STRING_HPP
 
-#include <cstdint>
+#include <cstddef>
 
 namespace ktl
 {

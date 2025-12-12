@@ -10,7 +10,7 @@ namespace kochou::core
     class vk_layer final
     {
         public:
-            static errc satisfy() const;
+            static errc satisfy();
         private:
     };
 }

@@ -3,18 +3,17 @@
 
 #include <concepts>
 
-#include "exception.hpp"
-#include "result.hpp"
-#include "errc.hpp"
+#include <kochou/ktl/result.hpp>
 
+#include <kochou/errc.hpp>
 #include <kochou/core/context.hpp>
 
 namespace kochou::core
 {
-    template< typename T >
+    template< typename T, typename OK_TYPE >
     concept ensure_type = requires()
     {
-        { T::satisfy() } -> std::same_as< ktl::result< std::string_view, errc > >;
+        { T::satisfy() } -> std::same_as< ktl::result< OK_TYPE, errc > >;
     };
 
     template< ensure_type T >

@@ -47,7 +47,7 @@ namespace kochou::core
         device
     };
 
-    template< ktl::fixed_string NAME, typename FEATURE_TYPE = no_feature, FEATURE_TYPE FEATURE = {} >
+    template< ktl::fixed_string NAME, typename FEATURE_TYPE = no_feature, FEATURE_TYPE FEATURE = FEATURE_TYPE{} >
     struct extension final
     {
         using enum extension_type;
@@ -61,9 +61,9 @@ namespace kochou::core
     };
 }
 
-template< ktl::fixed_string NAME >
+template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
 ktl::result< std::string_view, kochou::errc >
-kochou::core::extension< NAME >::satisfy()
+kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::satisfy()
 {
     using this_extension = extension< NAME >;
     if (this_extension::is_deprecated())
@@ -92,9 +92,9 @@ kochou::core::extension< NAME >::satisfy()
     return ktl::ok{NAME};
 }
 
-template< ktl::fixed_string NAME >
+template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
 ktl::result< kochou::core::extension_type, kochou::errc >
-kochou::core::extension< NAME >::type()
+kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type()
 {
     std::string name = NAME;
     if (name.size() < 3)
@@ -179,9 +179,9 @@ kochou::core::extension< NAME >::type()
     return ktl::err{errc::extension_not_provided};
 }
 
-template< ktl::fixed_string NAME >
+template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
 ktl::result< kochou::core::extension_target, kochou::errc >
-kochou::core::extension< NAME >::target()
+kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target()
 {
     static const auto instance_set = vk::getInstanceExtensions();
     static const auto device_set = vk::getDeviceExtensions();
@@ -198,9 +198,9 @@ kochou::core::extension< NAME >::target()
     return ktl::err{errc::extension_not_provided};
 }
 
-template< ktl::fixed_string NAME >
+template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
 ktl::result< kochou::core::vulkan_version, kochou::errc >
-kochou::core::extension< NAME >::version()
+kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version()
 {
     static const auto version_map = vk::getPromotedExtensions();
 
@@ -234,9 +234,9 @@ kochou::core::extension< NAME >::version()
     return ktl::err{errc::unknown_vk_api_version};
 }
 
-template< ktl::fixed_string NAME >
+template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
 bool
-kochou::core::extension< NAME >::is_deprecated()
+kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::is_deprecated()
 {
     static const auto deprecated_map = vk::getDeprecatedExtensions();
     if (deprecated_map.contains(NAME))

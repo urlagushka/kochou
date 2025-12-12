@@ -1,10 +1,10 @@
 #ifndef KOCHOU_CORE_EXTERNAL_QUEUE_HPP
-#define KOCHOU_CORE_WRAPPER_QUEUE_HPP
+#define KOCHOU_CORE_EXTERNAL_QUEUE_HPP
 
 #include <vulkan/vulkan_raii.hpp>
 
-#include "kochou/api/platform/mask.hpp"
-#include "kochou/utils/external.hpp"
+#include <kochou/ktl/mask.hpp>
+#include "external.hpp"
 
 namespace kochou::core::vulkan
 {
