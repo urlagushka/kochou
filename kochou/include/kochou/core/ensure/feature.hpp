@@ -12,7 +12,7 @@ namespace kochou::core
     struct feature final
     {
         using type = FEATURE_TYPE;
-        static FEATURE_TYPE get()
+        static FEATURE_TYPE get() noexcept
         {
             return FEATURE;
         }

@@ -29,6 +29,12 @@ namespace kochou::core
     class context final
     {
         public:
+            using extension_set_type = std::set< std::string_view >;
+            using layer_set_type = std::set< std::string_view >;
+            using version_set_type = std::set< uint32_t, std::greater< uint32_t > >;
+            // using backtrace_list_type = std::list<  >
+
+        public:
             ~context() = default;
 
         private:
@@ -50,11 +56,11 @@ namespace kochou::core
             errc finalize();
 
         private:
-            std::set< std::string_view > instance_extensions_; // instance
-            std::set< std::string_view > device_extensions_;   // device
+            extension_set_type instance_extensions_; // instance
+            extension_set_type device_extensions_;   // device
             // std::set< std::string_view > features_;            // device
-            std::set< std::string_view > layers_;              // instance
-            std::set< uint32_t > versions_;                    // instance
+            layer_set_type layers_;              // instance
+            version_set_type versions_;                    // instance
 
             ktl::memory::shared_ptr< instance > instance_;
             ktl::memory::shared_ptr< device > device_;

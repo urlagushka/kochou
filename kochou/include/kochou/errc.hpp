@@ -25,6 +25,7 @@ namespace kochou
         unknown_vk_api_version,
         queue_is_not_dedicated,
         layer_not_provided,
+        vulkan_chain_duplicate,
 
         cpp_bad_alloc
     };
