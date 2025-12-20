@@ -7,11 +7,9 @@
 namespace kochou::core
 {
     template< ktl::fixed_string NAME >
-    class layer final
+    struct layer final
     {
-        public:
-            static errc apply() noexcept;
-        private:
+        static errc apply() noexcept;
     };
 }
 

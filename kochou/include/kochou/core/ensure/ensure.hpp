@@ -13,7 +13,7 @@ namespace kochou::core
     template< typename T >
     concept ensure_type = requires()
     {
-        { T::apply() } -> std::same_as< errc >;
+        requires std::same_as< decltype(T::apply()), errc >;
         requires noexcept(T::apply());
     };
 
@@ -21,7 +21,7 @@ namespace kochou::core
     class ensure
     {
         protected:
-            ensure()
+            ensure() noexcept
             {
                 auto rc = T::apply();
                 if (rc != errc::ok)

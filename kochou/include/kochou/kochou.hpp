@@ -36,5 +36,6 @@
 #include "core/type_ostream.hpp"
 
 #include "errc.hpp"
+#include "log.hpp"
 
 #endif

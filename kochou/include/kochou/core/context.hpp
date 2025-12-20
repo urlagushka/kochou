@@ -3,26 +3,18 @@
 
 #include <source_location>
 #include <memory>
+#include <chrono>
+#include <tuple>
 
 #include <kochou/core/masks/extension.hpp>
 #include <kochou/core/external/instance.hpp>
 #include <kochou/core/external/device.hpp>
+#include <kochou/core/vulkan_chain.hpp>
 #include <kochou/errc.hpp>
 
 #include <kochou/ktl/fixed_string.hpp>
 #include <kochou/ktl/result.hpp>
 #include <kochou/ktl/memory.hpp>
-
-/*
-errc verify_version
-errc verify_extension
-errc verify_feature
-errc verify_layer
-    verify - check if exists and if not deprecated
-
-register_error
-    time, errc, src
-*/
 
 namespace kochou::core
 {
@@ -32,6 +24,11 @@ namespace kochou::core
             using extension_set_type = std::set< std::string_view >;
             using layer_set_type = std::set< std::string_view >;
             using version_set_type = std::set< uint32_t, std::greater< uint32_t > >;
+            using src_ctx = std::source_location;
+
+            using errc_timestamp = std::chrono::time_point< std::chrono::system_clock >;
+            using errc_ctx = std::source_location;
+            using errc_log = std::tuple< errc_timestamp, errc, errc_ctx >;
             // using backtrace_list_type = std::list<  >
 
         public:
@@ -47,18 +44,20 @@ namespace kochou::core
                 return instance;
             }
 
+            template< vulkan_struct_type FEATURE_TYPE >
+            void apply_feature(FEATURE_TYPE _feature, src_ctx _ctx = src_ctx::current());
             void apply_version(uint32_t _version);
             void apply_extension(std::string_view _name, extension_target _target);
-            void apply_feature(std::string_view _name);
             void apply_layer(std::string_view _name);
-            void register_errc(errc _errc, std::source_location _backtrace = std::source_location::current());
+
+            void register_errc(errc _errc, src_ctx _ctx = src_ctx::current());
 
             errc finalize();
 
         private:
             extension_set_type instance_extensions_; // instance
             extension_set_type device_extensions_;   // device
-            // std::set< std::string_view > features_;            // device
+            vulkan_chain features_;            // device
             layer_set_type layers_;              // instance
             version_set_type versions_;                    // instance
 
@@ -67,6 +66,19 @@ namespace kochou::core
 
             // std::list<  > errors list - backtrace on finalize
     };
+}
+
+template< kochou::core::vulkan_struct_type FEATURE_TYPE >
+void
+kochou::core::context::apply_feature(FEATURE_TYPE _feature, src_ctx _ctx)
+{
+    auto result = features_.insert< FEATURE_TYPE >(_feature);
+    if (result.is_err())
+    {
+        register_errc(result.take_err(), _ctx);
+    }
+    
+    std::ignore = result.take_ok();
 }
 
 #endif

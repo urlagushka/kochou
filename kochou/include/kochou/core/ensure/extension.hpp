@@ -8,8 +8,10 @@
 #include <kochou/ktl/fixed_string.hpp>
 #include <kochou/ktl/mask.hpp>
 
+#include <kochou/core/vulkan_chain.hpp>
 #include <kochou/core/context.hpp>
 #include <kochou/errc.hpp>
+#include <kochou/core/ensure/ensure.hpp>
 #include <kochou/core/ensure/feature.hpp>
 #include <kochou/core/ensure/version.hpp>
 
@@ -17,7 +19,7 @@
 
 namespace kochou::core
 {
-    template< ktl::fixed_string NAME, typename FEATURE_TYPE = no_feature, FEATURE_TYPE FEATURE = FEATURE_TYPE{} >
+    template< ktl::fixed_string NAME, vulkan_struct_type FEATURE_TYPE = vulkan_struct_base, FEATURE_TYPE FEATURE = FEATURE_TYPE{} >
     struct extension final
     {
         using enum extension_type;
@@ -31,7 +33,7 @@ namespace kochou::core
     };
 }
 
-template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template< ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 kochou::errc
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
 {
@@ -60,15 +62,15 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
     }
 
     context::get()->apply_extension(NAME.data, target_result.take_ok());
-    if constexpr (!std::is_same_v< FEATURE_TYPE, no_feature >)
+    if constexpr (!std::is_same_v< FEATURE_TYPE, vulkan_struct_base >)
     {
-        // context::get()->apply_feature()
+        context::get()->apply_feature< FEATURE_TYPE >(FEATURE);
     }
 
     return errc::ok;
 }
 
-template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template< ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 ktl::result< kochou::core::extension_type, kochou::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
 {
@@ -155,7 +157,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
     return ktl::err{errc::extension_not_provided};
 }
 
-template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template< ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 ktl::result< kochou::core::extension_target, kochou::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
 {
@@ -174,7 +176,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
     return ktl::err{errc::extension_not_provided};
 }
 
-template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template< ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 ktl::result< kochou::core::vulkan_version, kochou::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
 {
@@ -188,29 +190,34 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
     const auto & version = version_map.at(NAME.data);
     if (version == "VK_VERSION_1_0")
     {
+        context::get()->apply_version(static_cast< uint32_t >(vulkan_version::v1_0));
         return ktl::ok{vulkan_version::v1_0};
     }
     if (version == "VK_VERSION_1_1")
     {
+        context::get()->apply_version(static_cast< uint32_t >(vulkan_version::v1_1));
         return ktl::ok{vulkan_version::v1_1};
     }
     if (version == "VK_VERSION_1_2")
     {
+        context::get()->apply_version(static_cast< uint32_t >(vulkan_version::v1_2));
         return ktl::ok{vulkan_version::v1_2};
     }
     if (version == "VK_VERSION_1_3")
     {
+        context::get()->apply_version(static_cast< uint32_t >(vulkan_version::v1_3));
         return ktl::ok{vulkan_version::v1_3};
     }
     if (version == "VK_VERSION_1_4")
     {
+        context::get()->apply_version(static_cast< uint32_t >(vulkan_version::v1_4));
         return ktl::ok{vulkan_version::v1_4};
     }
 
     return ktl::err{errc::unknown_vk_api_version};
 }
 
-template< ktl::fixed_string NAME, typename FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template< ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 bool
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::is_deprecated() noexcept
 {

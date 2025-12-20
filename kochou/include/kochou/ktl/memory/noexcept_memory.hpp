@@ -1,5 +1,5 @@
-#ifndef KTL_MEMORY_NO_THROW_MEMORY_HPP
-#define KTL_MEMORY_NO_THROW_MEMORY_HPP
+#ifndef KTL_MEMORY_NOEXCEPT_MEMORY_HPP
+#define KTL_MEMORY_NOEXCEPT_MEMORY_HPP
 
 #include <cstddef>
 #include <concepts>
