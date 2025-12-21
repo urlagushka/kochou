@@ -1,17 +1,20 @@
-#ifndef KOCHOU_USER_DEFFULT_RENDER_HPP
+#ifndef KOCHOU_USER_DEFAULT_RENDER_HPP
 #define KOCHOU_USER_DEFAULT_RENDER_HPP
 
-#include "kochou/api/render.hpp"
+#include <kochou/core/core.hpp>
 
 namespace kochou::user
 {
-    class default_render
-        : api::render
+    class metadata_render
+        : core::ensure< core::extension< "VK_EXT_mesh_shader" > >
+        , core::ensure< core::extension< "VK_KHR_dynamic_rendering" > >
+        , core::ensure< core::version< core::vulkan_version::v1_3 > >
     {
-        default_render()
-            : /* setup unit list */
-            , /* or default_render = render(default_xml_config) ??? */
-        {}
+        public:
+            metadata_render()
+            {
+                core::context::get()->finalize();
+            }
     };
 }
 

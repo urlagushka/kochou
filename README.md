@@ -1,6 +1,6 @@
 ![logo](https://github.com/urlagushka/kochou/blob/main/pics/kochou2.png)
 # kochou
-## C++ 20 | VulkanAPI | GLFW
+## C++ 23 | VulkanAPI | GLFW
 
 # ITS WILL BE GPU DRIVEN CORE WITH CPU METADATA ONLY
 

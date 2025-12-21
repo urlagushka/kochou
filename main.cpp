@@ -1,13 +1,9 @@
 #include <kochou/kochou.hpp>
+#include <kochou/user/default_render.hpp>
 
 #include <ranges>
 #include <iostream>
 #include <glm/glm.hpp>
-
-class metadata_render
-    : kochou::core::ensure< kochou::core::extension< "KHR" > >
-    , kochou::core::ensure< kochou::core::version< kochou::core::vulkan_version::v1_0 > >
-{};
 
 struct pohui
 {
@@ -24,7 +20,7 @@ struct pohui2
 
 int main()
 {
-    metadata_render tmp;
+    kochou::user::metadata_render tmp;
     // std::cout << ktl::reflection::fields_amount< pohui > << std::endl;
     // std::cout << ktl::reflection::fields_amount< pohui2 > << std::endl;
 

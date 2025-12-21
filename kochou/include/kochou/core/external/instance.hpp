@@ -9,28 +9,6 @@
 #include "external.hpp"
 
 /*
-instance is not default constructable
-args:
-    extension list
-    enable validation layers?
-
-instance() -> instance; // throw
-instance::make(...) -> result<sptr<instance>, kochou::errc>; // no throw
-*/
-/*
-namespace
-{
-    using namespace kochou::core;
-
-    vulkan_version get_min_vk_version(const extension_set & _set)
-    {
-        return std::min_element(_set.cbegin(), _set.cend(), [](const extension & _lhs, const extension & _rhs) -> bool
-        {
-            return _lhs.copy_version() > _rhs.copy_version();       
-        })->copy_version();
-    }
-}
-
 void
 kochou::corec::context::build_instance(std::string_view app_name, vk_api_version api, bool is_debug)
 {
@@ -64,14 +42,14 @@ namespace kochou::core
         : public external< hold::shared, instance >
     {
         public:
-            using set_type = std::set< std::string_view, std::greater<  > >;
+            using extensions_type = std::vector< const char * >;
+            using layers_type = std::vector< const char * >;
+            using versions_type = std::set< uint32_t, std::greater< uint32_t > >;
 
         public:
-            instance(set_type _extensions, set_type _layers, set_type _versions)
-                : instance_(VK_NULL_HANDLE)
-            {
-                // cauto version = std::min
-            }
+            instance(const extensions_type & _extensions,
+                     const layers_type & _layers,
+                     const versions_type & _versions);
 
         private:
 
