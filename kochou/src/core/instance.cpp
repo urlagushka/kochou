@@ -1,8 +1,8 @@
 #include <kochou/core/external/instance.hpp>
 
-kochou::core::instance::instance(const extension_set_type & _extensions,
-                                 const layer_set_type & _layers,
-                                 const version_set_type & _versions)
+kochou::core::instance::instance(const extensions_type & _extensions,
+                                 const layers_type & _layers,
+                                 const versions_type & _versions)
     : instance_(VK_NULL_HANDLE)
 {
     vk::ApplicationInfo app_info{

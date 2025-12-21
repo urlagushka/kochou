@@ -1,6 +1,7 @@
 #ifndef KOCHOU_ERRC_HPP
 #define KOCHOU_ERRC_HPP
 
+#include <unordered_map>
 #include <ostream>
 
 #include <kochou/ktl/mask.hpp>
