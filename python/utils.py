@@ -1,4 +1,5 @@
 def first_diff_index(s1: str, s2: str) -> int:
+    print(s1, s2)
     min_len = min(len(s1), len(s2))
     for i in range(min_len):
         if s1[i] != s2[i]:

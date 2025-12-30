@@ -1,4 +1,4 @@
-from name_rules import make_constant
+from name_rules import make_constant, make_type
 from vk_types import VkConstant
 
 
@@ -6,7 +6,7 @@ def extract_constants_impl(constants) -> list:
     vk_constants = []
     for constant in constants.findall("enum"):
         constant_name = make_constant(constant.get("name"))
-        constant_type = constant.get("type")
+        constant_type = make_type(constant.get("type"))
         constant_value = constant.get("value")
 
         if constant_name is not None:
