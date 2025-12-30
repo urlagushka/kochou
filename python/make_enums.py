@@ -36,7 +36,7 @@ struct enum_cast< std::underling_type< ENUM > >
 };
 """
 
-def extract_enum(enum: ET.Element) -> VkEnum:
+def extract_enums_impl(enum: ET.Element) -> VkEnum:
     name = make_cpp_name(enum.get("name"))
     if name is None:
         return None
@@ -65,9 +65,7 @@ def extract_enums(root) -> list:
     for src in root.findall("enums"):
         src_type = src.get("type")
         if src_type == "enum" or src_type == "bitmask":
-            enums += [extract_enum(src)]
-        else:
-            print(f"[ERROR] non-valid src_type: {src_type}")
+            enums += [extract_enums_impl(src)]
     return enums
 
 
