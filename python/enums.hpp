@@ -567,7 +567,7 @@ namespace kochou::core
     };
 
     enum class result
-        : std::int32_t
+        : std::uint32_t
     {
         success                     = 0,
         not_ready                   = 1,
@@ -2377,7 +2377,7 @@ namespace kochou::core
     };
 
     enum class query_result_status_khr
-        : std::int32_t
+        : std::uint32_t
     {
         error_khr     = -1,
         not_ready_khr = 0,
@@ -2892,7 +2892,7 @@ namespace kochou::core
     };
 
     enum class opacity_micromap_special_index_ext
-        : std::int32_t
+        : std::uint32_t
     {
         fully_transparent_ext         = -1,
         fully_opaque_ext              = -2,

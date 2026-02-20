@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "MacOS",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/kochou/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c23",
+            "intelliSenseMode": "macos-clang-arm64",
+            "cppStandard": "c++23"
+        }
+    ],
+    "version": 4
+}

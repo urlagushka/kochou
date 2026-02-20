@@ -34,6 +34,7 @@ struct enum_cast< std::underling_type< ENUM > >
 };
 """
 
+
 def extract_enums_impl(enum) -> VkEnum:
     name = make_cpp_name(enum.get("name"))
     if name is None:

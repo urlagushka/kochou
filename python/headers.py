@@ -1,8 +1,13 @@
+def make_enum_cast_header_impl(enum) -> str:
+    return
+f"    "
+
+
 def make_constants_header(filename: str, constants: list) -> None:
     with open(filename, "w", encoding="utf-8") as f:
         f.write(
-"#ifndef KOCHOU_CORE_CONSTANTS_HPP\n"
-"#define KOCHOU_CORE_CONSTANTS_HPP\n\n"
+"#ifndef KTL_CORE_CONSTANTS_HPP\n"
+"#define KTL_CORE_CONSTANTS_HPP\n\n"
 "#include <cstdint>\n\n"
 "namespace kochou::core\n{\n"
 )
@@ -21,6 +26,7 @@ f"    constexpr {constant.type}{before_str} {constant.name}{after_str} = {consta
 "}\n\n"
 "#endif\n"
 )
+
 
 def make_enums_header(filename: str, enums: list) -> None:
     with open(filename, "w", encoding="utf-8") as f:

@@ -1,0 +1,57 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 120
+PointerAlignment: Middle
+CppMinVersion: 23
+AccessModifierOffset: -4
+ConstructorInitializerIndentWidth: 4
+
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortBlocksOnASingleLine: Never
+AllowShortCompoundRequirementOnASingleLine: true
+AllowShortEnumsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: None
+AllowShortLoopsOnASingleLine: false
+AllowShortNamespacesOnASingleLine: false
+
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 2
+
+AllowShortTemplatesOnASingleLine: Never
+AlwaysBreakAfterReturnType: All
+BreakBeforeBraces: Allman
+BreakBeforeTemplateDeclaration: Yes
+BreakTemplateDeclarations: Yes
+SpacesInAngles: true
+
+InsertNewlineAtEOF: true
+KeepEmptyLinesAtEOF: true
+
+SortIncludes: true
+IncludeBlocks: Regroup
+IncludeCategories:
+  # System/external library headers in angle brackets <>
+  - Regex: '^<.*\.h>$'
+    Priority: 0
+    SortPriority: 0
+  # C/C++ standard library headers
+  - Regex: '^<[^/]+>$'
+    Priority: 1
+    SortPriority: 1
+
+  - Regex: '^<ktl/.*>$'
+    Priority: 2
+    SortPriority: 2
+  # Kochou headers
+  - Regex: '^<kochou/.*>$'
+    Priority: 3
+    SortPriority: 3
+  # Local project headers in quotes
+  - Regex: '^".*"$'
+    Priority: 4
+    SortPriority: 4
+

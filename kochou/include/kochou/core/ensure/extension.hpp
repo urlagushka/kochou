@@ -4,36 +4,42 @@
 #include <set>
 #include <string_view>
 
-#include <kochou/ktl/result.hpp>
 #include <kochou/ktl/fixed_string.hpp>
 #include <kochou/ktl/mask.hpp>
+#include <kochou/ktl/result.hpp>
 
-#include <kochou/core/vulkan_chain.hpp>
 #include <kochou/core/context.hpp>
-#include <kochou/errc.hpp>
 #include <kochou/core/ensure/ensure.hpp>
 #include <kochou/core/ensure/feature.hpp>
 #include <kochou/core/ensure/version.hpp>
+#include <kochou/core/vulkan_chain.hpp>
+#include <kochou/errc.hpp>
 
 #include <vulkan/vulkan_extension_inspection.hpp>
 
 namespace kochou::core
 {
-    template< ktl::fixed_string NAME, vulkan_struct_type FEATURE_TYPE = vulkan_struct_base, FEATURE_TYPE FEATURE = FEATURE_TYPE{} >
-    struct extension final
-    {
-        using enum extension_type;
-        using enum extension_target;
+template < ktl::fixed_string NAME, vulkan_struct_type FEATURE_TYPE = vulkan_struct_base,
+           FEATURE_TYPE FEATURE = FEATURE_TYPE{} >
+struct extension final
+{
+    using enum extension_type;
+    using enum extension_target;
 
-        static errc apply() noexcept;
-        static ktl::result< extension_type, errc > type() noexcept;
-        static ktl::result< extension_target, errc > target() noexcept;
-        static ktl::result< vulkan_version, errc > version() noexcept;
-        static bool is_deprecated() noexcept;
-    };
-}
+    static errc
+    apply() noexcept;
+    static ktl::result< extension_type, errc >
+    type() noexcept;
+    static ktl::result< extension_target, errc >
+    target() noexcept;
+    static ktl::result< vulkan_version, errc >
+    version() noexcept;
+    static bool
+    is_deprecated() noexcept;
+};
+} // namespace kochou::core
 
-template< ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 kochou::errc
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
 {
@@ -54,7 +60,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
     {
         return target_result.take_err();
     }
-    
+
     auto version_result = this_extension::version();
     if (version_result.is_err())
     {
@@ -70,7 +76,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
     return errc::ok;
 }
 
-template< ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 ktl::result< kochou::core::extension_type, kochou::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
 {
@@ -157,7 +163,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
     return ktl::err{errc::extension_not_provided};
 }
 
-template< ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 ktl::result< kochou::core::extension_target, kochou::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
 {
@@ -176,7 +182,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
     return ktl::err{errc::extension_not_provided};
 }
 
-template< ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 ktl::result< kochou::core::vulkan_version, kochou::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
 {
@@ -217,17 +223,12 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
     return ktl::err{errc::unknown_vk_api_version};
 }
 
-template< ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 bool
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::is_deprecated() noexcept
 {
     static const auto deprecated_map = vk::getDeprecatedExtensions();
-    if (deprecated_map.contains(NAME.data))
-    {
-        return true;
-    }
-
-    return false;
+    return deprecated_map.contains(NAME.data);
 }
 
 #endif

@@ -1,0 +1,45 @@
+Checks: >
+  -*,
+  cppcoreguidelines-*, 
+  modernize-*, 
+  performance-*, 
+  readability-*, 
+  bugprone-*, 
+  clang-analyzer-*
+  readability-identifier-naming
+WarningsAsErrors: ''
+HeaderFilterRegex: '.*'
+FormatStyle: file
+
+CheckOptions:
+  # Только параметры функций — с префиксом _
+  - key: readability-identifier-naming.ParameterCase
+    value: lower_case
+  - key: readability-identifier-naming.ParameterPrefix
+    value: '_'
+  
+  # Всё остальное — без префикса
+  
+  # Члены класса — без _
+  - key: readability-identifier-naming.MemberCase
+    value: lower_case
+  - key: readability-identifier-naming.MemberPrefix
+    value: ''
+  
+  # Локальные переменные — без _
+  - key: readability-identifier-naming.LocalVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.LocalVariablePrefix
+    value: ''
+  
+  # Глобальные переменные — без _
+  - key: readability-identifier-naming.GlobalVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.GlobalVariablePrefix
+    value: ''
+  
+  # Функции — без _
+  - key: readability-identifier-naming.FunctionCase
+    value: lower_case
+  - key: readability-identifier-naming.FunctionPrefix
+    value: ''

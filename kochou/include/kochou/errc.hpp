@@ -1,54 +1,56 @@
 #ifndef KOCHOU_ERRC_HPP
 #define KOCHOU_ERRC_HPP
 
-#include <unordered_map>
 #include <ostream>
+#include <unordered_map>
 
 #include <kochou/ktl/mask.hpp>
-#include <kochou/ktl/errc.hpp>
+
+#include <kochou/errc.hpp>
 
 namespace kochou
 {
-    /*
-        use errc level?
-        fatal
-        warning
+/*
+    use errc level?
+    fatal
+    warning
 
-    */
-    enum class errc
-    {
-        ok,
-        unspecified,
+*/
+enum class errc
+{
+    ok,
+    unspecified,
 
-        extension_not_provided,
-        extension_is_deprecated,
-        bad_vk_api_version,
-        unknown_vk_api_version,
-        queue_is_not_dedicated,
-        layer_not_provided,
-        vulkan_chain_duplicate,
+    extension_not_provided,
+    extension_is_deprecated,
+    bad_vk_api_version,
+    unknown_vk_api_version,
+    queue_is_not_dedicated,
+    layer_not_provided,
+    vulkan_chain_duplicate,
 
-        cpp_bad_alloc
-    };
+    cpp_bad_alloc
+};
 
-    inline std::string errc_to_string(errc _errc)
-    {
-        static const std::unordered_map< errc, std::string > mapper = {
-            {errc::unspecified, "unspecified"},
-            {errc::extension_not_provided, "extension_not_provides"},
-            {errc::extension_is_deprecated, "extension_is_deprecated"},
-            {errc::bad_vk_api_version, "bad_vk_api_version"},
-            {errc::unknown_vk_api_version, "unknown_vk_api_version"},
-            {errc::queue_is_not_dedicated, "queue_is_not_dedicated"}
-        };
+inline std::string
+errc_to_string(errc _errc)
+{
+    static const std::unordered_map< errc, std::string > mapper = {
+        {errc::unspecified, "unspecified"},
+        {errc::extension_not_provided, "extension_not_provides"},
+        {errc::extension_is_deprecated, "extension_is_deprecated"},
+        {errc::bad_vk_api_version, "bad_vk_api_version"},
+        {errc::unknown_vk_api_version, "unknown_vk_api_version"},
+        {errc::queue_is_not_dedicated, "queue_is_not_dedicated"}};
 
-        return mapper.at(_errc);
-    }
-
-    inline std::ostream & operator<<(std::ostream & _out, const errc & _errc)
-    {
-        return _out << errc_to_string(_errc);
-    }
+    return mapper.at(_errc);
 }
+
+inline std::ostream &
+operator<<(std::ostream & _out, const errc & _errc)
+{
+    return _out << errc_to_string(_errc);
+}
+} // namespace kochou
 
 #endif

@@ -1,10 +1,9 @@
 #ifndef KOCHOU_API_RENDER_HPP
 #define KOCHOU_API_RENDER_HPP
 
-#include "kochou/utils/ensure.hpp"
-#include "kochou/utils/external.hpp"
-#include "kochou/utils/memory.hpp"
-#include "kochou/utils/yaml.hpp"
+#include <kochou/core/ensure/ensure.hpp>
+#include <kochou/core/external/external.hpp>
+#include <kochou/ktl/memory.hpp>
 
 /*
 API LEVEL
@@ -37,7 +36,7 @@ by modules:
 namespace kochou::api
 {
     class render
-        : external< hold::shared >
+        : kochou::core::external< kochou::core::hold::shared, render >
     {
 
     };
