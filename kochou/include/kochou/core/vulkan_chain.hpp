@@ -3,44 +3,45 @@
 
 #include <concepts>
 
-#include <kochou/ktl/result.hpp>
-#include <kochou/ktl/memory.hpp>
-#include <kochou/errc.hpp>
+#include <ktl/errc.hpp>
+#include <ktl/memory.hpp>
+#include <ktl/result.hpp>
 
 #include <vulkan/vulkan.hpp>
 
 namespace kochou::core
 {
-    struct vulkan_struct_base final
-    {
-        vk::StructureType sType;
-        void * pNext;
-    };
+struct vulkan_struct_base final
+{
+    vk::StructureType sType;
+    void * pNext;
+};
 
-    template< typename T >
-    concept vulkan_struct_type = requires(T t)
-    {
-        requires std::same_as< decltype(t.sType), vk::StructureType >;
-        requires std::same_as< decltype(t.pNext), void * >;
-        requires std::is_aggregate_v< T >;
-    };
+template < typename T >
+concept vulkan_struct_type = requires(T t) {
+    requires std::same_as< decltype(t.sType), vk::StructureType >;
+    requires std::same_as< decltype(t.pNext), void * >;
+    requires std::is_aggregate_v< T >;
+};
 
-    class vulkan_chain final
-    {
-        public:
-            template< vulkan_struct_type STRUCT >
-            ktl::result< void *, errc > insert(STRUCT value) noexcept;
+class vulkan_chain final
+{
+public:
+    template < vulkan_struct_type STRUCT >
+    ktl::result< void *, ktl::errc >
+    insert(STRUCT value) noexcept;
 
-        private:
-            ktl::result< vulkan_struct_base *, errc > last_chainlet_access(vk::StructureType type) noexcept;
+private:
+    ktl::result< vulkan_struct_base *, ktl::errc >
+    last_chainlet_access(vk::StructureType type) noexcept;
 
-        private:
-            void * head_; 
-    };
-}
+private:
+    void * head_;
+};
+} // namespace kochou::core
 
-template< kochou::core::vulkan_struct_type STRUCT >
-ktl::result< void *, kochou::errc >
+template < kochou::core::vulkan_struct_type STRUCT >
+ktl::result< void *, ktl::errc >
 kochou::core::vulkan_chain::insert(STRUCT value) noexcept
 {
     auto access_result = last_chainlet_access(value.sType);

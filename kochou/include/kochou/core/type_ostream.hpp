@@ -9,40 +9,59 @@
 
 namespace kochou::core
 {
-  // PHYSICAL DEVICE
-  std::ostream & operator<<(std::ostream & out, const vk::MemoryHeapFlags & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::MemoryPropertyFlags & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::MemoryHeap & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::MemoryType & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::PhysicalDeviceMemoryProperties & rhs);
+// PHYSICAL DEVICE
+std::ostream &
+operator<<(std::ostream & out, const vk::MemoryHeapFlags & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::MemoryPropertyFlags & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::MemoryHeap & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::MemoryType & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::PhysicalDeviceMemoryProperties & rhs);
 
-  std::ostream & operator<<(std::ostream & out, const vk::PhysicalDeviceType & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::PhysicalDevice & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::PhysicalDeviceType & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::PhysicalDevice & rhs);
 
-  // QUEUE
-  std::ostream & operator<<(std::ostream & out, const vk::Extent2D & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::Extent3D & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::QueueFlags & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::QueueFamilyProperties & rhs);
+// QUEUE
+std::ostream &
+operator<<(std::ostream & out, const vk::Extent2D & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::Extent3D & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::QueueFlags & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::QueueFamilyProperties & rhs);
 
-  // LOGICAL DEVICE
-  // todo
+// LOGICAL DEVICE
+// todo
 
-  // SURFACE
-  std::ostream & operator<<(std::ostream & out, const vk::Format & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::ColorSpaceKHR & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::SurfaceFormatKHR & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::SurfaceTransformFlagsKHR & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::SurfaceTransformFlagBitsKHR & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::CompositeAlphaFlagsKHR & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::ImageUsageFlags & rhs);
-  std::ostream & operator<<(std::ostream & out, const vk::SurfaceCapabilitiesKHR & rhs);
+// SURFACE
+std::ostream &
+operator<<(std::ostream & out, const vk::Format & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::ColorSpaceKHR & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::SurfaceFormatKHR & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::SurfaceTransformFlagsKHR & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::SurfaceTransformFlagBitsKHR & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::CompositeAlphaFlagsKHR & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::ImageUsageFlags & rhs);
+std::ostream &
+operator<<(std::ostream & out, const vk::SurfaceCapabilitiesKHR & rhs);
 
-  // KOCHOU
-  // std::ostream & operator<<(std::ostream & out, const gpu_device & rhs);
-  // std::ostream & operator<<(std::ostream & out, const vulkan_version & _version);
-  // std::ostream & operator<<(std::ostream & out, const extension_type & _type);
-  // std::ostream & operator<<(std::ostream & out, const extension_target & _target);
-}
+// KOCHOU
+// std::ostream & operator<<(std::ostream & out, const gpu_device & rhs);
+// std::ostream & operator<<(std::ostream & out, const vulkan_version & _version);
+// std::ostream & operator<<(std::ostream & out, const extension_type & _type);
+// std::ostream & operator<<(std::ostream & out, const extension_target & _target);
+} // namespace kochou::core
 
 #endif

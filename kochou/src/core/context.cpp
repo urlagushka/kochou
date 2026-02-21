@@ -28,15 +28,15 @@ kochou::core::context::apply_layer(std::string_view _name)
 }
 
 void
-kochou::core::context::register_errc(errc _errc, std::source_location _backtrace)
+kochou::core::context::register_errc(ktl::errc _errc, std::source_location _backtrace)
 {
     return;
 }
 
-kochou::errc
+ktl::errc
 kochou::core::context::finalize()
 {
-    return errc::unspecified;
+    return ktl::errc::unspecified;
     // instance_ = instance::make(instance_extensions_);
     // device_ = device::make(device_extensions_);
 }

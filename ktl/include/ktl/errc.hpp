@@ -1,14 +1,12 @@
-#ifndef KOCHOU_ERRC_HPP
-#define KOCHOU_ERRC_HPP
+#ifndef KTL_ERRC_HPP
+#define KTL_ERRC_HPP
 
 #include <ostream>
 #include <unordered_map>
 
-#include <kochou/ktl/mask.hpp>
+#include <ktl/mask.hpp>
 
-#include <kochou/errc.hpp>
-
-namespace kochou
+namespace ktl
 {
 /*
     use errc level?
@@ -18,9 +16,11 @@ namespace kochou
 */
 enum class errc
 {
+    // common
     ok,
     unspecified,
 
+    // vulkan api
     extension_not_provided,
     extension_is_deprecated,
     bad_vk_api_version,
@@ -29,7 +29,8 @@ enum class errc
     layer_not_provided,
     vulkan_chain_duplicate,
 
-    cpp_bad_alloc
+    // cpp
+    bad_alloc
 };
 
 inline std::string
@@ -51,6 +52,6 @@ operator<<(std::ostream & _out, const errc & _errc)
 {
     return _out << errc_to_string(_errc);
 }
-} // namespace kochou
+} // namespace ktl
 
 #endif

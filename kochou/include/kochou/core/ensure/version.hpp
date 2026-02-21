@@ -11,18 +11,19 @@
 
 namespace kochou::core
 {
-    using versions_set = std::set< vulkan_version >;
-    template< vulkan_version VERSION >
-    struct version final
-    {
-        using enum vulkan_version;
+using versions_set = std::set< vulkan_version >;
+template < vulkan_version VERSION >
+struct version final
+{
+    using enum vulkan_version;
 
-        static errc apply() noexcept;
-    };
-}
+    static ktl::errc
+    apply() noexcept;
+};
+} // namespace kochou::core
 
-template< kochou::core::vulkan_version VERSION >
-kochou::errc
+template < kochou::core::vulkan_version VERSION >
+ktl::errc
 kochou::core::version< VERSION >::apply() noexcept
 {
     constexpr bool is_v1_0 = VERSION == vulkan_version::v1_0;
@@ -32,11 +33,11 @@ kochou::core::version< VERSION >::apply() noexcept
     constexpr bool is_v1_4 = VERSION == vulkan_version::v1_4;
     if constexpr (!is_v1_0 && !is_v1_1 && !is_v1_2 && !is_v1_3 && !is_v1_4)
     {
-        return errc::unknown_vk_api_version;
+        return ktl::errc::unknown_vk_api_version;
     }
 
     context::get()->apply_version(static_cast< uint32_t >(VERSION));
-    return errc::ok;
+    return ktl::errc::ok;
 }
 
 #endif

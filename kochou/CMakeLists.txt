@@ -11,5 +11,7 @@ add_library(kochou
   "src/core/instance.cpp"
 )
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ktl ktl)
+
 target_include_directories(kochou PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(kochou PUBLIC Vulkan::Vulkan)
+target_link_libraries(kochou PUBLIC Vulkan::Vulkan ktl)

@@ -4,16 +4,16 @@
 #include <set>
 #include <string_view>
 
-#include <kochou/ktl/fixed_string.hpp>
-#include <kochou/ktl/mask.hpp>
-#include <kochou/ktl/result.hpp>
+#include <ktl/errc.hpp>
+#include <ktl/fixed_string.hpp>
+#include <ktl/mask.hpp>
+#include <ktl/result.hpp>
 
 #include <kochou/core/context.hpp>
 #include <kochou/core/ensure/ensure.hpp>
 #include <kochou/core/ensure/feature.hpp>
 #include <kochou/core/ensure/version.hpp>
 #include <kochou/core/vulkan_chain.hpp>
-#include <kochou/errc.hpp>
 
 #include <vulkan/vulkan_extension_inspection.hpp>
 
@@ -26,13 +26,13 @@ struct extension final
     using enum extension_type;
     using enum extension_target;
 
-    static errc
+    static ktl::errc
     apply() noexcept;
-    static ktl::result< extension_type, errc >
+    static ktl::result< extension_type, ktl::errc >
     type() noexcept;
-    static ktl::result< extension_target, errc >
+    static ktl::result< extension_target, ktl::errc >
     target() noexcept;
-    static ktl::result< vulkan_version, errc >
+    static ktl::result< vulkan_version, ktl::errc >
     version() noexcept;
     static bool
     is_deprecated() noexcept;
@@ -40,13 +40,13 @@ struct extension final
 } // namespace kochou::core
 
 template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-kochou::errc
+ktl::errc
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
 {
     using this_extension = extension< NAME >;
     if (this_extension::is_deprecated())
     {
-        return errc::extension_is_deprecated;
+        return ktl::errc::extension_is_deprecated;
     }
 
     auto type_result = this_extension::type();
@@ -73,17 +73,17 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
         context::get()->apply_feature< FEATURE_TYPE >(FEATURE);
     }
 
-    return errc::ok;
+    return ktl::errc::ok;
 }
 
 template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-ktl::result< kochou::core::extension_type, kochou::errc >
+ktl::result< kochou::core::extension_type, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
 {
     std::string name = NAME.data;
     if (name.size() < 3)
     {
-        return ktl::err{errc::extension_not_provided};
+        return ktl::err{ktl::errc::extension_not_provided};
     }
 
     std::string prefix = name.substr(3, name.size() - 3);
@@ -160,11 +160,11 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
         return ktl::ok{extension_type::mesa};
     }
 
-    return ktl::err{errc::extension_not_provided};
+    return ktl::err{ktl::errc::extension_not_provided};
 }
 
 template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-ktl::result< kochou::core::extension_target, kochou::errc >
+ktl::result< kochou::core::extension_target, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
 {
     static const auto instance_set = vk::getInstanceExtensions();
@@ -179,18 +179,18 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
         return ktl::ok{extension_target::device};
     }
 
-    return ktl::err{errc::extension_not_provided};
+    return ktl::err{ktl::errc::extension_not_provided};
 }
 
 template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-ktl::result< kochou::core::vulkan_version, kochou::errc >
+ktl::result< kochou::core::vulkan_version, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
 {
     static const auto version_map = vk::getPromotedExtensions();
 
     if (!version_map.contains(NAME.data))
     {
-        return ktl::err{errc::unknown_vk_api_version};
+        return ktl::err{ktl::errc::unknown_vk_api_version};
     }
 
     const auto & version = version_map.at(NAME.data);
@@ -220,7 +220,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
         return ktl::ok{vulkan_version::v1_4};
     }
 
-    return ktl::err{errc::unknown_vk_api_version};
+    return ktl::err{ktl::errc::unknown_vk_api_version};
 }
 
 template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
