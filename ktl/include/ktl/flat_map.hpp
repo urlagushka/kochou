@@ -35,26 +35,38 @@ public:
     operator=(flat_map< KEY, VALUE, COMPARE > &&) = default;
     ~flat_map() = default;
 
-    result< mapped_type &, errc >
-    at() noexcept;
-    result< const mapped_type &, errc >
-    at() const noexcept;
+    constexpr result< mapped_type &, errc >
+    at(const key_type & _key) noexcept;
+    constexpr result< const mapped_type &, errc >
+    at(const key_type & _key) const noexcept;
+    constexpr mapped_type &
+    operator[](const key_type & _key) noexcept;
+    constexpr mapped_type &
+    operator[](const key_type & _key) const noexcept;
 
     constexpr iterator
     begin() noexcept;
+    constexpr iterator
+    begin() const noexcept;
     constexpr const_iterator
     cbegin() const noexcept;
     constexpr iterator
     end() noexcept;
+    constexpr iterator
+    end() const noexcept;
     constexpr const_iterator
     cend() const noexcept;
 
     constexpr reverse_iterator
     rbegin() noexcept;
+    constexpr reverse_iterator
+    rbegin() const noexcept;
     constexpr const_reverse_iterator
     crbegin() const noexcept;
     constexpr reverse_iterator
     rend() noexcept;
+    constexpr reverse_iterator
+    rend() const noexcept;
     constexpr const_reverse_iterator
     crend() const noexcept;
 
@@ -67,163 +79,191 @@ public:
 
 private:
     constexpr iterator
-    lower_bound_impl(const key_type & key) noexcept;
+    lower_bound_impl(const key_type & _key) noexcept;
     constexpr const_iterator
-    lower_bound_impl(const key_type & key) const noexcept;
+    lower_bound_impl(const key_type & _key) const noexcept;
     constexpr iterator
-    upper_bound_impl(const key_type & key) noexcept;
+    upper_bound_impl(const key_type & _key) noexcept;
     constexpr const_iterator
-    upper_bound_impl(const key_type & key) const noexcept;
+    upper_bound_impl(const key_type & _key) const noexcept;
 
 private:
-    std::vector< value_type > data_;
-    [[no_unique_address]] comp_;
+    mutable std::vector< value_type > data_;
+    [[no_unique_address]] COMPARE comp_;
 };
 } // namespace ktl
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr ktl::flat_map< KEY, VALUE, COMPARE >::iterator
-ktl::flat_map< KEY, VALUE, COMPARE >::lower_bound_impl(const key_type & key) noexcept
+ktl::flat_map< KEY, VALUE, COMPARE >::lower_bound_impl(const key_type & _key) noexcept
 {
-    return std::lower_bound(data_.begin(), data_.end(), key,
-                            [this](const value_type & lhs, const key_type & rhs)
+    return std::lower_bound(data_.begin(), data_.end(), _key,
+                            [this](const value_type & _lhs, const key_type & _rhs)
                             {
-                                return comp_(lhs.first, rhs);
+                                return comp_(_lhs.first, _rhs);
                             });
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr ktl::flat_map< KEY, VALUE, COMPARE >::const_iterator
-ktl::flat_map< KEY, VALUE, COMPARE >::lower_bound_impl(const key_type & key) const noexcept
+ktl::flat_map< KEY, VALUE, COMPARE >::lower_bound_impl(const key_type & _key) const noexcept
 {
-    return std::lower_bound(data_.cbegin(), data_.cend(), key,
-                            [this](const value_type & lhs, const key_type & rhs)
+    return std::lower_bound(data_.cbegin(), data_.cend(), _key,
+                            [this](const value_type & _lhs, const key_type & _rhs)
                             {
-                                return comp_(lhs.first, rhs);
+                                return comp_(_lhs.first, _rhs);
                             });
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr ktl::flat_map< KEY, VALUE, COMPARE >::iterator
-ktl::flat_map< KEY, VALUE, COMPARE >::upper_bound_impl(const key_type & key) noexcept
+ktl::flat_map< KEY, VALUE, COMPARE >::upper_bound_impl(const key_type & _key) noexcept
 {
-    return std::upper_bound(data_.begin(), data_.end(), key,
-                            [this](const value_type & lhs, const key_type & rhs)
+    return std::upper_bound(data_.begin(), data_.end(), _key,
+                            [this](const value_type & _lhs, const key_type & _rhs)
                             {
-                                return comp_(lhs.first, rhs);
+                                return comp_(_lhs.first, _rhs);
                             });
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr ktl::flat_map< KEY, VALUE, COMPARE >::const_iterator
-ktl::flat_map< KEY, VALUE, COMPARE >::upper_bound_impl(const key_type & key) const noexcept
+ktl::flat_map< KEY, VALUE, COMPARE >::upper_bound_impl(const key_type & _key) const noexcept
 {
-    return std::upper_bound(data_.cbegin(), data_.cend(), key,
-                            [this](const value_type & lhs, const key_type & rhs)
+    return std::upper_bound(data_.cbegin(), data_.cend(), _key,
+                            [this](const value_type & _lhs, const key_type & _rhs)
                             {
-                                return comp_(lhs.first, rhs);
+                                return comp_(_lhs.first, _rhs);
                             });
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
-ktl::result< typename ktl::flat_map< KEY, VALUE, COMPARE >::mapped_type &, ktl::errc >
-ktl::flat_map< KEY, VALUE, COMPARE >::at() noexcept
+constexpr ktl::result< typename ktl::flat_map< KEY, VALUE, COMPARE >::mapped_type &, ktl::errc >
+ktl::flat_map< KEY, VALUE, COMPARE >::at(const key_type & _key) noexcept
 {
-    constexpr auto it = find(key);
-    if (it == end())
+    constexpr auto tmp = find(_key);
+    if (tmp == end())
     {
         return err{errc::out_of_range};
     }
-    return ok{it->second};
+    return ok{tmp->second};
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
-ktl::result< const typename ktl::flat_map< KEY, VALUE, COMPARE >::mapped_type &, ktl::errc >
-ktl::flat_map< KEY, VALUE, COMPARE >::at() const noexcept
+constexpr ktl::result< const typename ktl::flat_map< KEY, VALUE, COMPARE >::mapped_type &, ktl::errc >
+ktl::flat_map< KEY, VALUE, COMPARE >::at(const key_type & _key) const noexcept
 {
-    constexpr auto it = find(key);
-    if (it == end())
+    constexpr auto tmp = find(_key);
+    if (tmp == end())
     {
         return err{errc::out_of_range};
     }
-    return ok{it->second};
+    return ok{tmp->second};
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr ktl::flat_map< KEY, VALUE, COMPARE >::iterator
 ktl::flat_map< KEY, VALUE, COMPARE >::begin() noexcept
 {
-    return values_.begin();
+    return data_.begin();
+}
+
+template < typename KEY, typename VALUE, class COMPARE >
+constexpr ktl::flat_map< KEY, VALUE, COMPARE >::iterator
+ktl::flat_map< KEY, VALUE, COMPARE >::begin() const noexcept
+{
+    return data_.begin();
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr ktl::flat_map< KEY, VALUE, COMPARE >::const_iterator
 ktl::flat_map< KEY, VALUE, COMPARE >::cbegin() const noexcept
 {
-    return values_.cbegin();
+    return data_.cbegin();
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr ktl::flat_map< KEY, VALUE, COMPARE >::iterator
 ktl::flat_map< KEY, VALUE, COMPARE >::end() noexcept
 {
-    return values_.end();
+    return data_.end();
+}
+
+template < typename KEY, typename VALUE, class COMPARE >
+constexpr ktl::flat_map< KEY, VALUE, COMPARE >::iterator
+ktl::flat_map< KEY, VALUE, COMPARE >::end() const noexcept
+{
+    return data_.end();
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr ktl::flat_map< KEY, VALUE, COMPARE >::const_iterator
 ktl::flat_map< KEY, VALUE, COMPARE >::cend() const noexcept
 {
-    return values_.cend();
+    return data_.cend();
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr ktl::flat_map< KEY, VALUE, COMPARE >::reverse_iterator
 ktl::flat_map< KEY, VALUE, COMPARE >::rbegin() noexcept
 {
-    return values_.rbegin();
+    return data_.rbegin();
+}
+
+template < typename KEY, typename VALUE, class COMPARE >
+constexpr ktl::flat_map< KEY, VALUE, COMPARE >::reverse_iterator
+ktl::flat_map< KEY, VALUE, COMPARE >::rbegin() const noexcept
+{
+    return data_.rbegin();
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr ktl::flat_map< KEY, VALUE, COMPARE >::const_reverse_iterator
 ktl::flat_map< KEY, VALUE, COMPARE >::crbegin() const noexcept
 {
-    return values_.crbegin();
+    return data_.crbegin();
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr ktl::flat_map< KEY, VALUE, COMPARE >::reverse_iterator
 ktl::flat_map< KEY, VALUE, COMPARE >::rend() noexcept
 {
-    return values_.rend();
+    return data_.rend();
+}
+
+template < typename KEY, typename VALUE, class COMPARE >
+constexpr ktl::flat_map< KEY, VALUE, COMPARE >::reverse_iterator
+ktl::flat_map< KEY, VALUE, COMPARE >::rend() const noexcept
+{
+    return data_.rend();
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr ktl::flat_map< KEY, VALUE, COMPARE >::const_reverse_iterator
 ktl::flat_map< KEY, VALUE, COMPARE >::crend() const noexcept
 {
-    return values_.crend();
+    return data_.crend();
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr bool
 ktl::flat_map< KEY, VALUE, COMPARE >::empty() const noexcept
 {
-    return values_.empty();
+    return data_.empty();
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr ktl::flat_map< KEY, VALUE, COMPARE >::size_type
 ktl::flat_map< KEY, VALUE, COMPARE >::size() const noexcept
 {
-    return values_.size();
+    return data_.size();
 }
 
 template < typename KEY, typename VALUE, class COMPARE >
 constexpr ktl::flat_map< KEY, VALUE, COMPARE >::size_type
 ktl::flat_map< KEY, VALUE, COMPARE >::max_size() const noexcept
 {
-    return values_.max_size();
+    return data_.max_size();
 }
 
 #endif

@@ -1,40 +1,19 @@
-#include <kochou/kochou.hpp>
-#include <kochou/user/default_render.hpp>
-
-#include <ranges>
 #include <iostream>
-#include <glm/glm.hpp>
+#include <ranges>
 
-struct pohui
+#include <ktl/flat_map.hpp>
+#include <ktl/flat_set.hpp>
+
+#include <kochou/core/context.hpp>
+
+constexpr void
+add()
 {
-    int a, b, c, d;
-};
+    kochou::core::context::get()->apply_version(1);
+}
 
-struct pohui2
+int
+main()
 {
-    glm::vec3 asda;
-    glm::vec4 asfa;
-    glm::mat3 sadf;
-    glm::mat4 asss;
-};
-
-int main()
-{
-    kochou::user::metadata_render tmp;
-    // std::cout << ktl::reflection::fields_amount< pohui > << std::endl;
-    // std::cout << ktl::reflection::fields_amount< pohui2 > << std::endl;
-
-    static_assert(std::same_as< ktl::reflection::field_type< pohui2, 0 >, glm::vec3 >);
-
-    constexpr std::size_t size = 100;
-    ktl::memory::direct_storage< pohui, size > test;
-    auto * ptr = test.get< 0 >();
-    for (int i : std::views::iota(0, static_cast< int >(size)))
-    {
-        ptr[i] = i;
-    }
-    for (std::size_t i = 0; i < size; ++i)
-    {
-        std::cout << ptr[i] << std::endl;
-    }
+    add();
 }

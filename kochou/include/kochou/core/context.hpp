@@ -8,6 +8,8 @@
 
 #include <ktl/errc.hpp>
 #include <ktl/fixed_string.hpp>
+#include <ktl/flat_map.hpp>
+#include <ktl/flat_set.hpp>
 #include <ktl/memory.hpp>
 #include <ktl/result.hpp>
 
@@ -62,11 +64,11 @@ public:
     finalize();
 
 private:
-    extension_set_type instance_extensions_; // instance
-    extension_set_type device_extensions_;   // device
-    vulkan_chain features_;                  // device
-    layer_set_type layers_;                  // instance
-    version_set_type versions_;              // instance
+    ktl::flat_set< std::string_view > instance_extensions_; // instance
+    ktl::flat_set< std::string_view > device_extensions_;   // device
+    vulkan_chain features_;                                 // device
+    ktl::flat_set< std::string_view > layers_;              // instance
+    ktl::flat_set< std::uint32_t > versions_;               // instance
 
     ktl::memory::shared_ptr< instance > instance_;
     ktl::memory::shared_ptr< device > device_;
