@@ -17,8 +17,11 @@ namespace ktl
 enum class errc
 {
     // common
-    ok,
+    success,
     unspecified,
+    invalid_argument,
+    out_of_range,
+    no_memmory,
 
     // vulkan api
     extension_not_provided,
@@ -28,9 +31,6 @@ enum class errc
     queue_is_not_dedicated,
     layer_not_provided,
     vulkan_chain_duplicate,
-
-    // cpp
-    bad_alloc
 };
 
 inline std::string

@@ -73,7 +73,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
         context::get()->apply_feature< FEATURE_TYPE >(FEATURE);
     }
 
-    return ktl::errc::ok;
+    return ktl::errc::success;
 }
 
 template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >

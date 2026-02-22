@@ -1,7 +1,7 @@
 #ifndef KOCHOU_API_PLATFORM_PHYSICAL_DEVICE_HPP
 #define KOCHOU_API_PLATFORM_PHYSICAL_DEVICE_HPP
 
-#include <kochou/ktl/mask.hpp>
+#include <ktl/mask.hpp>
 
 #include "version.hpp"
 

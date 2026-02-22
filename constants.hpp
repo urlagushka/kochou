@@ -1,9 +1,9 @@
-#ifndef KOCHOU_CORE_CONSTANTS_HPP
-#define KOCHOU_CORE_CONSTANTS_HPP
+#ifndef KTL_CONSTANTS_HPP
+#define KTL_CONSTANTS_HPP
 
 #include <cstdint>
 
-namespace kochou::core
+namespace ktl
 {
     constexpr float         KOCHOU_COMPUTE_OCCUPANCY_PRIORITY_NORMAL_NV                         = 0.50f;
     constexpr float         KOCHOU_COMPUTE_OCCUPANCY_PRIORITY_HIGH_NV                           = 0.75f;

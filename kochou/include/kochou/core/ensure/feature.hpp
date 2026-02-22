@@ -20,7 +20,7 @@ ktl::errc
 kochou::core::feature< FEATURE_TYPE, FEATURE >::apply() noexcept
 {
     context::get()->apply_feature< FEATURE_TYPE >(FEATURE);
-    return ktl::errc::ok;
+    return ktl::errc::success;
 }
 
 #endif

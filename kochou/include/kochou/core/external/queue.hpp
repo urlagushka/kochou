@@ -27,6 +27,7 @@ struct vk_queue final
 std::vector< vk_queue >
 enumerate_queues(const device & dev)
 {
+    return {};
 }
 
 class vk_queue_view final

@@ -47,4 +47,4 @@ def make_bitpos(src: str, underling_type: str) -> str | None:
 def make_constant(src: str) -> str | None:
     if src is None or not src.startswith("VK_"):
         return None
-    return "KOCHOU" + src[2:]
+    return "KTL" + src[2:]

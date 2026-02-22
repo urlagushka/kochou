@@ -12,6 +12,7 @@
 namespace kochou::core
 {
 using versions_set = std::set< vulkan_version >;
+
 template < vulkan_version VERSION >
 struct version final
 {
@@ -37,7 +38,7 @@ kochou::core::version< VERSION >::apply() noexcept
     }
 
     context::get()->apply_version(static_cast< uint32_t >(VERSION));
-    return ktl::errc::ok;
+    return ktl::errc::success;
 }
 
 #endif

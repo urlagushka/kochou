@@ -23,7 +23,7 @@ protected:
     ensure() noexcept
     {
         auto rc = T::apply();
-        if (rc != ktl::errc::ok)
+        if (rc != ktl::errc::success)
         {
             context::get()->register_errc(rc);
         }

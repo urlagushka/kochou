@@ -25,7 +25,7 @@ kochou::core::layer< NAME >::apply() noexcept
     }
 
     context::get()->apply_layer(NAME);
-    return ktl::errc::ok;
+    return ktl::errc::success;
 }
 
 #endif

@@ -20,7 +20,7 @@ alloc(ARGS &&... args) noexcept
     T * mapped = static_cast< T * >(std::malloc(sizeof(T)));
     if (!mapped)
     {
-        return err{errc::bad_alloc};
+        return err{errc::no_memmory};
     }
     return ok{::new (mapped) T(std::forward< ARGS >(args)...)};
 }

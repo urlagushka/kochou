@@ -6,10 +6,10 @@ f"    "
 def make_constants_header(filename: str, constants: list) -> None:
     with open(filename, "w", encoding="utf-8") as f:
         f.write(
-"#ifndef KTL_CORE_CONSTANTS_HPP\n"
-"#define KTL_CORE_CONSTANTS_HPP\n\n"
+"#ifndef KTL_CONSTANTS_HPP\n"
+"#define KTL_CONSTANTS_HPP\n\n"
 "#include <cstdint>\n\n"
-"namespace kochou::core\n{\n"
+"namespace ktl\n{\n"
 )
         before = 0
         after = 0
@@ -31,10 +31,10 @@ f"    constexpr {constant.type}{before_str} {constant.name}{after_str} = {consta
 def make_enums_header(filename: str, enums: list) -> None:
     with open(filename, "w", encoding="utf-8") as f:
         f.write(
-"#ifndef KOCHOU_CORE_ENUMS_HPP\n"
-"#define KOCHOU_CORE_ENUMS_HPP\n\n"
+"#ifndef KTL_ENUMS_HPP\n"
+"#define KTL_ENUMS_HPP\n\n"
 "#include <cstdint>\n\n"
-"namespace kochou::core\n{\n"
+"namespace ktl\n{\n"
 )
         
         for enum in enums:

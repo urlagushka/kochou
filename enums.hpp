@@ -1,9 +1,9 @@
-#ifndef KOCHOU_CORE_ENUMS_HPP
-#define KOCHOU_CORE_ENUMS_HPP
+#ifndef KTL_ENUMS_HPP
+#define KTL_ENUMS_HPP
 
 #include <cstdint>
 
-namespace kochou::core
+namespace ktl
 {
     enum class image_layout
         : std::uint32_t
@@ -567,7 +567,7 @@ namespace kochou::core
     };
 
     enum class result
-        : std::uint32_t
+        : std::int32_t
     {
         success                     = 0,
         not_ready                   = 1,
@@ -2377,7 +2377,7 @@ namespace kochou::core
     };
 
     enum class query_result_status_khr
-        : std::uint32_t
+        : std::int32_t
     {
         error_khr     = -1,
         not_ready_khr = 0,
@@ -2892,7 +2892,7 @@ namespace kochou::core
     };
 
     enum class opacity_micromap_special_index_ext
-        : std::uint32_t
+        : std::int32_t
     {
         fully_transparent_ext         = -1,
         fully_opaque_ext              = -2,
@@ -3229,6 +3229,33 @@ namespace kochou::core
         : std::uint32_t
     {
         shared_bit_ohos = (1U << 0)
+    };
+
+    enum class descriptor_mapping_source_ext
+        : std::uint32_t
+    {
+        heap_with_constant_offset_ext      = 0,
+        heap_with_push_index_ext           = 1,
+        heap_with_indirect_index_ext       = 2,
+        heap_with_indirect_index_array_ext = 3,
+        resource_heap_data_ext             = 4,
+        push_data_ext                      = 5,
+        push_address_ext                   = 6,
+        indirect_address_ext               = 7
+    };
+
+    enum class spirv_resource_type_flag_bits_ext
+        : std::uint32_t
+    {
+        all_ext                           = 0x7FFFFFFF,
+        sampler_bit_ext                   = (1U << 0),
+        sampled_image_bit_ext             = (1U << 1),
+        read_only_image_bit_ext           = (1U << 2),
+        read_write_image_bit_ext          = (1U << 3),
+        combined_sampled_image_bit_ext    = (1U << 4),
+        uniform_buffer_bit_ext            = (1U << 5),
+        read_only_storage_buffer_bit_ext  = (1U << 6),
+        read_write_storage_buffer_bit_ext = (1U << 7)
     };
 
 }
