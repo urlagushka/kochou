@@ -5,6 +5,7 @@
 #include <ktl/flat_set.hpp>
 
 #include <kochou/core/context.hpp>
+#include <kochou/user/default_render.hpp>
 
 constexpr void
 add()
@@ -15,5 +16,6 @@ add()
 int
 main()
 {
+    kochou::user::metadata_render render;
     add();
 }

@@ -48,13 +48,13 @@ public:
     }
 
     template < vulkan_struct_type FEATURE_TYPE >
-    void
+    consteval void
     apply_feature(FEATURE_TYPE _feature, src_ctx _ctx = src_ctx::current());
-    void
+    consteval void
     apply_version(uint32_t _version);
-    void
+    consteval void
     apply_extension(std::string_view _name, extension_target _target);
-    void
+    consteval void
     apply_layer(std::string_view _name);
 
     void
@@ -78,7 +78,7 @@ private:
 } // namespace kochou::core
 
 template < kochou::core::vulkan_struct_type FEATURE_TYPE >
-void
+consteval void
 kochou::core::context::apply_feature(FEATURE_TYPE _feature, src_ctx _ctx)
 {
     auto result = features_.insert< FEATURE_TYPE >(_feature);

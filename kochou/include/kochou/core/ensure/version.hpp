@@ -18,13 +18,13 @@ struct version final
 {
     using enum vulkan_version;
 
-    static ktl::errc
+    static consteval ktl::errc
     apply() noexcept;
 };
 } // namespace kochou::core
 
 template < kochou::core::vulkan_version VERSION >
-ktl::errc
+consteval ktl::errc
 kochou::core::version< VERSION >::apply() noexcept
 {
     constexpr bool is_v1_0 = VERSION == vulkan_version::v1_0;

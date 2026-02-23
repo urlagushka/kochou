@@ -20,7 +20,7 @@ template < ensure_type T >
 class ensure
 {
 protected:
-    ensure() noexcept
+    consteval ensure() noexcept
     {
         auto rc = T::apply();
         if (rc != ktl::errc::success)

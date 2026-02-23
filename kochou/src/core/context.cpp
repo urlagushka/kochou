@@ -1,13 +1,13 @@
 #include <kochou/core/context.hpp>
 #include <kochou/core/type_ostream.hpp>
 
-void
+consteval void
 kochou::core::context::apply_version(uint32_t _version)
 {
     versions_.insert(_version);
 }
 
-void
+consteval void
 kochou::core::context::apply_extension(std::string_view _name, extension_target _target)
 {
     switch (_target)
@@ -21,7 +21,7 @@ kochou::core::context::apply_extension(std::string_view _name, extension_target 
     }
 }
 
-void
+consteval void
 kochou::core::context::apply_layer(std::string_view _name)
 {
     layers_.insert(_name);

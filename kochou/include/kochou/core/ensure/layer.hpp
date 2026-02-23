@@ -9,13 +9,13 @@ namespace kochou::core
 template < ktl::fixed_string NAME >
 struct layer final
 {
-    static ktl::errc
+    static consteval ktl::errc
     apply() noexcept;
 };
 } // namespace kochou::core
 
 template < ktl::fixed_string NAME >
-ktl::errc
+consteval ktl::errc
 kochou::core::layer< NAME >::apply() noexcept
 {
     std::string name = NAME;

@@ -26,21 +26,21 @@ struct extension final
     using enum extension_type;
     using enum extension_target;
 
-    static ktl::errc
+    static consteval ktl::errc
     apply() noexcept;
-    static ktl::result< extension_type, ktl::errc >
+    static constexpr ktl::result< extension_type, ktl::errc >
     type() noexcept;
-    static ktl::result< extension_target, ktl::errc >
+    static constexpr ktl::result< extension_target, ktl::errc >
     target() noexcept;
-    static ktl::result< vulkan_version, ktl::errc >
+    static constexpr ktl::result< vulkan_version, ktl::errc >
     version() noexcept;
-    static bool
+    static constexpr bool
     is_deprecated() noexcept;
 };
 } // namespace kochou::core
 
 template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-ktl::errc
+consteval ktl::errc
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
 {
     using this_extension = extension< NAME >;
@@ -77,7 +77,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
 }
 
 template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-ktl::result< kochou::core::extension_type, ktl::errc >
+constexpr ktl::result< kochou::core::extension_type, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
 {
     std::string name = NAME.data;
@@ -164,7 +164,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
 }
 
 template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-ktl::result< kochou::core::extension_target, ktl::errc >
+constexpr ktl::result< kochou::core::extension_target, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
 {
     static const auto instance_set = vk::getInstanceExtensions();
@@ -183,7 +183,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
 }
 
 template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-ktl::result< kochou::core::vulkan_version, ktl::errc >
+constexpr ktl::result< kochou::core::vulkan_version, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
 {
     static const auto version_map = vk::getPromotedExtensions();
@@ -224,10 +224,10 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
 }
 
 template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-bool
+constexpr bool
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::is_deprecated() noexcept
 {
-    static const auto deprecated_map = vk::getDeprecatedExtensions();
+    static consteval ktl::flat_map< std::string_view > static const auto deprecated_map = vk::getDeprecatedExtensions();
     return deprecated_map.contains(NAME.data);
 }
 

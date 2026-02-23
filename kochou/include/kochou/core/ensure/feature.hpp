@@ -10,13 +10,13 @@ namespace kochou::core
 template < vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 struct feature final
 {
-    static ktl::errc
+    static consteval ktl::errc
     apply() noexcept;
 };
 } // namespace kochou::core
 
 template < kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-ktl::errc
+consteval ktl::errc
 kochou::core::feature< FEATURE_TYPE, FEATURE >::apply() noexcept
 {
     context::get()->apply_feature< FEATURE_TYPE >(FEATURE);
