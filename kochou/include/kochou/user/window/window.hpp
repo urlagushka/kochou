@@ -14,6 +14,7 @@ class window final
 };
 
 using xlib_window = window< xlib_config >;
+using wayland_window = window< wayland_config >;
 } // namespace kochou::user
 
 #endif
