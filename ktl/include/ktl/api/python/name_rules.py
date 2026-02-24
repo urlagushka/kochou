@@ -15,9 +15,7 @@ def make_field_name(src: str, cmp: str) -> str | None:
         tmp = tmp[first_diff_index(tmp, cmp):]
     if tmp.startswith('_'):
         tmp = tmp[1:]
-    if tmp[0].isdigit():
-        return 'i' + tmp
-    return tmp
+    return f"v_{tmp}"
 
 
 def make_underling_type(src: str) -> str:
@@ -47,4 +45,4 @@ def make_bitpos(src: str, underling_type: str) -> str | None:
 def make_constant(src: str) -> str | None:
     if src is None or not src.startswith("VK_"):
         return None
-    return "KTL" + src[2:]
+    return "KTL_API" + src[2:]

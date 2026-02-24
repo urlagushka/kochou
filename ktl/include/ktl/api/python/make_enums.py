@@ -41,7 +41,6 @@ def extract_enums_impl(enum) -> VkEnum:
         return None
     underling_type = make_underling_type(enum.get("bitwidth"))
     is_bitmask = enum.get("type") == "bitmask"
-    print(is_bitmask)
 
     vk_fields = {}
     for field in enum.findall("enum"):
