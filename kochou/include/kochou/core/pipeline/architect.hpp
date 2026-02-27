@@ -1,60 +1,32 @@
 #ifndef KOCHOU_CORE_ARCHITECT_HPP
 #define KOCHOU_CORE_ARCHITECT_HPP
 
+#include <ktl/errc.hpp>
+#include <ktl/flat_set.hpp>
+#include <ktl/result.hpp>
+
+#include <kochou/core/ensure/ensure.hpp>
+#include <kochou/core/ensure/extension.hpp>
+
 namespace kochou::core
 {
-    struct conflict
-    {
-        enum severity
-        {
-            failure,
-            warning,
-        };
+struct pipeline; // external ???
 
-        auto component
-        std::list< component > componentN
-    };
-
-    class scheme
-    {
-        std::vector< conflict > __conflicts;
-    };
-
-    template< typename T >
-    struct architect
-    {
-        template< typename ... Args >
-        static scheme make(Args ...&& args)
-        {
-
-        }
-    };
-}
-
-/*
-
-
-// установка параметров
-auto scheme = architect< pipeline >::make({
-    shader_stage | required
-    scissor      | std::optional
-    ...
-    depth        | std::optional
-    ...
-});
-
-// проверка корректности параметров
-if (!scheme.is_possible())
+struct pipeline_builder final
 {
-    for (const auto & conflict : scheme.conflicts())
-    {
-        std::cout << conflict << std::endl;
-    }
-}
+    using result_type = ktl::result< kochou::core::pipeline, ktl::errc >;
 
-// сборка T
-auto my_custom_pipeline = scheme.draw();
+    static result_type make(/* cpp config */) noexcept; // should be template ???
+    static result_type make(/* xml config */) noexcept; // should be template ???
+};
 
-*/
+struct pipeline_builder_feedback final : core::ensure< core::extension< "VK_EXT_pipeline_creation_feedback" > >
+{
+    using result_type = ktl::result< kochou::core::pipeline, ktl::errc >;
+
+    static result_type make(/* cpp config */) noexcept; // should be template ???
+    static result_type make(/* xml config */) noexcept; // should be template ???
+};
+} // namespace kochou::core
 
 #endif
