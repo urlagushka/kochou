@@ -25,7 +25,7 @@ protected:
         constexpr auto rc = T::apply();
         if constexpr (rc != ktl::errc::success)
         {
-            kochou_context_instance.register_errc(rc);
+            kochou_context_instance.register_errc(rc); // fatal ?
         }
     }
 };
