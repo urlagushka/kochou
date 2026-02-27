@@ -19,7 +19,7 @@ template < kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 consteval ktl::errc
 kochou::core::feature< FEATURE_TYPE, FEATURE >::apply() noexcept
 {
-    context::get()->apply_feature< FEATURE_TYPE >(FEATURE);
+    kochou_context_instance.apply_feature< FEATURE_TYPE >(FEATURE);
     return ktl::errc::success;
 }
 

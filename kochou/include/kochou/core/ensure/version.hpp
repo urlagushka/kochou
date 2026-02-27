@@ -37,7 +37,7 @@ kochou::core::version< VERSION >::apply() noexcept
         return ktl::errc::unknown_vk_api_version;
     }
 
-    context::get()->apply_version(static_cast< uint32_t >(VERSION));
+    kochou_context_instance.apply_version(static_cast< uint32_t >(VERSION));
     return ktl::errc::success;
 }
 

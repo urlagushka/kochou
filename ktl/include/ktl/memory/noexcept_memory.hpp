@@ -52,12 +52,12 @@ struct ptr_deleter
 };
 
 template < typename T >
-using unique_ptr = std::unique_ptr< T, ptr_deleter< T > >;
+using uptr = std::unique_ptr< T, ptr_deleter< T > >;
 template < typename T >
-using shared_ptr = std::shared_ptr< T >;
+using sptr = std::shared_ptr< T >;
 
 template < typename T, typename... ARGS >
-result< unique_ptr< T >, errc >
+result< uptr< T >, errc >
 make_unique(ARGS... args)
 {
     auto result = alloc< T >(std::forward< ARGS >(args)...);
@@ -69,7 +69,7 @@ make_unique(ARGS... args)
 }
 
 template < typename T, typename... ARGS >
-result< shared_ptr< T >, errc >
+result< sptr< T >, errc >
 make_shared(ARGS... args)
 {
     auto result = alloc< T >(std::forward< ARGS >(args)...);

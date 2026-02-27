@@ -10,7 +10,7 @@ class metadata_render : core::ensure< core::extension< "VK_EXT_mesh_shader" > >,
                         core::ensure< core::version< core::vulkan_version::v1_3 > >
 {
 public:
-    metadata_render() { core::context::get()->finalize(); }
+    consteval metadata_render() = default;
 };
 } // namespace kochou::user
 

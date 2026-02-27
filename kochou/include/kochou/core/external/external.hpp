@@ -24,7 +24,7 @@ class external
 template < typename T >
 struct external< hold::unique, T >
 {
-    using ptr_type = ktl::memory::unique_ptr< T >;
+    using ptr_type = ktl::memory::uptr< T >;
     using result_type = ktl::result< ptr_type, ktl::errc >;
 
     external() = default;
@@ -53,7 +53,7 @@ struct external< hold::unique, T >
 template < typename T >
 struct external< hold::shared, T >
 {
-    using ptr_type = ktl::memory::shared_ptr< T >;
+    using ptr_type = ktl::memory::sptr< T >;
     using result_type = ktl::result< ptr_type, ktl::errc >;
 
     external() = default;

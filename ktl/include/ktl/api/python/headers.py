@@ -17,7 +17,7 @@ def make_constants_header(filename: str, constants: list) -> None:
         for constant in constants:
             # before_str = ' ' * (before - len(constant.type))
             after_str = ' ' * (after - len(constant.name))
-            f.write(f"#define {constant.name}{after_str} {constant.value};\n")
+            f.write(f"#define {constant.name}{after_str} {constant.value}\n")
         f.write("\n#endif\n")
 
 
@@ -27,7 +27,7 @@ def make_enums_header(filename: str, enums: list) -> None:
             "#ifndef KTL_ENUMS_HPP\n"
             "#define KTL_ENUMS_HPP\n\n"
             "#include <cstdint>\n\n"
-            "namespace ktl\n{\n")
+            "namespace ktl::api\n{\n")
         
         for enum in enums:
             f.write(f"    enum class {enum.name}\n")

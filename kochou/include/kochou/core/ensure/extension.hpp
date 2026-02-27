@@ -44,10 +44,10 @@ consteval ktl::errc
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
 {
     using this_extension = extension< NAME >;
-    if (this_extension::is_deprecated())
+    /*if (this_extension::is_deprecated())
     {
         return ktl::errc::extension_is_deprecated;
-    }
+    }*/
 
     auto type_result = this_extension::type();
     if (type_result.is_err())
@@ -67,10 +67,10 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
         return version_result.take_err();
     }
 
-    context::get()->apply_extension(NAME.data, target_result.take_ok());
+    kochou_context_instance.apply_extension(NAME.data, target_result.take_ok());
     if constexpr (!std::is_same_v< FEATURE_TYPE, vulkan_struct_base >)
     {
-        context::get()->apply_feature< FEATURE_TYPE >(FEATURE);
+        kochou_context_instance.apply_feature< FEATURE_TYPE >(FEATURE);
     }
 
     return ktl::errc::success;
@@ -167,8 +167,9 @@ template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE
 constexpr ktl::result< kochou::core::extension_target, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
 {
-    static const auto instance_set = vk::getInstanceExtensions();
-    static const auto device_set = vk::getDeviceExtensions();
+    /*
+    constexpr auto instance_set = vk::getInstanceExtensions();
+    constexpr auto device_set = vk::getDeviceExtensions();
 
     if (instance_set.contains(NAME.data))
     {
@@ -180,6 +181,8 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
     }
 
     return ktl::err{ktl::errc::extension_not_provided};
+    */
+    return ktl::err{ktl::errc::unspecified};
 }
 
 template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
@@ -196,27 +199,27 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
     const auto & version = version_map.at(NAME.data);
     if (version == "VK_VERSION_1_0")
     {
-        context::get()->apply_version(static_cast< uint32_t >(vulkan_version::v1_0));
+        kochou_context_instance.apply_version(static_cast< uint32_t >(vulkan_version::v1_0));
         return ktl::ok{vulkan_version::v1_0};
     }
     if (version == "VK_VERSION_1_1")
     {
-        context::get()->apply_version(static_cast< uint32_t >(vulkan_version::v1_1));
+        kochou_context_instance.apply_version(static_cast< uint32_t >(vulkan_version::v1_1));
         return ktl::ok{vulkan_version::v1_1};
     }
     if (version == "VK_VERSION_1_2")
     {
-        context::get()->apply_version(static_cast< uint32_t >(vulkan_version::v1_2));
+        kochou_context_instance.apply_version(static_cast< uint32_t >(vulkan_version::v1_2));
         return ktl::ok{vulkan_version::v1_2};
     }
     if (version == "VK_VERSION_1_3")
     {
-        context::get()->apply_version(static_cast< uint32_t >(vulkan_version::v1_3));
+        kochou_context_instance.apply_version(static_cast< uint32_t >(vulkan_version::v1_3));
         return ktl::ok{vulkan_version::v1_3};
     }
     if (version == "VK_VERSION_1_4")
     {
-        context::get()->apply_version(static_cast< uint32_t >(vulkan_version::v1_4));
+        kochou_context_instance.apply_version(static_cast< uint32_t >(vulkan_version::v1_4));
         return ktl::ok{vulkan_version::v1_4};
     }
 
@@ -227,8 +230,10 @@ template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE
 constexpr bool
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::is_deprecated() noexcept
 {
+    /*
     static consteval ktl::flat_map< std::string_view > static const auto deprecated_map = vk::getDeprecatedExtensions();
-    return deprecated_map.contains(NAME.data);
+    return deprecated_map.contains(NAME.data);*/
+    return false;
 }
 
 #endif

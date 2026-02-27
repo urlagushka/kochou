@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace ktl
+namespace ktl::api
 {
     enum class image_layout
         : std::uint32_t

@@ -24,7 +24,7 @@ kochou::core::layer< NAME >::apply() noexcept
         return ktl::errc::layer_not_provided;
     }
 
-    context::get()->apply_layer(NAME);
+    kochou_context_instance.apply_layer(NAME);
     return ktl::errc::success;
 }
 

@@ -5,7 +5,8 @@
 
 #include <ktl/flat_set.hpp>
 
-#define KTL_API_MAX_EXTENSION_NAME_SIZE 1024
+#include "constants.hpp"
+
 #define KTL_API_MAX_FEATURE_NAME_SIZE 1024
 
 namespace ktl::api

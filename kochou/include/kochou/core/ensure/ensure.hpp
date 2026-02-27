@@ -22,10 +22,10 @@ class ensure
 protected:
     consteval ensure() noexcept
     {
-        auto rc = T::apply();
-        if (rc != ktl::errc::success)
+        constexpr auto rc = T::apply();
+        if constexpr (rc != ktl::errc::success)
         {
-            context::get()->register_errc(rc);
+            kochou_context_instance.register_errc(rc);
         }
     }
 };
