@@ -1,5 +1,5 @@
-#ifndef KOCHOU_CORE_ENSURE_EXTENSION_HPP
-#define KOCHOU_CORE_ENSURE_EXTENSION_HPP
+#ifndef KOCHOU_CORE_REQUIREMENTS_EXTENSION_HPP
+#define KOCHOU_CORE_REQUIREMENTS_EXTENSION_HPP
 
 #include <set>
 #include <string_view>
@@ -10,9 +10,9 @@
 #include <ktl/result.hpp>
 
 #include <kochou/core/context.hpp>
-#include <kochou/core/ensure/ensure.hpp>
-#include <kochou/core/ensure/feature.hpp>
-#include <kochou/core/ensure/version.hpp>
+#include <kochou/core/requirements/ensure.hpp>
+#include <kochou/core/requirements/feature.hpp>
+#include <kochou/core/requirements/version.hpp>
 #include <kochou/core/vulkan_chain.hpp>
 
 #include <vulkan/vulkan_extension_inspection.hpp>
