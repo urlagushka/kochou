@@ -8,12 +8,15 @@
 
 namespace ktl
 {
-/*
-    use errc level?
-    fatal
-    warning
+enum class err_level
+{
+    debug = 0,
+    info = 1,
+    warning = 2,
+    error = 3,
+    fatal = 4
+};
 
-*/
 enum class errc
 {
     // common

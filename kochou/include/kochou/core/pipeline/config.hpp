@@ -10,7 +10,9 @@ namespace kochou::core
 {
 struct pipeline_tag;
 struct pipeline_requirement;
-struct pipeline_description;
+struct pipeline_description
+{
+};
 
 using pipeline_hash = std::uint64_t;
 

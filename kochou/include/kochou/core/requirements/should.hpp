@@ -7,7 +7,7 @@
 
 namespace kochou::core
 {
-template < requirement_type T >
+template < requirement_concept T >
 class should
 {
 protected:

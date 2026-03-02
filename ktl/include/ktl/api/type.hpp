@@ -11,27 +11,29 @@
 
 namespace ktl::api
 {
-using version = std::uint32_t;
+using version_type = std::uint32_t;
+using feature_name_type = char[KTL_API_MAX_FEATURE_NAME_SIZE];
+using extension_name_type = char[KTL_API_MAX_EXTENSION_NAME_SIZE];
 
-struct feature
+struct feature final
 {
-    char name[KTL_API_MAX_FEATURE_NAME_SIZE];
-    ktl::api::version version;
-    ktl::flat_set< char[KTL_API_MAX_FEATURE_NAME_SIZE] > extension_deps;
-    ktl::flat_set< char[KTL_API_MAX_EXTENSION_NAME_SIZE] > feature_deps;
+    ktl::api::feature_name_type name;
+    ktl::api::version_type version;
+    ktl::flat_set< ktl::api::extension_name_type > extension_deps;
+    ktl::flat_set< ktl::api::feature_name_type > feature_deps;
 
     std::uint32_t structure_type;
     std::uint32_t offset;
     std::uint32_t size;
 };
 
-struct extension
+struct extension final
 {
-    char name[KTL_API_MAX_EXTENSION_NAME_SIZE];
-    ktl::api::version spec_version;
-    ktl::api::version promoted_to;
+    ktl::api::extension_name_type name;
+    ktl::api::version_type spec_version;
+    ktl::api::version_type promoted_to;
     ktl::flat_set< ktl::api::feature > features;
-    ktl::flat_set< char[KTL_API_MAX_EXTENSION_NAME_SIZE] > deps;
+    ktl::flat_set< ktl::api::extension_name_type > deps;
 };
 } // namespace ktl::api
 

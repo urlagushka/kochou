@@ -1,20 +1,19 @@
 #ifndef KOCHOU_CORE_CORE_HPP
 #define KOCHOU_CORE_CORE_HPP
 
-#include "ensure/ensure.hpp"
-#include "ensure/extension.hpp"
-#include "ensure/feature.hpp"
-#include "ensure/layer.hpp"
-#include "ensure/version.hpp"
-
 #include "external/device.hpp"
 #include "external/external.hpp"
 #include "external/instance.hpp"
 #include "external/physical_device.hpp"
 #include "external/queue.hpp"
-
 #include "masks/extension.hpp"
 #include "masks/version.hpp"
+#include "requirements/ensure.hpp"
+#include "requirements/extension.hpp"
+#include "requirements/feature.hpp"
+#include "requirements/layer.hpp"
+#include "requirements/should.hpp"
+#include "requirements/version.hpp"
 
 // PIPELINE
 

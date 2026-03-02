@@ -5,8 +5,8 @@
 
 #include <ktl/api/type.hpp>
 
-#include <kochou/core/ensure/ensure.hpp>
-#include <kochou/core/ensure/extension.hpp>
+#include <kochou/core/requirements/ensure.hpp>
+#include <kochou/core/requirements/extension.hpp>
 
 namespace kochou::user
 {

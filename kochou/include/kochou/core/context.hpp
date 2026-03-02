@@ -6,6 +6,7 @@
 #include <source_location>
 #include <tuple>
 
+#include <ktl/api.hpp>
 #include <ktl/errc.hpp>
 #include <ktl/fixed_string.hpp>
 #include <ktl/flat_map.hpp>
@@ -49,25 +50,21 @@ public:
     finalize();
 
 private:
-    ktl::flat_set< std::string_view > instance_extensions_; // instance
-    ktl::flat_set< std::string_view > device_extensions_;   // device
+    ktl::flat_set< ktl::api::extension_name_type > ensure_instance_extensions_;
+    ktl::flat_set< ktl::api::extension_name_type > should_instance_extensions_;
+    ktl::flat_set< ktl::api::extension_name_type > ensure_device_extensions_;
+    ktl::flat_set< ktl::api::extension_name_type > should_device_extensions_;
     // vulkan_chain features_;                                          // device
     ktl::flat_set< std::string_view > layers_;                          // instance
     ktl::flat_set< std::uint32_t, std::greater< uint32_t > > versions_; // instance
 
+    ktl::flat_set< errc_log > compile_errors_;
+
     ktl::memory::sptr< instance > instance_;
     ktl::memory::sptr< device > device_;
-
-    // std::list<  > errors list - backtrace on finalize
 };
 
 extern constinit context kochou_context_instance;
-
-inline void /* error list */
-init()
-{
-    kochou_context_instance.finalize();
-}
 } // namespace kochou::core
 
 template < kochou::core::vulkan_struct_type FEATURE_TYPE >

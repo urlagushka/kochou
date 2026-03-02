@@ -1,12 +1,12 @@
 #ifndef KOCHOU_USER_WINDOW_XLIB_HPP
 #define KOCHOU_USER_WINDOW_XLIB_HPP
 
-// #include <X11/Xlib.h>
+#include <X11/Xlib.h>
 
 #include <ktl/api/type.hpp>
 
-#include <kochou/core/ensure/ensure.hpp>
-#include <kochou/core/ensure/extension.hpp>
+#include <kochou/core/requirements/ensure.hpp>
+#include <kochou/core/requirements/extension.hpp>
 
 namespace kochou::user
 {
