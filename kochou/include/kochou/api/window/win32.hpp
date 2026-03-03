@@ -1,0 +1,7 @@
+#ifndef KOCHOU_API_WINDOW_WIN32_HPP
+#define KOCHOU_API_WINDOW_WIN32_HPP
+
+#ifdef WIN32_PROFILE
+
+#endif
+#endif

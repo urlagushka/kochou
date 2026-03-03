@@ -1,7 +1,0 @@
-#ifndef KOCHOU_USER_WINDOW_XCB_HPP
-#define KOCHOU_USER_WINDOW_XCB_HPP
-
-#ifdef XCB_PROFILE
-
-#endif
-#endif

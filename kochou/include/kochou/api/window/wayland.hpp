@@ -1,5 +1,5 @@
-#ifndef KOCHOU_USER_WINDOW_WAYLAND_HPP
-#define KOCHOU_USER_WINDOW_WAYLAND_HPP
+#ifndef KOCHOU_API_WINDOW_WAYLAND_HPP
+#define KOCHOU_API_WINDOW_WAYLAND_HPP
 
 #ifdef WAYLAND_PROFILE
 // #include <X11/Xlib.h>
@@ -9,7 +9,7 @@
 #include <kochou/core/requirements/ensure.hpp>
 #include <kochou/core/requirements/extension.hpp>
 
-namespace kochou::user
+namespace kochou::api
 {
 struct wayland_config : core::ensure< core::extension< "VK_KHR_xlib_surface" > >,
                         core::ensure< core::extension< "VK_KHR_surface" > >
@@ -19,7 +19,7 @@ struct wayland_config : core::ensure< core::extension< "VK_KHR_xlib_surface" > >
     // etc
     using close_fn = void (*)();
 };
-} // namespace kochou::user
+} // namespace kochou::api
 
 #endif
 #endif

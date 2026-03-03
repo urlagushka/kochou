@@ -1,5 +1,5 @@
-#ifndef KOCHOU_USER_WINDOW_METAL_HPP
-#define KOCHOU_USER_WINDOW_METAL_HPP
+#ifndef KOCHOU_API_WINDOW_METAL_HPP
+#define KOCHOU_API_WINDOW_METAL_HPP
 
 #ifdef METAL_PROFILE
 
@@ -10,7 +10,7 @@
 #include <kochou/core/requirements/extension.hpp>
 #include <kochou/core/requirements/feature.hpp>
 
-namespace kochou::user
+namespace kochou::api
 {
 struct metal_config final : core::ensure< core::extension< "VK_KHR_surface" > >,
                             core::ensure< core::extension< "VK_EXT_metal_surface" > >
@@ -22,7 +22,7 @@ struct metal_config final : core::ensure< core::extension< "VK_KHR_surface" > >,
 };
 
 using active_config = metal_config;
-} // namespace kochou::user
+} // namespace kochou::api
 
 #endif
 #endif
