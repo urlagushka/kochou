@@ -16,10 +16,7 @@ protected:
     consteval ensure() noexcept
     {
         constexpr auto rc = T::apply();
-        if constexpr (rc != ktl::errc::success)
-        {
-            kochou_context_instance.register_errc(rc); // fatal ?
-        }
+        static_assert(rc == ktl::errc::success && ktl::errc_to_string(rc).data());
     }
 };
 } // namespace kochou::core

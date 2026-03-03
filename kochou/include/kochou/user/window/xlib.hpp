@@ -15,7 +15,8 @@ struct xlib_config : core::ensure< core::extension< "VK_KHR_xlib_surface" > >,
 {
     using handle_type = void;
     using create_fn = void (*)();
-    // etc
+    using surface_fn = void (*)();
+    // ...
     using close_fn = void (*)();
 };
 } // namespace kochou::user

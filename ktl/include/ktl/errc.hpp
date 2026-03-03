@@ -4,7 +4,11 @@
 #include <ostream>
 #include <unordered_map>
 
+#include <ktl/fixed_string.hpp>
+#include <ktl/flat_map.hpp>
 #include <ktl/mask.hpp>
+
+#define KTL_MAX_ERRC_NAME_SIZE 256
 
 namespace ktl
 {
@@ -36,10 +40,10 @@ enum class errc
     vulkan_chain_duplicate,
 };
 
-inline std::string
+inline constexpr ktl::fixed_string< KTL_MAX_ERRC_NAME_SIZE >
 errc_to_string(errc _errc)
 {
-    static const std::unordered_map< errc, std::string > mapper = {
+    constexpr ktl::flat_map< ktl::errc, ktl::fixed_string< KTL_MAX_ERRC_NAME_SIZE > > mapper = {
         {errc::unspecified, "unspecified"},
         {errc::extension_not_provided, "extension_not_provides"},
         {errc::extension_is_deprecated, "extension_is_deprecated"},
@@ -47,7 +51,12 @@ errc_to_string(errc _errc)
         {errc::unknown_vk_api_version, "unknown_vk_api_version"},
         {errc::queue_is_not_dedicated, "queue_is_not_dedicated"}};
 
-    return mapper.at(_errc);
+    auto rc = mapper.at(_errc);
+    if (rc.is_err())
+    {
+        return rc.take_err();
+    }
+    return rc.take_ok();
 }
 
 inline std::ostream &

@@ -34,21 +34,8 @@ constexpr std::string
 format_log(const log_tim_type &, const log_ctx_type &, const log_msg_type &, const log_lvl_type &,
            const log_err_type &);
 
-inline void
-log(std::string_view _msg, log_ctx_type _ctx = log_ctx_type::current())
-{
-}
-
-consteval void
-add_compile(std::string_view _msg, log_ctx_type _ctx = log_ctx_type::current())
-{
-}
-
-template < std::input_iterator IT >
-consteval void
-out_compile(const IT & cbegin, const IT & cend)
-{
-}
+void
+log(std::string_view _msg, log_ctx_type _ctx = log_ctx_type::current());
 } // namespace ktl
 
 #endif

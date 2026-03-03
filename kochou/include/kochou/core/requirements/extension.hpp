@@ -67,7 +67,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
         return version_result.take_err();
     }
 
-    kochou_context_instance.apply_extension(NAME.data, target_result.take_ok());
+    kochou_context_instance.apply_extension(NAME, target_result.take_ok());
     if constexpr (!std::is_same_v< FEATURE_TYPE, vulkan_struct_base >)
     {
         kochou_context_instance.apply_feature< FEATURE_TYPE >(FEATURE);

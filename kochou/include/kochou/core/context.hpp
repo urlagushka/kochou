@@ -24,41 +24,30 @@ namespace kochou::core
 class context final
 {
 public:
-    using src_ctx = std::source_location;
-    using errc_timestamp = std::chrono::time_point< std::chrono::system_clock >;
-    using errc_ctx = std::source_location;
-    using errc_log = std::tuple< errc_timestamp, ktl::errc, errc_ctx >;
-    // using backtrace_list_type = std::list<  >
-
-public:
     consteval context() = default;
     ~context() = default;
 
     template < vulkan_struct_type FEATURE_TYPE >
-    consteval void
-    apply_feature(FEATURE_TYPE _feature, src_ctx _ctx = src_ctx::current());
-    consteval void
+    consteval ktl::errc
+    apply_feature(FEATURE_TYPE _feature);
+    consteval ktl::errc
     apply_version(std::uint32_t _version);
-    consteval void
-    apply_extension(std::string_view _name, extension_target _target);
-    consteval void
+    consteval ktl::errc
+    apply_extension(ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > _name, extension_target _target);
+    consteval ktl::errc
     apply_layer(std::string_view _name);
-    consteval void
-    register_errc(ktl::errc _errc, src_ctx _ctx = src_ctx::current());
 
     ktl::errc
     finalize();
 
 private:
-    ktl::flat_set< ktl::api::extension_name_type > ensure_instance_extensions_;
-    ktl::flat_set< ktl::api::extension_name_type > should_instance_extensions_;
-    ktl::flat_set< ktl::api::extension_name_type > ensure_device_extensions_;
-    ktl::flat_set< ktl::api::extension_name_type > should_device_extensions_;
+    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > ensure_instance_extensions_;
+    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > should_instance_extensions_;
+    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > ensure_device_extensions_;
+    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > should_device_extensions_;
     // vulkan_chain features_;                                          // device
     ktl::flat_set< std::string_view > layers_;                          // instance
     ktl::flat_set< std::uint32_t, std::greater< uint32_t > > versions_; // instance
-
-    ktl::flat_set< errc_log > compile_errors_;
 
     ktl::memory::sptr< instance > instance_;
     ktl::memory::sptr< device > device_;
@@ -68,8 +57,8 @@ extern constinit context kochou_context_instance;
 } // namespace kochou::core
 
 template < kochou::core::vulkan_struct_type FEATURE_TYPE >
-consteval void
-kochou::core::context::apply_feature(FEATURE_TYPE _feature, src_ctx _ctx)
+consteval ktl::errc
+kochou::core::context::apply_feature(FEATURE_TYPE _feature)
 {
     /*
     auto result = features_.insert< FEATURE_TYPE >(_feature);
@@ -79,38 +68,54 @@ kochou::core::context::apply_feature(FEATURE_TYPE _feature, src_ctx _ctx)
     }
 
     std::ignore = result.take_ok(); */
+    return ktl::errc::success;
 }
 
-consteval void
+consteval ktl::errc
 kochou::core::context::apply_version(std::uint32_t _version)
 {
-    versions_.insert(_version);
+    auto rc = versions_.insert(_version);
+    if (rc.is_err())
+    {
+        return rc.take_err();
+    }
+    return ktl::errc::success;
 }
 
-consteval void
-kochou::core::context::apply_extension(std::string_view _name, extension_target _target)
+consteval ktl::errc
+kochou::core::context::apply_extension(ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > _name,
+                                       extension_target _target)
 {
+    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > * target = nullptr;
     switch (_target)
     {
     case extension_target::instance:
-        instance_extensions_.insert(_name);
+        target = &ensure_instance_extensions_;
         break;
     case extension_target::device:
-        device_extensions_.insert(_name);
+        target = &ensure_device_extensions_;
         break;
+    default:
+        return ktl::errc::extension_not_provided;
     }
+
+    auto rc = target->insert(_name);
+    if (rc.is_err())
+    {
+        return rc.take_err();
+    }
+    return ktl::errc::success;
 }
 
-consteval void
+consteval ktl::errc
 kochou::core::context::apply_layer(std::string_view _name)
 {
-    layers_.insert(_name);
-}
-
-consteval void
-kochou::core::context::register_errc(ktl::errc _errc, src_ctx _backtrace)
-{
-    return;
+    auto rc = layers_.insert(_name);
+    if (rc.is_err())
+    {
+        return rc.take_err();
+    }
+    return ktl::errc::success;
 }
 
 #endif
