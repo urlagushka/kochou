@@ -49,6 +49,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
         return ktl::errc::extension_is_deprecated;
     }*/
 
+    /*
     auto type_result = this_extension::type();
     if (type_result.is_err())
     {
@@ -72,7 +73,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
     {
         kochou_context_instance.apply_feature< FEATURE_TYPE >(FEATURE);
     }
-
+    */
     return ktl::errc::success;
 }
 

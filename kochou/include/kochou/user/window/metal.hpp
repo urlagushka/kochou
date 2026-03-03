@@ -17,6 +17,8 @@ struct metal_config final : core::ensure< core::extension< "VK_KHR_surface" > >,
 {
     using window_handle = void;
     using display_handle = void;
+    using create_fn = void;
+    using destroy_fn = void;
 };
 
 using active_config = metal_config;

@@ -1,6 +1,7 @@
 #ifndef KOCHOU_USER_WINDOW_WAYLAND_HPP
 #define KOCHOU_USER_WINDOW_WAYLAND_HPP
 
+#ifdef 0
 // #include <X11/Xlib.h>
 
 #include <ktl/api/type.hpp>
@@ -20,4 +21,5 @@ struct wayland_config : core::ensure< core::extension< "VK_KHR_xlib_surface" > >
 };
 } // namespace kochou::user
 
+#endif
 #endif

@@ -7,6 +7,7 @@
 
 #include <kochou/core/context.hpp>
 #include <kochou/user/default_render.hpp>
+#include <kochou/user/window/window.hpp>
 
 int
 main()

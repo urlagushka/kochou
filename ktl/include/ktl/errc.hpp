@@ -40,9 +40,10 @@ enum class errc
     vulkan_chain_duplicate,
 };
 
-inline constexpr ktl::fixed_string< KTL_MAX_ERRC_NAME_SIZE >
+inline constexpr void // ktl::fixed_string< KTL_MAX_ERRC_NAME_SIZE >
 errc_to_string(errc _errc)
 {
+    /*
     constexpr ktl::flat_map< ktl::errc, ktl::fixed_string< KTL_MAX_ERRC_NAME_SIZE > > mapper = {
         {errc::unspecified, "unspecified"},
         {errc::extension_not_provided, "extension_not_provides"},
@@ -57,12 +58,14 @@ errc_to_string(errc _errc)
         return rc.take_err();
     }
     return rc.take_ok();
+    */
+    // return ktl::fixed_string< KTL_MAX_ERRC_NAME_SIZE >("draft");
 }
 
 inline std::ostream &
 operator<<(std::ostream & _out, const errc & _errc)
 {
-    return _out << errc_to_string(_errc);
+    return _out; // << errc_to_string(_errc);
 }
 } // namespace ktl
 
