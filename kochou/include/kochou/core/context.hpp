@@ -25,7 +25,7 @@ class context final
 {
 public:
     consteval context() = default;
-    ~context() = default;
+    ~context()          = default;
 
     template < vulkan_struct_type FEATURE_TYPE >
     consteval ktl::errc
@@ -46,11 +46,11 @@ private:
     ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > ensure_device_extensions_;
     ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > should_device_extensions_;
     // vulkan_chain features_;                                          // device
-    ktl::flat_set< std::string_view > layers_;                          // instance
+    ktl::flat_set< std::string_view >                        layers_;   // instance
     ktl::flat_set< std::uint32_t, std::greater< uint32_t > > versions_; // instance
 
     ktl::memory::sptr< instance > instance_;
-    ktl::memory::sptr< device > device_;
+    ktl::memory::sptr< device >   device_;
 };
 
 extern constinit context kochou_context_instance;
@@ -84,7 +84,7 @@ kochou::core::context::apply_version(std::uint32_t _version)
 
 consteval ktl::errc
 kochou::core::context::apply_extension(ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > _name,
-                                       extension_target _target)
+                                       extension_target                                     _target)
 {
     ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > * target = nullptr;
     switch (_target)
@@ -96,7 +96,7 @@ kochou::core::context::apply_extension(ktl::fixed_string< KTL_API_MAX_EXTENSION_
         target = &ensure_device_extensions_;
         break;
     default:
-        return ktl::errc::extension_not_provided;
+        return ktl::errc::extension_not_provides;
     }
 
     auto rc = target->insert(_name);

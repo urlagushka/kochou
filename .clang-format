@@ -55,3 +55,17 @@ IncludeCategories:
     Priority: 4
     SortPriority: 4
 
+# Выравнивание присваиваний (=)
+AlignConsecutiveAssignments:
+  Enabled: true           # Включить выравнивание
+  AcrossEmptyLines: false # Не выравнивать через пустые строки
+  AcrossComments: false   # Не выравнивать через комментарии
+  AlignCompound: false    # Не выравнивать составные операторы (+=, -=)
+  PadOperators: true      # Добавлять пробелы вокруг операторов
+
+# Выравнивание объявлений (для переменных)
+AlignConsecutiveDeclarations:
+  Enabled: true
+
+# Выравнивание инициализаторов в конструкторах
+AlignConsecutiveBitFields: false

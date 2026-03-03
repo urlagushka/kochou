@@ -21,7 +21,7 @@ kochou::core::layer< NAME >::apply() noexcept
     std::string name = NAME;
     if (!name.starts_with("VK_LAYER_"))
     {
-        return ktl::errc::layer_not_provided;
+        return ktl::errc::layer_wrong_value;
     }
 
     kochou_context_instance.apply_layer(NAME);

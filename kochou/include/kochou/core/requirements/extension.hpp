@@ -84,7 +84,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
     std::string name = NAME.data;
     if (name.size() < 3)
     {
-        return ktl::err{ktl::errc::extension_not_provided};
+        return ktl::err{ktl::errc::extension_wrong_value};
     }
 
     std::string prefix = name.substr(3, name.size() - 3);
@@ -161,7 +161,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
         return ktl::ok{extension_type::mesa};
     }
 
-    return ktl::err{ktl::errc::extension_not_provided};
+    return ktl::err{ktl::errc::extension_not_provides};
 }
 
 template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >

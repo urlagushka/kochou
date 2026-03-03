@@ -14,11 +14,11 @@ namespace ktl
 {
 enum class err_level
 {
-    debug = 0,
-    info = 1,
+    debug   = 0,
+    info    = 1,
     warning = 2,
-    error = 3,
-    fatal = 4
+    error   = 3,
+    fatal   = 4
 };
 
 enum class errc
@@ -31,12 +31,24 @@ enum class errc
     no_memmory,
 
     // vulkan api
-    extension_not_provided,
+    extension_wrong_value,
+    extension_not_provides,
     extension_is_deprecated,
+
+    feature_wrong_value,
+    feature_not_provides,
+    feature_is_deprecated,
+
     bad_vk_api_version,
     unknown_vk_api_version,
-    queue_is_not_dedicated,
-    layer_not_provided,
+
+    queue_wrong_value,
+    queue_not_provides,
+    queue_not_dedicated,
+
+    layer_wrong_value,
+    layer_not_provides,
+
     vulkan_chain_duplicate,
 };
 
