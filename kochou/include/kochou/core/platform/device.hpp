@@ -1,7 +1,9 @@
-#ifndef KOCHOU_API_PLATFORM_PHYSICAL_DEVICE_HPP
-#define KOCHOU_API_PLATFORM_PHYSICAL_DEVICE_HPP
+#ifndef KOCHOU_API_PLATFORM_DEVICE_HPP
+#define KOCHOU_API_PLATFORM_DEVICE_HPP
 
 #include <ktl/mask.hpp>
+
+#include <kochou/core/masks/gpu.hpp>
 
 #include "version.hpp"
 
@@ -9,26 +11,11 @@
 
 namespace kochou::core
 {
-struct gpu final
+struct device final
 {
-    enum _type : ktl::mask_underlying_type
-    {
-        other = 0x1,
-        integrated = 0x2,
-        discrete = 0x4,
-        vvirtual = 0x8,
-        cpu = 0x10
-    };
-
-    enum _vendor : ktl::mask_underlying_type
-    {
-        nvidia = 0x10DE,
-        amd = 0x1002
-    };
-
     std::string name;
-    _type type;
-    _vendor vendor;
+    gpu_type type;
+    gpu_vendor vendor;
     vk_version api;
 };
 

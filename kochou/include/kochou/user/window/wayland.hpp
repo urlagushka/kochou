@@ -1,7 +1,7 @@
 #ifndef KOCHOU_USER_WINDOW_WAYLAND_HPP
 #define KOCHOU_USER_WINDOW_WAYLAND_HPP
 
-#ifdef 0
+#ifdef WAYLAND_PROFILE
 // #include <X11/Xlib.h>
 
 #include <ktl/api/type.hpp>

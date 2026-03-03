@@ -1,7 +1,7 @@
 #ifndef KOCHOU_USER_WINDOW_METAL_HPP
 #define KOCHOU_USER_WINDOW_METAL_HPP
 
-#ifdef __APPLE__
+#ifdef METAL_PROFILE
 
 #include <Metal/Metal.h>
 #include <QuartzCore/CAMetalLayer.h>

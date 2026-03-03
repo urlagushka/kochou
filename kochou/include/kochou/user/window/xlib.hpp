@@ -1,7 +1,7 @@
 #ifndef KOCHOU_USER_WINDOW_XLIB_HPP
 #define KOCHOU_USER_WINDOW_XLIB_HPP
 
-#ifdef 0
+#ifdef XLIB_PROFILE
 
 #include <X11/Xlib.h>
 

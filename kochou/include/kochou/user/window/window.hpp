@@ -27,7 +27,7 @@ class window_interface final
     // using function and type from WINDOW_TYPE
 };
 
-using window = window_interface< active_config >;
+// using window = window_interface< active_config >;
 } // namespace kochou::user
 
 #endif
