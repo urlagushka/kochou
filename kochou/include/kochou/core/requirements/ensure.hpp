@@ -1,6 +1,8 @@
 #ifndef KOCHOU_CORE_REQUIREMENTS_ENSURE_HPP
 #define KOCHOU_CORE_REQUIREMENTS_ENSURE_HPP
 
+#include <source_location>
+
 #include <ktl/errc.hpp>
 #include <ktl/result.hpp>
 
@@ -13,7 +15,7 @@ template < requirement_concept T >
 class ensure
 {
 protected:
-    consteval ensure() noexcept
+    consteval ensure(std::source_location _ctx = std::source_location::current()) noexcept
     {
         constexpr auto rc = T::apply();
         static_assert(rc == ktl::errc::success);
