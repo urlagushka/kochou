@@ -19,7 +19,7 @@ type_name()
     suffix = "]";
 #elif defined(__GNUC__)
     name   = __PRETTY_FUNCTION__;
-    prefix = "constexpr std::string_view ktl::reflection::type_name() [with T = ";
+    prefix = "consteval std::string_view ktl::reflection::type_name() [with T = ";
     suffix = "]";
 #elif defined(_MSC_VER)
     name   = __FUNCSIG__;

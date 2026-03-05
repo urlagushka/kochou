@@ -8,6 +8,7 @@
 
 #include <kochou/api/window/window.hpp>
 #include <kochou/core/context.hpp>
+#include <kochou/core/requirements/allowed.hpp>
 #include <kochou/core/requirements/ensure.hpp>
 #include <kochou/user/default_render.hpp>
 
@@ -15,5 +16,5 @@ int
 main()
 {
     kochou::user::metadata_render render;
-    std::cout << ktl::reflection::type_name< int >() << std::endl;
+    std::cout << kochou::core::allowed< kochou::user::metadata_render >() << std::endl;
 }

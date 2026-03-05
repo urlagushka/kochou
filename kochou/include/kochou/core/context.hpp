@@ -49,6 +49,11 @@ private:
     ktl::flat_set< std::string_view >                        layers_;   // instance
     ktl::flat_set< std::uint32_t, std::greater< uint32_t > > versions_; // instance
 
+    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > real_extensions_;
+    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_FEATURE_NAME_SIZE > >   real_features_;
+    std::uint32_t                                                         real_version_;
+    ktl::flat_map< std::string_view, ktl::flat_set< std::any > >          requirements;
+
     ktl::memory::sptr< instance > instance_;
     ktl::memory::sptr< device >   device_;
 };
