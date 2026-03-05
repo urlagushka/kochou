@@ -15,6 +15,7 @@ namespace ktl::api
 {
 struct extension_name final : ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE >
 {
+    using ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE >::fixed_string;
 };
 struct feature_name final : ktl::fixed_string< KTL_API_MAX_FEATURE_NAME_SIZE >
 {
