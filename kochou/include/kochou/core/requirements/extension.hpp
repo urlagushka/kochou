@@ -19,7 +19,7 @@
 
 namespace kochou::core
 {
-template < ktl::fixed_string NAME, vulkan_struct_type FEATURE_TYPE = vulkan_struct_base,
+template < ktl::api::extension_name NAME, vulkan_struct_type FEATURE_TYPE = vulkan_struct_base,
            FEATURE_TYPE FEATURE = FEATURE_TYPE{} >
 struct extension final
 {
@@ -39,7 +39,7 @@ struct extension final
 };
 } // namespace kochou::core
 
-template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 consteval ktl::errc
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
 {
@@ -77,7 +77,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
     return ktl::errc::success;
 }
 
-template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 constexpr ktl::result< kochou::core::extension_type, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
 {
@@ -164,7 +164,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
     return ktl::err{ktl::errc::extension_not_provides};
 }
 
-template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 constexpr ktl::result< kochou::core::extension_target, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
 {
@@ -186,7 +186,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
     return ktl::err{ktl::errc::unspecified};
 }
 
-template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 constexpr ktl::result< kochou::core::vulkan_version, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
 {
@@ -227,7 +227,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
     return ktl::err{ktl::errc::unknown_vk_api_version};
 }
 
-template < ktl::fixed_string NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
+template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 constexpr bool
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::is_deprecated() noexcept
 {

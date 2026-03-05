@@ -17,6 +17,7 @@
 #include <kochou/core/external/device.hpp>
 #include <kochou/core/external/instance.hpp>
 #include <kochou/core/masks/extension.hpp>
+#include <kochou/core/masks/queue.hpp>
 #include <kochou/core/vulkan_chain.hpp>
 
 namespace kochou::core
@@ -41,6 +42,11 @@ public:
     finalize();
 
 private:
+    using requirement_data =
+        std::variant< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE >,
+                      ktl::fixed_string< KTL_API_MAX_FEATURE_NAME_SIZE >,
+                      ktl::fixed_string< KTL_API_MAX_LAYER_NAME_SIZE >, std::uint32_t, queue_type >;
+
     ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > ensure_instance_extensions_;
     ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > should_instance_extensions_;
     ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > ensure_device_extensions_;
@@ -49,10 +55,10 @@ private:
     ktl::flat_set< std::string_view >                        layers_;   // instance
     ktl::flat_set< std::uint32_t, std::greater< uint32_t > > versions_; // instance
 
-    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > real_extensions_;
-    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_FEATURE_NAME_SIZE > >   real_features_;
-    std::uint32_t                                                         real_version_;
-    ktl::flat_map< std::string_view, ktl::flat_set< std::any > >          requirements;
+    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > >                    real_extensions_;
+    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_FEATURE_NAME_SIZE > >                      real_features_;
+    std::uint32_t                                                                            real_version_;
+    ktl::flat_map< std::string_view, std::pair< std::uint32_t, ktl::flat_set< std::any > > > requirements;
 
     ktl::memory::sptr< instance > instance_;
     ktl::memory::sptr< device >   device_;

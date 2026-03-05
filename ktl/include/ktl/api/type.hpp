@@ -3,24 +3,33 @@
 
 #include <cstdint>
 
+#include <ktl/fixed_string.hpp>
 #include <ktl/flat_set.hpp>
 
 #include "constants.hpp"
 
 #define KTL_API_MAX_FEATURE_NAME_SIZE 1024
+#define KTL_API_MAX_LAYER_NAME_SIZE 1024
 
 namespace ktl::api
 {
+struct extension_name final : ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE >
+{
+};
+struct feature_name final : ktl::fixed_string< KTL_API_MAX_FEATURE_NAME_SIZE >
+{
+};
+struct layer_name final : ktl::fixed_string< KTL_API_MAX_LAYER_NAME_SIZE >
+{
+};
 using version_type = std::uint32_t;
-using feature_name_type = char[KTL_API_MAX_FEATURE_NAME_SIZE];
-using extension_name_type = char[KTL_API_MAX_EXTENSION_NAME_SIZE];
 
 struct feature final
 {
-    ktl::api::feature_name_type name;
-    ktl::api::version_type version;
-    ktl::flat_set< ktl::api::extension_name_type > extension_deps;
-    ktl::flat_set< ktl::api::feature_name_type > feature_deps;
+    ktl::api::feature_name                    name;
+    ktl::api::version_type                    version;
+    ktl::flat_set< ktl::api::extension_name > extension_deps;
+    ktl::flat_set< ktl::api::feature_name >   feature_deps;
 
     std::uint32_t structure_type;
     std::uint32_t offset;
@@ -29,11 +38,11 @@ struct feature final
 
 struct extension final
 {
-    ktl::api::extension_name_type name;
-    ktl::api::version_type spec_version;
-    ktl::api::version_type promoted_to;
-    ktl::flat_set< ktl::api::feature > features;
-    ktl::flat_set< ktl::api::extension_name_type > deps;
+    ktl::api::extension_name                  name;
+    ktl::api::version_type                    spec_version;
+    ktl::api::version_type                    promoted_to;
+    ktl::flat_set< ktl::api::feature >        features;
+    ktl::flat_set< ktl::api::extension_name > deps;
 };
 } // namespace ktl::api
 
