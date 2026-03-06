@@ -28,6 +28,10 @@ struct extension final
 
     static consteval ktl::errc
     apply() noexcept;
+
+    static bool
+    allowed() noexcept;
+
     static constexpr ktl::result< extension_type, ktl::errc >
     type() noexcept;
     static constexpr ktl::result< extension_target, ktl::errc >
@@ -75,6 +79,13 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
     }
     */
     return ktl::errc::success;
+}
+
+template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
+bool
+kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::allowed() noexcept
+{
+    return false;
 }
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >

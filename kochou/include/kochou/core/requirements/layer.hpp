@@ -1,20 +1,23 @@
 #ifndef KOCHOU_CORE_REQUIREMENTS_LAYER_HPP
 #define KOCHOU_CORE_REQUIREMENTS_LAYER_HPP
 
+#include <ktl/api/type.hpp>
 #include <ktl/errc.hpp>
-#include <ktl/fixed_string.hpp>
 
 namespace kochou::core
 {
-template < ktl::fixed_string NAME >
+template < ktl::api::layer_name NAME >
 struct layer final
 {
     static consteval ktl::errc
     apply() noexcept;
+
+    static bool
+    allowed() noexcept;
 };
 } // namespace kochou::core
 
-template < ktl::fixed_string NAME >
+template < ktl::api::layer_name NAME >
 consteval ktl::errc
 kochou::core::layer< NAME >::apply() noexcept
 {
@@ -26,6 +29,13 @@ kochou::core::layer< NAME >::apply() noexcept
 
     kochou_context_instance.apply_layer(NAME);
     return ktl::errc::success;
+}
+
+template < ktl::api::layer_name NAME >
+bool
+kochou::core::layer< NAME >::allowed() noexcept
+{
+    return false;
 }
 
 #endif

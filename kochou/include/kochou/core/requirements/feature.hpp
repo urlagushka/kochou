@@ -12,6 +12,9 @@ struct feature final
 {
     static consteval ktl::errc
     apply() noexcept;
+
+    static bool
+    allowed() noexcept;
 };
 } // namespace kochou::core
 
@@ -21,6 +24,13 @@ kochou::core::feature< FEATURE_TYPE, FEATURE >::apply() noexcept
 {
     kochou_context_instance.apply_feature< FEATURE_TYPE >(FEATURE);
     return ktl::errc::success;
+}
+
+template < kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
+bool
+kochou::core::feature< FEATURE_TYPE, FEATURE >::allowed() noexcept
+{
+    return false;
 }
 
 #endif

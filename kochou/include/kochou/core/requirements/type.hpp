@@ -24,26 +24,6 @@ concept requirement_concept = requires() {
     requires noexcept(T::apply());
     requires noexcept(T::allowed());
 };
-
-struct requirement_data final
-{
-    union
-    {
-        ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > extension;
-        ktl::fixed_string< KTL_API_MAX_FEATURE_NAME_SIZE >   feature;
-        ktl::fixed_string< KTL_API_MAX_LAYER_NAME_SIZE >     layer;
-        std::uint32_t                                        version;
-        queue_type                                           queue;
-    } data;
-    enum
-    {
-        extension,
-        feature,
-        layer,
-        version,
-        queue
-    } tag;
-};
 } // namespace kochou::core
 
 #endif

@@ -9,8 +9,8 @@ namespace ktl
 template < std::size_t SIZE >
 struct fixed_string
 {
-    char data[SIZE] = {};
-    std::size_t size = SIZE - 1;
+    char        data[SIZE] = {};
+    std::size_t size       = SIZE - 1;
 
     constexpr fixed_string(const char (&str)[SIZE])
     {
@@ -18,6 +18,19 @@ struct fixed_string
         {
             data[i] = str[i];
         }
+    }
+
+    template < std::size_t OTHER_SIZE >
+    constexpr fixed_string(const char (&other)[OTHER_SIZE])
+    {
+        static_assert(OTHER_SIZE <= SIZE);
+        size = OTHER_SIZE;
+
+        for (std::size_t i = 0; i < size; ++i)
+        {
+            data[i] = other[i];
+        }
+        data[size] = '\0';
     }
 
     template < std::size_t OTHER_SIZE >

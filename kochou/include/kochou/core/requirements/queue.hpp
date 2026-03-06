@@ -12,6 +12,9 @@ struct queue final
 {
     static consteval ktl::errc
     apply() noexcept;
+
+    static bool
+    allowed() noexcept;
 };
 } // namespace kochou::core
 
@@ -20,6 +23,13 @@ consteval ktl::errc
 kochou::core::queue< QUEUE_TYPE >::apply() noexcept
 {
     return ktl::errc::success;
+}
+
+template < kochou::core::queue_type QUEUE_TYPE >
+bool
+allowed() noexcept
+{
+    return false;
 }
 
 #endif
