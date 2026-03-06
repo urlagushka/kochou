@@ -10,7 +10,7 @@ namespace kochou::user
 class metadata_render : core::ensure< core::extension< "VK_EXT_mesh_shader" > >,
                         core::ensure< core::extension< "VK_KHR_dynamic_rendering" > >,
                         core::should< core::extension< "VK_MVK_something" > >,
-                        core::ensure< core::version< core::vulkan_version::v1_3 > >
+                        core::ensure< core::version< ktl::api::make_version(0, 1, 3, 0) > >
 {
 public:
     consteval metadata_render() = default;

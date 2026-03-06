@@ -7,7 +7,6 @@
 #include "external/physical_device.hpp"
 #include "external/queue.hpp"
 #include "masks/extension.hpp"
-#include "masks/version.hpp"
 #include "requirements/ensure.hpp"
 #include "requirements/extension.hpp"
 #include "requirements/feature.hpp"

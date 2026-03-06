@@ -34,7 +34,7 @@ struct extension final
     type() noexcept;
     static constexpr ktl::result< extension_target, ktl::errc >
     target() noexcept;
-    static constexpr ktl::result< vulkan_version, ktl::errc >
+    static constexpr ktl::result< ktl::api::vulkan_version, ktl::errc >
     version() noexcept;
     static constexpr bool
     is_deprecated() noexcept;
@@ -196,7 +196,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
 }
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-constexpr ktl::result< kochou::core::vulkan_version, ktl::errc >
+constexpr ktl::result< ktl::api::vulkan_version, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
 {
     /*

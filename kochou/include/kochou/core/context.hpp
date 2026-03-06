@@ -34,25 +34,31 @@ public:
     consteval ktl::errc
     apply_version(std::uint32_t _version);
     consteval ktl::errc
-    apply_extension(ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > _name, extension_target _target);
+    apply_extension(ktl::api::extension_name _name, extension_target _target);
     consteval ktl::errc
-    apply_layer(std::string_view _name);
+    apply_layer(ktl::api::layer_name _name);
+
+    bool
+    allowed(std::string_view _name)
+    {
+        return false;
+    };
 
     ktl::errc
     finalize();
 
 private:
-    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > ensure_instance_extensions_;
-    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > should_instance_extensions_;
-    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > ensure_device_extensions_;
-    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > should_device_extensions_;
+    ktl::flat_set< ktl::api::extension_name > ensure_instance_extensions_;
+    ktl::flat_set< ktl::api::extension_name > should_instance_extensions_;
+    ktl::flat_set< ktl::api::extension_name > ensure_device_extensions_;
+    ktl::flat_set< ktl::api::extension_name > should_device_extensions_;
     // vulkan_chain features_;                                          // device
-    ktl::flat_set< std::string_view >                        layers_;   // instance
-    ktl::flat_set< std::uint32_t, std::greater< uint32_t > > versions_; // instance
+    ktl::flat_set< ktl::api::layer_name >                                               layers_;   // instance
+    ktl::flat_set< ktl::api::vulkan_version, std::greater< ktl::api::vulkan_version > > versions_; // instance
 
-    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > real_extensions_;
-    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_FEATURE_NAME_SIZE > >   real_features_;
-    std::uint32_t                                                         real_version_;
+    ktl::flat_set< ktl::api::extension_name > real_extensions_;
+    ktl::flat_set< ktl::api::feature_name >   real_features_;
+    ktl::api::vulkan_version                  real_version_;
     ktl::flat_map<
         std::string_view,
         std::pair< std::uint32_t, ktl::flat_set< std::variant< ktl::api::extension_name, ktl::api::feature_name,
@@ -82,7 +88,7 @@ kochou::core::context::apply_feature(FEATURE_TYPE _feature)
 }
 
 consteval ktl::errc
-kochou::core::context::apply_version(std::uint32_t _version)
+kochou::core::context::apply_version(ktl::api::vulkan_version _version)
 {
     auto rc = versions_.insert(_version);
     if (rc.is_err())
@@ -93,10 +99,9 @@ kochou::core::context::apply_version(std::uint32_t _version)
 }
 
 consteval ktl::errc
-kochou::core::context::apply_extension(ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > _name,
-                                       extension_target                                     _target)
+kochou::core::context::apply_extension(ktl::api::extension_name _name, extension_target _target)
 {
-    ktl::flat_set< ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE > > * target = nullptr;
+    ktl::flat_set< ktl::api::extension_name > * target = nullptr;
     switch (_target)
     {
     case extension_target::instance:
@@ -118,7 +123,7 @@ kochou::core::context::apply_extension(ktl::fixed_string< KTL_API_MAX_EXTENSION_
 }
 
 consteval ktl::errc
-kochou::core::context::apply_layer(std::string_view _name)
+kochou::core::context::apply_layer(ktl::api::layer_name _name)
 {
     auto rc = layers_.insert(_name);
     if (rc.is_err())

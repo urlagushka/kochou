@@ -23,7 +23,7 @@ template < ktl::api::layer_name NAME >
 consteval ktl::errc
 kochou::core::layer< NAME >::apply(requirement_type _type) noexcept
 {
-    std::string name = NAME;
+    std::string_view name(NAME.data, NAME.size);
     if (!name.starts_with("VK_LAYER_"))
     {
         return ktl::errc::layer_wrong_value;

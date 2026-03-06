@@ -5,7 +5,7 @@
 
 namespace ktl::api
 {
-constexpr version_type
+constexpr vulkan_version
 make_version(std::uint32_t variant, std::uint32_t major, std::uint32_t minor, std::uint32_t patch)
 {
     return (variant << 29U) | (major << 22U) | (minor << 12U) | patch;

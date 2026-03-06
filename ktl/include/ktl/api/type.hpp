@@ -25,12 +25,12 @@ struct layer_name final : ktl::fixed_string< KTL_API_MAX_LAYER_NAME_SIZE >
 {
     using ktl::fixed_string< KTL_API_MAX_LAYER_NAME_SIZE >::fixed_string;
 };
-using version_type = std::uint32_t;
+using vulkan_version = std::uint32_t;
 
 struct feature final
 {
     ktl::api::feature_name                    name;
-    ktl::api::version_type                    version;
+    ktl::api::vulkan_version                  version;
     ktl::flat_set< ktl::api::extension_name > extension_deps;
     ktl::flat_set< ktl::api::feature_name >   feature_deps;
 
@@ -42,8 +42,8 @@ struct feature final
 struct extension final
 {
     ktl::api::extension_name                  name;
-    ktl::api::version_type                    spec_version;
-    ktl::api::version_type                    promoted_to;
+    ktl::api::vulkan_version                  spec_version;
+    ktl::api::vulkan_version                  promoted_to;
     ktl::flat_set< ktl::api::feature >        features;
     ktl::flat_set< ktl::api::extension_name > deps;
 };
