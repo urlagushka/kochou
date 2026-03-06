@@ -1,18 +1,11 @@
 #ifndef KOCHOU_CORE_REQUIREMENTS_VERSION_HPP
 #define KOCHOU_CORE_REQUIREMENTS_VERSION_HPP
 
-#include <set>
-#include <string_view>
-
 #include <kochou/core/context.hpp>
 #include <kochou/core/masks/version.hpp>
 
-#include <vulkan/vulkan.hpp>
-
 namespace kochou::core
 {
-using versions_set = std::set< vulkan_version >;
-
 template < vulkan_version VERSION >
 struct version final
 {
@@ -20,6 +13,9 @@ struct version final
 
     static consteval ktl::errc
     apply() noexcept;
+
+    static bool
+    allowed() noexcept;
 };
 } // namespace kochou::core
 
@@ -39,6 +35,13 @@ kochou::core::version< VERSION >::apply() noexcept
 
     kochou_context_instance.apply_version(static_cast< uint32_t >(VERSION));
     return ktl::errc::success;
+}
+
+template < kochou::core::vulkan_version VERSION >
+bool
+kochou::core::version< VERSION >::allowed() noexcept
+{
+    return false;
 }
 
 #endif

@@ -18,10 +18,10 @@ enum class requirement_type : std::uint32_t
 };
 
 template < typename T >
-concept requirement_concept = requires() {
-    requires std::same_as< decltype(T::apply()), ktl::errc >;
+concept requirement_concept = requires(requirement_type _type) {
+    requires std::same_as< decltype(T::apply(_type)), ktl::errc >;
     requires std::same_as< decltype(T::allowed()), bool >;
-    requires noexcept(T::apply());
+    requires noexcept(T::apply(_type));
     requires noexcept(T::allowed());
 };
 } // namespace kochou::core

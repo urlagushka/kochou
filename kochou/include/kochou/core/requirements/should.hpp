@@ -13,7 +13,7 @@ class should
 protected:
     consteval should() noexcept
     {
-        constexpr auto rc = T::apply();
+        constexpr auto rc = T::apply(requirement_type::should);
         static_assert(rc == ktl::errc::success);
     }
 };

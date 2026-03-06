@@ -15,8 +15,6 @@
 #include <kochou/core/requirements/version.hpp>
 #include <kochou/core/vulkan_chain.hpp>
 
-#include <vulkan/vulkan_extension_inspection.hpp>
-
 namespace kochou::core
 {
 template < ktl::api::extension_name NAME, vulkan_struct_type FEATURE_TYPE = vulkan_struct_base,
@@ -27,7 +25,7 @@ struct extension final
     using enum extension_target;
 
     static consteval ktl::errc
-    apply() noexcept;
+    apply(requirement_type _type) noexcept;
 
     static bool
     allowed() noexcept;
@@ -45,7 +43,7 @@ struct extension final
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 consteval ktl::errc
-kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply() noexcept
+kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply(requirement_type _type) noexcept
 {
     using this_extension = extension< NAME >;
     /*if (this_extension::is_deprecated())
@@ -201,6 +199,7 @@ template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATU
 constexpr ktl::result< kochou::core::vulkan_version, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
 {
+    /*
     static const auto version_map = vk::getPromotedExtensions();
 
     if (!version_map.contains(NAME.data))
@@ -234,7 +233,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
         kochou_context_instance.apply_version(static_cast< uint32_t >(vulkan_version::v1_4));
         return ktl::ok{vulkan_version::v1_4};
     }
-
+    */
     return ktl::err{ktl::errc::unknown_vk_api_version};
 }
 
