@@ -1,4 +1,5 @@
 #include <stdexcept>
+
 #include <vulkan_utils/io_handles.hpp>
 #include <vulkan_utils/swapchain.hpp>
 
@@ -8,9 +9,9 @@ vk::utils::swapchain::swapchain(device & dev, const vk::raii::SurfaceKHR & surfa
       __depth_image(VK_NULL_HANDLE), __depth_memory(VK_NULL_HANDLE), // asdasd
       __depth_view(VK_NULL_HANDLE)                                   // asd
 {
-    vk::SurfaceCapabilitiesKHR cap = dev.get_physical_device().getSurfaceCapabilitiesKHR(surface);
-    __extent2d = cap.currentExtent;
-    __surface_format = get_color(dev, surface);
+    vk::SurfaceCapabilitiesKHR cap            = dev.get_physical_device().getSurfaceCapabilitiesKHR(surface);
+    __extent2d                                = cap.currentExtent;
+    __surface_format                          = get_color(dev, surface);
     vk::SwapchainCreateInfoKHR swapchain_info = {{},
                                                  surface,
                                                  std::clamp(2u, cap.minImageCount, cap.maxImageCount),
@@ -29,7 +30,7 @@ vk::utils::swapchain::swapchain(device & dev, const vk::raii::SurfaceKHR & surfa
                                                  VK_NULL_HANDLE};
 
     __swapchain = std::move(dev.get_device().createSwapchainKHR(swapchain_info));
-    __images = __swapchain.getImages();
+    __images    = __swapchain.getImages();
 
     for (const auto & image : __images)
     {
@@ -40,7 +41,7 @@ vk::utils::swapchain::swapchain(device & dev, const vk::raii::SurfaceKHR & surfa
         __images_view.push_back(std::move(dev.get_device().createImageView(view_create_info)));
     }
 
-    vk::Format depth_format = vk::Format::eD32Sfloat;
+    vk::Format          depth_format = vk::Format::eD32Sfloat;
     vk::ImageCreateInfo image_info{{},
                                    vk::ImageType::e2D,
                                    depth_format,

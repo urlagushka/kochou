@@ -69,3 +69,4 @@ AlignConsecutiveDeclarations:
 
 # Выравнивание инициализаторов в конструкторах
 AlignConsecutiveBitFields: false
+AllowAllParametersOfDeclarationOnNextLine: true
