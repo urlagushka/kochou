@@ -2,15 +2,17 @@
 #define KOCHOU_CORE_REQUIREMENTS_VERSION_HPP
 
 #include <ktl/api/version.hpp>
+#include <ktl/errc.hpp>
 
 #include <kochou/core/context.hpp>
+#include <kochou/core/requirements/type.hpp>
 
 namespace kochou::core
 {
 template < ktl::api::vulkan_version VERSION >
 struct version final
 {
-    static consteval ktl::errc
+    static ktl::errc
     apply(requirement_type _type) noexcept;
 
     static bool
@@ -19,10 +21,10 @@ struct version final
 } // namespace kochou::core
 
 template < ktl::api::vulkan_version VERSION >
-consteval ktl::errc
+ktl::errc
 kochou::core::version< VERSION >::apply(requirement_type _type) noexcept
 {
-    return kochou_context_instance.apply_version(static_cast< uint32_t >(VERSION));
+    return context::get().apply_version(VERSION);
 }
 
 template < ktl::api::vulkan_version VERSION >

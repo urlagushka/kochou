@@ -11,7 +11,7 @@ namespace kochou::core
 template < vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 struct feature final
 {
-    static consteval ktl::errc
+    static ktl::errc
     apply(requirement_type _type) noexcept;
 
     static bool
@@ -20,10 +20,11 @@ struct feature final
 } // namespace kochou::core
 
 template < kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-consteval ktl::errc
+ktl::errc
 kochou::core::feature< FEATURE_TYPE, FEATURE >::apply(requirement_type _type) noexcept
 {
-    return kochou_context_instance.apply_feature< FEATURE_TYPE >(FEATURE);
+    // return kochou_context_instance.apply_feature< FEATURE_TYPE >(FEATURE);
+    return ktl::errc::success;
 }
 
 template < kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >

@@ -11,7 +11,7 @@ namespace kochou::core
 template < ktl::api::layer_name NAME >
 struct layer final
 {
-    static consteval ktl::errc
+    static ktl::errc
     apply(requirement_type _type) noexcept;
 
     static bool
@@ -20,7 +20,7 @@ struct layer final
 } // namespace kochou::core
 
 template < ktl::api::layer_name NAME >
-consteval ktl::errc
+ktl::errc
 kochou::core::layer< NAME >::apply(requirement_type _type) noexcept
 {
     std::string_view name(NAME.data, NAME.size);
@@ -29,7 +29,7 @@ kochou::core::layer< NAME >::apply(requirement_type _type) noexcept
         return ktl::errc::layer_wrong_value;
     }
 
-    kochou_context_instance.apply_layer(NAME);
+    context::get().apply_layer(NAME);
     return ktl::errc::success;
 }
 

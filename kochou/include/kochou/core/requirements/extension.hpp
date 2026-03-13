@@ -12,6 +12,7 @@
 #include <kochou/core/context.hpp>
 #include <kochou/core/requirements/ensure.hpp>
 #include <kochou/core/requirements/feature.hpp>
+#include <kochou/core/requirements/type.hpp>
 #include <kochou/core/requirements/version.hpp>
 #include <kochou/core/vulkan_chain.hpp>
 
@@ -24,17 +25,17 @@ struct extension final
     using enum extension_type;
     using enum extension_target;
 
-    static consteval ktl::errc
+    static ktl::errc
     apply(requirement_type _type) noexcept;
 
     static bool
     allowed() noexcept;
 
-    static constexpr ktl::result< extension_type, ktl::errc >
+    static constexpr ktl::result< extension_type >
     type() noexcept;
-    static constexpr ktl::result< extension_target, ktl::errc >
+    static constexpr ktl::result< extension_target >
     target() noexcept;
-    static constexpr ktl::result< ktl::api::vulkan_version, ktl::errc >
+    static constexpr ktl::result< ktl::api::vulkan_version >
     version() noexcept;
     static constexpr bool
     is_deprecated() noexcept;
@@ -42,7 +43,7 @@ struct extension final
 } // namespace kochou::core
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-consteval ktl::errc
+::ktl::errc
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply(requirement_type _type) noexcept
 {
     using this_extension = extension< NAME >;
@@ -87,94 +88,94 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::allowed() noexcept
 }
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-constexpr ktl::result< kochou::core::extension_type, ktl::errc >
+constexpr ktl::result< kochou::core::extension_type >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
 {
     std::string name = NAME.data;
-    if (name.size() < 3)
+    if (name.size() < 3) [[unlikely]]
     {
-        return ktl::err{ktl::errc::extension_wrong_value};
+        return ktl::errc::extension_wrong_value;
     }
 
     std::string prefix = name.substr(3, name.size() - 3);
     if (prefix.starts_with("KHR"))
     {
-        return ktl::ok{extension_type::khr};
+        return extension_type::khr;
     }
     if (prefix.starts_with("EXT"))
     {
-        return ktl::ok{extension_type::ext};
+        return extension_type::ext;
     }
     if (prefix.starts_with("NV"))
     {
-        return ktl::ok{extension_type::nv};
+        return extension_type::nv;
     }
     if (prefix.starts_with("AMD"))
     {
-        return ktl::ok{extension_type::amd};
+        return extension_type::amd;
     }
     if (prefix.starts_with("INTEL"))
     {
-        return ktl::ok{extension_type::intel};
+        return extension_type::intel;
     }
     if (prefix.starts_with("ARM"))
     {
-        return ktl::ok{extension_type::arm};
+        return extension_type::arm;
     }
     if (prefix.starts_with("IMG"))
     {
-        return ktl::ok{extension_type::img};
+        return extension_type::img;
     }
     if (prefix.starts_with("QCOM"))
     {
-        return ktl::ok{extension_type::qcom};
+        return extension_type::qcom;
     }
     if (prefix.starts_with("MVK"))
     {
-        return ktl::ok{extension_type::mvk};
+        return extension_type::mvk;
     }
     if (prefix.starts_with("FUCHSIA"))
     {
-        return ktl::ok{extension_type::fuchsia};
+        return extension_type::fuchsia;
     }
     if (prefix.starts_with("GGP"))
     {
-        return ktl::ok{extension_type::ggp};
+        return extension_type::ggp;
     }
     if (prefix.starts_with("NN"))
     {
-        return ktl::ok{extension_type::nn};
+        return extension_type::nn;
     }
     if (prefix.starts_with("GOOGLE"))
     {
-        return ktl::ok{extension_type::google};
+        return extension_type::google;
     }
     if (prefix.starts_with("VALVE"))
     {
-        return ktl::ok{extension_type::valve};
+        return extension_type::valve;
     }
     if (prefix.starts_with("HUAWEI"))
     {
-        return ktl::ok{extension_type::huawei};
+        return extension_type::huawei;
     }
     if (prefix.starts_with("BRCM"))
     {
-        return ktl::ok{extension_type::brcm};
+        return extension_type::brcm;
     }
     if (prefix.starts_with("SEC"))
     {
-        return ktl::ok{extension_type::sec};
+        return extension_type::sec;
     }
     if (prefix.starts_with("MESA"))
     {
-        return ktl::ok{extension_type::mesa};
+        return extension_type::mesa;
     }
 
-    return ktl::err{ktl::errc::extension_not_provides};
+    return ktl::errc::extension_not_provides;
 }
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-constexpr ktl::result< kochou::core::extension_target, ktl::errc >
+constexpr ktl::result< kochou::core::extension_target >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
 {
     /*
@@ -192,11 +193,11 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
 
     return ktl::err{ktl::errc::extension_not_provided};
     */
-    return ktl::err{ktl::errc::unspecified};
+    return ktl::errc::unspecified;
 }
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-constexpr ktl::result< ktl::api::vulkan_version, ktl::errc >
+constexpr ktl::result< ktl::api::vulkan_version >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
 {
     /*
@@ -234,7 +235,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
         return ktl::ok{vulkan_version::v1_4};
     }
     */
-    return ktl::err{ktl::errc::unknown_vk_api_version};
+    return ktl::errc::unknown_vk_api_version;
 }
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >

@@ -18,10 +18,10 @@ struct vk_queue final
         transfer
     };
 
-    vk::raii::Queue naked;
-    uint32_t        index;
-    type            queue_type;
-    bool            is_dedicated;
+    // vk::raii::Queue naked;
+    uint32_t index;
+    type     queue_type;
+    bool     is_dedicated;
 };
 
 std::vector< vk_queue >

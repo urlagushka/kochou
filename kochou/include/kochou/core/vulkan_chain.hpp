@@ -3,23 +3,22 @@
 
 #include <concepts>
 
+#include <ktl/api.hpp>
 #include <ktl/errc.hpp>
 #include <ktl/memory.hpp>
 #include <ktl/result.hpp>
-
-// #include <vulkan/vulkan.hpp>
 
 namespace kochou::core
 {
 struct vulkan_struct_base final
 {
-    vk::StructureType sType;
-    void *            pNext;
+    ktl::api::structure_type sType;
+    void *                   pNext;
 };
 
 template < typename T >
 concept vulkan_struct_type = requires(T t) {
-    requires std::same_as< decltype(t.sType), vk::StructureType >;
+    requires std::same_as< decltype(t.sType), ktl::api::structure_type >;
     requires std::same_as< decltype(t.pNext), void * >;
     requires std::is_aggregate_v< T >;
 };
@@ -59,5 +58,6 @@ kochou::core::vulkan_chain::insert(STRUCT value) noexcept
     return chainlet;
 }
 */
+} // namespace kochou::core
 
 #endif

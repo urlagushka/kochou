@@ -14,15 +14,15 @@ namespace ktl::memory
 template < typename T, typename... ARGS >
     requires std::is_nothrow_constructible_v< T, ARGS... >
 [[nodiscard("memory leaks!")]]
-result< T *, errc >
-alloc(ARGS &&... args) noexcept
+result< T * >
+palloc(ARGS &&... args) noexcept
 {
-    T * mapped = static_cast< T * >(std::malloc(sizeof(T)));
+    T * mapped = ::new (::std::nothrow) T(std::forward< ARGS >(args)...);
     if (!mapped)
     {
-        return err{errc::no_memmory};
+        return errc::no_memory;
     }
-    return ok{::new (mapped) T(std::forward< ARGS >(args)...)};
+    return mapped;
 }
 
 template < typename T >
@@ -42,42 +42,32 @@ free(T * mapped) noexcept
 }
 
 template < typename T >
-struct ptr_deleter
-{
-    void
-    operator()(T * ptr) const noexcept
-    {
-        free< T >(ptr);
-    }
-};
-
-template < typename T >
-using uptr = std::unique_ptr< T, ptr_deleter< T > >;
+using uptr = std::unique_ptr< T >;
 template < typename T >
 using sptr = std::shared_ptr< T >;
 
 template < typename T, typename... ARGS >
-result< uptr< T >, errc >
-make_unique(ARGS... args)
+result< uptr< T > >
+make_unique(ARGS... args) noexcept
 {
-    auto result = alloc< T >(std::forward< ARGS >(args)...);
-    if (result.is_err())
+    result< uptr< T > > rc = palloc< T >(std::forward< ARGS >(args)...);
+    if (rc.has_value()) [[likely]]
     {
-        return err{result.take_err()};
+        return uptr< T >(rc.take_value());
     }
-    return ok{unique_ptr< T >(result.take_ok())};
+    return rc.error();
 }
 
 template < typename T, typename... ARGS >
-result< sptr< T >, errc >
-make_shared(ARGS... args)
+result< sptr< T > >
+make_shared(ARGS... args) noexcept
 {
-    auto result = alloc< T >(std::forward< ARGS >(args)...);
-    if (result.is_err())
+    result< sptr< T > > rc = palloc< T >(std::forward< ARGS >(args)...);
+    if (rc.has_value()) [[likely]]
     {
-        return err{result.take_err()};
+        return sptr< T >(rc.take_value());
     }
-    return ok{shared_ptr< T >(result.take_ok(), ptr_deleter< T >{})};
+    return rc.error();
 }
 } // namespace ktl::memory
 

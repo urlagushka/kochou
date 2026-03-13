@@ -5,7 +5,6 @@
 #include <unordered_map>
 
 #include <ktl/fixed_string.hpp>
-#include <ktl/flat_map.hpp>
 #include <ktl/mask.hpp>
 
 #define KTL_MAX_ERRC_NAME_SIZE 256
@@ -28,7 +27,7 @@ enum class errc
     unspecified,
     invalid_argument,
     out_of_range,
-    no_memmory,
+    no_memory,
 
     // vulkan api
     extension_wrong_value,

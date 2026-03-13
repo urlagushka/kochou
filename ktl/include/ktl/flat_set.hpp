@@ -12,24 +12,24 @@ template < typename KEY, class COMPARE = std::less< KEY > >
 class flat_set final
 {
 public:
-    using container_type = std::vector< KEY >;
-    using key_type = KEY;
-    using value_type = KEY;
-    using key_compare = COMPARE;
-    using value_compare = COMPARE;
-    using reference = value_type &;
-    using const_reference = const value_type &;
-    using size_type = container_type::size_type;
-    using difference_type = container_type::difference_type;
-    using iterator = typename std::vector< value_type >::iterator;
-    using const_iterator = typename std::vector< value_type >::const_iterator;
-    using reverse_iterator = typename std::vector< value_type >::reverse_iterator;
+    using container_type         = std::vector< KEY >;
+    using key_type               = KEY;
+    using value_type             = KEY;
+    using key_compare            = COMPARE;
+    using value_compare          = COMPARE;
+    using reference              = value_type &;
+    using const_reference        = const value_type &;
+    using size_type              = container_type::size_type;
+    using difference_type        = container_type::difference_type;
+    using iterator               = typename std::vector< value_type >::iterator;
+    using const_iterator         = typename std::vector< value_type >::const_iterator;
+    using reverse_iterator       = typename std::vector< value_type >::reverse_iterator;
     using const_reverse_iterator = typename std::vector< value_type >::const_reverse_iterator;
 
 public:
-    constexpr flat_set() = default;
+    constexpr flat_set()                                 = default;
     constexpr flat_set(const flat_set< KEY, COMPARE > &) = default;
-    constexpr flat_set(flat_set< KEY, COMPARE > &&) = default;
+    constexpr flat_set(flat_set< KEY, COMPARE > &&)      = default;
     constexpr flat_set< KEY, COMPARE > &
     operator=(const flat_set< KEY, COMPARE > &) = default;
     constexpr flat_set< KEY, COMPARE > &
@@ -68,13 +68,13 @@ public:
     constexpr size_type
     max_size() const noexcept;
 
-    constexpr result< std::pair< iterator, bool >, errc >
+    constexpr result< std::pair< iterator, bool > >
     insert(const value_type & value) noexcept;
-    constexpr result< std::pair< iterator, bool >, errc >
+    constexpr result< std::pair< iterator, bool > >
     insert(value_type && value) noexcept;
 
 private:
-    std::vector< KEY > data_;
+    std::vector< KEY >            data_;
     [[no_unique_address]] COMPARE comp_;
 };
 } // namespace ktl
@@ -185,17 +185,17 @@ ktl::flat_set< KEY, COMPARE >::max_size() const noexcept
 }
 
 template < typename KEY, class COMPARE >
-constexpr ktl::result< std::pair< typename ktl::flat_set< KEY, COMPARE >::iterator, bool >, ktl::errc >
+constexpr ktl::result< std::pair< typename ktl::flat_set< KEY, COMPARE >::iterator, bool > >
 ktl::flat_set< KEY, COMPARE >::insert(const value_type & value) noexcept
 {
-    return err{errc::unspecified};
+    return ktl::errc::unspecified;
 }
 
 template < typename KEY, class COMPARE >
-constexpr ktl::result< std::pair< typename ktl::flat_set< KEY, COMPARE >::iterator, bool >, ktl::errc >
+constexpr ktl::result< std::pair< typename ktl::flat_set< KEY, COMPARE >::iterator, bool > >
 ktl::flat_set< KEY, COMPARE >::insert(value_type && value) noexcept
 {
-    return err{errc::unspecified};
+    return ktl::errc::unspecified;
 }
 
 #endif

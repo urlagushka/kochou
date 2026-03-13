@@ -25,7 +25,7 @@ template < typename T >
 struct external< hold::unique, T >
 {
     using ptr_type    = ktl::memory::uptr< T >;
-    using result_type = std::expected< ptr_type, ktl::errc >;
+    using result_type = ktl::result< ptr_type >;
 
     external()  = default;
     ~external() = default;
@@ -42,11 +42,11 @@ struct external< hold::unique, T >
     make(ARGS &&... _args) noexcept
     {
         auto result = ktl::memory::make_unique< T >(std::forward< ARGS >(_args)...);
-        if (result.is_err())
+        if (result.is_error())
         {
-            return ktl::err{result.take_err()};
+            return result.error();
         }
-        return ktl::ok{result.take_ok()};
+        return result.take_ok();
     }
 };
 
@@ -54,7 +54,7 @@ template < typename T >
 struct external< hold::shared, T >
 {
     using ptr_type    = ktl::memory::sptr< T >;
-    using result_type = ktl::result< ptr_type, ktl::errc >;
+    using result_type = ktl::result< ptr_type >;
 
     external()  = default;
     ~external() = default;
@@ -71,11 +71,11 @@ struct external< hold::shared, T >
     make(ARGS &&... _args) noexcept
     {
         auto result = ktl::memory::make_shared< T >(std::forward< ARGS >(_args)...);
-        if (result.is_err())
+        if (result.is_error())
         {
-            return ktl::err{result.take_err()};
+            return result.error();
         }
-        return ktl::ok{result.take_ok()};
+        return result.take_value();
     }
 };
 } // namespace kochou::core

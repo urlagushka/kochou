@@ -20,8 +20,8 @@ def make_field_name(src: str, cmp: str) -> str | None:
 
 def make_underling_type(src: str) -> str:
     if src is None:
-        return "std::uint32_t"
-    return f"std::uint{src}_t"
+        return "ktl::u32"
+    return f"ktl::u{src}"
 
 
 def make_type(src: str) -> str | None:

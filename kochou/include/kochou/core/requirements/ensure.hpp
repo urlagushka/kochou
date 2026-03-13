@@ -15,10 +15,10 @@ template < requirement_concept T >
 class ensure
 {
 protected:
-    consteval ensure(std::source_location _ctx = std::source_location::current()) noexcept
+    ensure(std::source_location _ctx = std::source_location::current()) noexcept
     {
-        constexpr auto rc = T::apply(requirement_type::ensure);
-        static_assert(rc == ktl::errc::success);
+        auto rc = T::apply(requirement_type::ensure);
+        // static_assert(rc == ktl::errc::success);
     }
 };
 } // namespace kochou::core

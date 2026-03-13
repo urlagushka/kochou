@@ -18,7 +18,6 @@
 
 #include "context.hpp"
 #include "system.hpp"
-#include "type_ostream.hpp"
 #include "vulkan_chain.hpp"
 
 #endif

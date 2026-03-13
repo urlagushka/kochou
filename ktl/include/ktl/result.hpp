@@ -1,101 +1,62 @@
 #ifndef KTL_RESULT_HPP
 #define KTL_RESULT_HPP
 
+#include <cstdlib>
 #include <variant>
+
+#include <ktl/errc.hpp>
 
 namespace ktl
 {
 template < typename T >
-struct ok
-{
-    explicit constexpr ok(T _value) : value(std::move(_value)) {}
-
-    T value;
-};
-
-template < typename T >
-struct err
-{
-    explicit constexpr err(T _value) : value(std::move(_value)) {}
-
-    T value;
-};
-
-template < typename OK, typename ERR >
 class result
 {
 public:
-    using ok_type    = ok< OK >;
-    using err_type   = err< ERR >;
+    using ok_type    = T;
+    using err_type   = ktl::errc;
     using value_type = std::variant< ok_type, err_type >;
 
     constexpr result(ok_type _value) : value_(std::move(_value)) {}
-
-    constexpr result(err_type _value) : value_(std::move(_value)) {}
+    constexpr result(err_type _value) : value_(_value) {}
 
     constexpr bool
-    is_ok() const
+    has_value() const noexcept
     {
         return std::holds_alternative< ok_type >(value_);
     }
 
-    constexpr bool
-    is_err() const
+    constexpr const ok_type &
+    view_value() const noexcept
     {
-        return std::holds_alternative< err_type >(value_);
+        if (!has_value())
+        {
+            std::abort();
+        }
+        return std::get< ok_type >(value_);
     }
 
-    constexpr const OK &
-    view_ok() const
+    constexpr ok_type &&
+    take_value() noexcept
     {
-        return std::get< ok_type >(value_).value;
+        if (!has_value())
+        {
+            std::abort();
+        }
+        return std::move(std::get< ok_type >(value_));
     }
 
-    constexpr const ERR &
-    view_err() const
+    constexpr err_type
+    error() const noexcept
     {
-        return std::get< err_type >(value_).value;
-    }
-
-    constexpr OK &&
-    take_ok()
-    {
-        return std::move(std::get< ok_type >(value_).value);
-    }
-
-    constexpr ERR &&
-    take_err()
-    {
-        return std::move(std::get< err_type >(value_).value);
+        if (has_value())
+        {
+            std::abort();
+        }
+        return std::get< err_type >(value_);
     }
 
 private:
     value_type value_;
-};
-
-template < typename T >
-class result final
-{
-public:
-    result()               = delete;
-    result(const result &) = delete;
-    result(result &&)      = default;
-    result &
-    operator=(const result &) = delete;
-    result &
-    operator=(result &&) = default;
-    ~result()            = default;
-
-    result(T && _value) : type_{0}, data_.value{std::forward< T >(_value)} {}
-    result(ktl::errc _errc) : type_{1}, data_.errc(_errc) {}
-
-private:
-    std::uint8_t type_;
-    union
-    {
-        T         value;
-        ktl::errc errc;
-    } data_;
 };
 } // namespace ktl
 

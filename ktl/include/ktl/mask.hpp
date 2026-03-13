@@ -5,9 +5,11 @@
 #include <cstdint>
 #include <type_traits>
 
+#include <ktl/type.hpp>
+
 namespace ktl
 {
-using mask_underlying_type = uint32_t;
+using mask_underlying_type = ktl::u32;
 
 template < typename T >
     requires std::is_enum_v< T >

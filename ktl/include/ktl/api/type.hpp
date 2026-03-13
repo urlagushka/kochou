@@ -5,6 +5,7 @@
 
 #include <ktl/fixed_string.hpp>
 #include <ktl/flat_set.hpp>
+#include <ktl/type.hpp>
 
 #include "constants.hpp"
 
@@ -25,7 +26,7 @@ struct layer_name final : ktl::fixed_string< KTL_API_MAX_LAYER_NAME_SIZE >
 {
     using ktl::fixed_string< KTL_API_MAX_LAYER_NAME_SIZE >::fixed_string;
 };
-using vulkan_version = std::uint32_t;
+using vulkan_version = ktl::u32;
 
 struct feature final
 {
@@ -34,9 +35,9 @@ struct feature final
     ktl::flat_set< ktl::api::extension_name > extension_deps;
     ktl::flat_set< ktl::api::feature_name >   feature_deps;
 
-    std::uint32_t structure_type;
-    std::uint32_t offset;
-    std::uint32_t size;
+    ktl::u32 structure_type;
+    ktl::u32 offset;
+    ktl::u32 size;
 };
 
 struct extension final

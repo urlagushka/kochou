@@ -22,7 +22,7 @@ bool
 kochou::core::allowed() noexcept
 {
     constexpr auto type_name = ktl::reflection::type_name< T >();
-    return kochou_context_instance.allowed(type_name);
+    return context::get().allowed(type_name);
 }
 
 template < kochou::core::requirement_concept T >

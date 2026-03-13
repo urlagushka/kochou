@@ -5,6 +5,7 @@
 #include <filesystem>
 
 #include <ktl/flat_map.hpp>
+#include <ktl/type.hpp>
 
 namespace kochou::core
 {
@@ -14,7 +15,7 @@ struct pipeline_description
 {
 };
 
-using pipeline_hash = std::uint64_t;
+using pipeline_hash = ktl::u64;
 
 // to context
 /* key: pipeline_hash

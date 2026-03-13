@@ -7,7 +7,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_library(kochou
   "src/api/metal.mm"
 
-  "src/core/type_ostream.cpp"
   "src/core/context.cpp"
   "src/core/vulkan_chain.cpp"
   "src/core/instance.cpp"  

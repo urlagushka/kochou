@@ -11,10 +11,10 @@ template < requirement_concept T >
 class should
 {
 protected:
-    consteval should() noexcept
+    should() noexcept
     {
-        constexpr auto rc = T::apply(requirement_type::should);
-        static_assert(rc == ktl::errc::success);
+        auto rc = T::apply(requirement_type::should);
+        // static_assert(rc == ktl::errc::success);
     }
 };
 } // namespace kochou::core

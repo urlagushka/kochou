@@ -6,12 +6,13 @@
 #include <ktl/api/constants.hpp>
 #include <ktl/api/enums.hpp>
 #include <ktl/errc.hpp>
+#include <ktl/type.hpp>
 
 #include <kochou/core/masks/queue.hpp>
 
 namespace kochou::core
 {
-enum class requirement_type : std::uint32_t
+enum class requirement_type : ktl::u8
 {
     ensure = 0,
     should = 1

@@ -12,8 +12,6 @@ public:
         static slang instance;
         return instance;
     }
-
-private:
 };
 } // namespace kochou::core
 

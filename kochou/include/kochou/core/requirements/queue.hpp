@@ -11,7 +11,7 @@ namespace kochou::core
 template < queue_type QUEUE_TYPE >
 struct queue final
 {
-    static consteval ktl::errc
+    static ktl::errc
     apply(requirement_type _type) noexcept;
 
     static bool
@@ -20,7 +20,7 @@ struct queue final
 } // namespace kochou::core
 
 template < kochou::core::queue_type QUEUE_TYPE >
-consteval ktl::errc
+ktl::errc
 kochou::core::queue< QUEUE_TYPE >::apply(requirement_type _type) noexcept
 {
     return ktl::errc::success;
