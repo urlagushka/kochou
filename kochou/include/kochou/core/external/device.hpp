@@ -1,21 +1,20 @@
 #ifndef KOCHOU_CORE_EXTERNAL_DEVICE_HPP
 #define KOCHOU_CORE_EXTERNAL_DEVICE_HPP
 
-#include <vulkan/vulkan_raii.hpp>
+// #include <vulkan/vulkan_raii.hpp>
 
 namespace kochou::core
 {
-    class device final
-    {
-        public:
+class device final
+{
+public:
+private:
+    // vk::raii::Device __naked;
 
-        private:
-            vk::raii::Device __naked;
-
-            vk::raii::Queue __graphics;
-            vk::raii::Queue __computes;
-            vk::raii::Queue __transfer;
-    };
-}
+    // vk::raii::Queue __graphics;
+    // vk::raii::Queue __computes;
+    // vk::raii::Queue __transfer;
+};
+} // namespace kochou::core
 
 #endif

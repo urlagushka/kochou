@@ -24,14 +24,14 @@ class external
 template < typename T >
 struct external< hold::unique, T >
 {
-    using ptr_type = ktl::memory::uptr< T >;
-    using result_type = ktl::result< ptr_type, ktl::errc >;
+    using ptr_type    = ktl::memory::uptr< T >;
+    using result_type = std::expected< ptr_type, ktl::errc >;
 
-    external() = default;
+    external()  = default;
     ~external() = default;
 
     external(const external &) = delete;
-    external(external &&) = delete;
+    external(external &&)      = delete;
     external &
     operator=(const external &) = delete;
     external &
@@ -53,14 +53,14 @@ struct external< hold::unique, T >
 template < typename T >
 struct external< hold::shared, T >
 {
-    using ptr_type = ktl::memory::sptr< T >;
+    using ptr_type    = ktl::memory::sptr< T >;
     using result_type = ktl::result< ptr_type, ktl::errc >;
 
-    external() = default;
+    external()  = default;
     ~external() = default;
 
     external(const external &) = delete;
-    external(external &&) = delete;
+    external(external &&)      = delete;
     external &
     operator=(const external &) = delete;
     external &

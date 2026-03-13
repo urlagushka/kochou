@@ -32,7 +32,7 @@ public:
     consteval ktl::errc
     apply_feature(FEATURE_TYPE _feature);
     consteval ktl::errc
-    apply_version(std::uint32_t _version);
+    apply_version(ktl::api::vulkan_version _version);
     consteval ktl::errc
     apply_extension(ktl::api::extension_name _name, extension_target _target);
     consteval ktl::errc

@@ -5,7 +5,7 @@
 
 #include "external.hpp"
 
-#include <vulkan/vulkan_raii.hpp>
+// #include <vulkan/vulkan_raii.hpp>
 
 namespace kochou::core::vulkan
 {

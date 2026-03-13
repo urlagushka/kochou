@@ -7,14 +7,14 @@
 #include <ktl/memory.hpp>
 #include <ktl/result.hpp>
 
-#include <vulkan/vulkan.hpp>
+// #include <vulkan/vulkan.hpp>
 
 namespace kochou::core
 {
 struct vulkan_struct_base final
 {
     vk::StructureType sType;
-    void * pNext;
+    void *            pNext;
 };
 
 template < typename T >
@@ -23,7 +23,7 @@ concept vulkan_struct_type = requires(T t) {
     requires std::same_as< decltype(t.pNext), void * >;
     requires std::is_aggregate_v< T >;
 };
-
+/*
 class vulkan_chain final
 {
 public:
@@ -49,8 +49,8 @@ kochou::core::vulkan_chain::insert(STRUCT value) noexcept
     {
         return ktl::err{access_result.take_err()};
     }
-    auto * chainlet = access_result.take_ok();
-    auto alloc_result = ktl::memory::alloc< STRUCT >(value);
+    auto * chainlet     = access_result.take_ok();
+    auto   alloc_result = ktl::memory::alloc< STRUCT >(value);
     if (alloc_result.is_err())
     {
         return ktl::err{alloc_result.take_err()};
@@ -58,5 +58,6 @@ kochou::core::vulkan_chain::insert(STRUCT value) noexcept
     chainlet->pNext = alloc_result.take_ok();
     return chainlet;
 }
+*/
 
 #endif

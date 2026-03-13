@@ -2,7 +2,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(Vulkan REQUIRED)
+# find_package(Vulkan REQUIRED)
 
 add_library(kochou
   "src/api/metal.mm"
@@ -16,7 +16,7 @@ add_library(kochou
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ktl ktl)
 
 target_include_directories(kochou PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(kochou PUBLIC Vulkan::Vulkan ktl)
+target_link_libraries(kochou PUBLIC ktl) # Vulkan::Vulkan
 
 if(APPLE)
     find_library(COCOA_FRAMEWORK Cocoa REQUIRED)

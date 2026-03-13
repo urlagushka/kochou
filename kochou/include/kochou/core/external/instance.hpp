@@ -4,7 +4,7 @@
 #include <functional>
 #include <set>
 
-#include <vulkan/vulkan_raii.hpp>
+// #include <vulkan/vulkan_raii.hpp>
 
 #include "external.hpp"
 
@@ -38,24 +38,20 @@ kochou::corec::context::build_instance(std::string_view app_name, vk_api_version
 
 namespace kochou::core
 {
-    class instance final
-        : public external< hold::shared, instance >
-    {
-        public:
-            using extensions_type = std::vector< const char * >;
-            using layers_type = std::vector< const char * >;
-            using versions_type = std::set< uint32_t, std::greater< uint32_t > >;
+class instance final : public external< hold::shared, instance >
+{
+public:
+    using extensions_type = std::vector< const char * >;
+    using layers_type     = std::vector< const char * >;
+    using versions_type   = std::set< uint32_t, std::greater< uint32_t > >;
 
-        public:
-            instance(const extensions_type & _extensions,
-                     const layers_type & _layers,
-                     const versions_type & _versions);
+public:
+    instance(const extensions_type & _extensions, const layers_type & _layers, const versions_type & _versions);
 
-        private:
-
-        private:
-            vk::raii::Instance instance_;
-    };
-}
+private:
+private:
+    // vk::raii::Instance instance_;
+};
+} // namespace kochou::core
 
 #endif

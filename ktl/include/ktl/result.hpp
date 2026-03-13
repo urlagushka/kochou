@@ -25,8 +25,8 @@ template < typename OK, typename ERR >
 class result
 {
 public:
-    using ok_type = ok< OK >;
-    using err_type = err< ERR >;
+    using ok_type    = ok< OK >;
+    using err_type   = err< ERR >;
     using value_type = std::variant< ok_type, err_type >;
 
     constexpr result(ok_type _value) : value_(std::move(_value)) {}
@@ -71,6 +71,31 @@ public:
 
 private:
     value_type value_;
+};
+
+template < typename T >
+class result final
+{
+public:
+    result()               = delete;
+    result(const result &) = delete;
+    result(result &&)      = default;
+    result &
+    operator=(const result &) = delete;
+    result &
+    operator=(result &&) = default;
+    ~result()            = default;
+
+    result(T && _value) : type_{0}, data_.value{std::forward< T >(_value)} {}
+    result(ktl::errc _errc) : type_{1}, data_.errc(_errc) {}
+
+private:
+    std::uint8_t type_;
+    union
+    {
+        T         value;
+        ktl::errc errc;
+    } data_;
 };
 } // namespace ktl
 

@@ -17,6 +17,13 @@ namespace ktl
 template < typename KEY, typename VALUE, typename COMPARE = std::less< KEY > >
 class flat_map
 {
+public:
+public:
+private:
+private:
+    std::vector< KEY >            keys_;
+    std::vector< VALUE >          values_;
+    [[no_unique_address]] COMPARE comp_;
 };
 } // namespace ktl
 #endif
