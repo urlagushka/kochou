@@ -17,6 +17,7 @@ using u32 = std::uint32_t;
 using u64 = std::uint64_t;
 
 using usize = std::size_t;
+using isize = long long;
 } // namespace ktl
 
 #endif
