@@ -15,7 +15,8 @@
 int
 main()
 {
-    kochou::user::metadata_render render;
+
+    // kochou::user::metadata_render render;
 }
 
 // kochou::user::metadata_render render;

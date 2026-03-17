@@ -47,8 +47,8 @@ public:
 
 public:
     instance(const extensions_type & _extensions, const layers_type & _layers, const versions_type & _versions);
+    // ~instance();
 
-private:
 private:
     // vk::raii::Instance instance_;
 };

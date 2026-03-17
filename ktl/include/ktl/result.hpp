@@ -8,12 +8,12 @@
 
 namespace ktl
 {
-template < typename T >
+template < typename OK, typename ERR >
 class result
 {
 public:
-    using ok_type    = T;
-    using err_type   = ktl::errc;
+    using ok_type    = OK;
+    using err_type   = ERR;
     using value_type = std::variant< ok_type, err_type >;
 
     constexpr result(ok_type _value) : value_(std::move(_value)) {}

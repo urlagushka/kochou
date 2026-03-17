@@ -1,0 +1,8 @@
+category="funcpointer"
+category="struct"
+category="union"
+<feature
+<extension
+<formats>
+<spirvextensions
+<spirvcapabilities

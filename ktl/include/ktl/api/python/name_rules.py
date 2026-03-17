@@ -1,5 +1,5 @@
 from utils import first_diff_index, c_name_to_cpp
-
+from type_cast import cast_type
 
 def make_cpp_name(src: str) -> str | None:
     if src is None or not src.startswith("Vk"):
@@ -18,26 +18,22 @@ def make_field_name(src: str, cmp: str) -> str | None:
     return f"v_{tmp}"
 
 
-def make_underling_type(src: str) -> str:
-    if src is None:
-        return "ktl::u32"
-    return f"ktl::u{src}"
+def make_underling_type(_src: str) -> str:
+    return cast_type(_src)
 
 
-def make_type(src: str) -> str | None:
-    if src is None:
+def make_type(_src: str) -> str | None:
+    if _src is None:
         return None
-    if src.startswith("uint") or src.startswith("size_t"):
-        return "std::" + src
-    return src
+    return cast_type(_src)
 
 
 def make_bitpos(src: str, underling_type: str) -> str | None:
     if src is None:
         return None
-    if underling_type == "std::uint32_t":
+    if underling_type == "ktl::u32":
         return f"(1U << {src})"
-    if underling_type == "std::uint64_t":
+    if underling_type == "ktl::u64":
         return f"(1ULL << {src})"
     return None # non valid for vulkan spec
 
