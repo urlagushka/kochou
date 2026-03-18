@@ -22,9 +22,18 @@ main()
         std::cout << rc.error() << std::endl;
         return 1;
     }
-    auto handle = rc.take_value();
+    kochou::loader::handle_type handle = rc.take_value();
 
     std::cout << "loaded" << std::endl;
+
+    auto proc_res = kochou::loader::proc(handle, "vkCreateInstance");
+    if (!proc_res.has_value())
+    {
+        std::cout << proc_res.error() << std::endl;
+        return 1;
+    }
+    kochou::loader::proc_type ptr = proc_res.take_value();
+    std::cout << ptr << std::endl;
 
     auto rc1 = kochou::loader::free(handle);
     if (!rc1.has_value())
