@@ -31,11 +31,11 @@ struct extension final
     static bool
     allowed() noexcept;
 
-    static constexpr ktl::result< extension_type >
+    static constexpr ktl::result< extension_type, ktl::errc >
     type() noexcept;
-    static constexpr ktl::result< extension_target >
+    static constexpr ktl::result< extension_target, ktl::errc >
     target() noexcept;
-    static constexpr ktl::result< ktl::api::vulkan_version >
+    static constexpr ktl::result< ktl::api::vulkan_version, ktl::errc >
     version() noexcept;
     static constexpr bool
     is_deprecated() noexcept;
@@ -43,7 +43,7 @@ struct extension final
 } // namespace kochou::core
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-::ktl::errc
+ktl::errc
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::apply(requirement_type _type) noexcept
 {
     using this_extension = extension< NAME >;
@@ -88,7 +88,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::allowed() noexcept
 }
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-constexpr ktl::result< kochou::core::extension_type >
+constexpr ktl::result< kochou::core::extension_type, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
 {
     std::string name = NAME.data;
@@ -175,7 +175,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
 }
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-constexpr ktl::result< kochou::core::extension_target >
+constexpr ktl::result< kochou::core::extension_target, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
 {
     /*
@@ -197,7 +197,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
 }
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
-constexpr ktl::result< ktl::api::vulkan_version >
+constexpr ktl::result< ktl::api::vulkan_version, ktl::errc >
 kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
 {
     /*

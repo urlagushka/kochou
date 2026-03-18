@@ -14,13 +14,13 @@ namespace ktl::memory
 template < typename T, typename... ARGS >
     requires std::is_nothrow_constructible_v< T, ARGS... >
 [[nodiscard("memory leaks!")]]
-result< T * >
+result< T *, ktl::errc >
 palloc(ARGS &&... args) noexcept
 {
     T * mapped = ::new (::std::nothrow) T(std::forward< ARGS >(args)...);
     if (!mapped)
     {
-        return errc::no_memory;
+        return ktl::errc::no_memory;
     }
     return mapped;
 }
@@ -47,10 +47,10 @@ template < typename T >
 using sptr = std::shared_ptr< T >;
 
 template < typename T, typename... ARGS >
-result< uptr< T > >
+result< uptr< T >, ktl::errc >
 make_unique(ARGS... args) noexcept
 {
-    result< uptr< T > > rc = palloc< T >(std::forward< ARGS >(args)...);
+    ktl::result< uptr< T >, ktl::errc > rc = palloc< T >(std::forward< ARGS >(args)...);
     if (rc.has_value()) [[likely]]
     {
         return uptr< T >(rc.take_value());
@@ -59,10 +59,10 @@ make_unique(ARGS... args) noexcept
 }
 
 template < typename T, typename... ARGS >
-result< sptr< T > >
+result< sptr< T >, ktl::errc >
 make_shared(ARGS... args) noexcept
 {
-    result< sptr< T > > rc = palloc< T >(std::forward< ARGS >(args)...);
+    ktl::result< sptr< T >, ktl::errc > rc = palloc< T >(std::forward< ARGS >(args)...);
     if (rc.has_value()) [[likely]]
     {
         return sptr< T >(rc.take_value());

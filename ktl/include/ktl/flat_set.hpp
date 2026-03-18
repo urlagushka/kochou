@@ -68,9 +68,9 @@ public:
     constexpr size_type
     max_size() const noexcept;
 
-    constexpr result< std::pair< iterator, bool > >
+    constexpr result< std::pair< iterator, bool >, ktl::errc >
     insert(const value_type & value) noexcept;
-    constexpr result< std::pair< iterator, bool > >
+    constexpr result< std::pair< iterator, bool >, ktl::errc >
     insert(value_type && value) noexcept;
 
 private:
@@ -185,14 +185,14 @@ ktl::flat_set< KEY, COMPARE >::max_size() const noexcept
 }
 
 template < typename KEY, class COMPARE >
-constexpr ktl::result< std::pair< typename ktl::flat_set< KEY, COMPARE >::iterator, bool > >
+constexpr ktl::result< std::pair< typename ktl::flat_set< KEY, COMPARE >::iterator, bool >, ktl::errc >
 ktl::flat_set< KEY, COMPARE >::insert(const value_type & value) noexcept
 {
     return ktl::errc::unspecified;
 }
 
 template < typename KEY, class COMPARE >
-constexpr ktl::result< std::pair< typename ktl::flat_set< KEY, COMPARE >::iterator, bool > >
+constexpr ktl::result< std::pair< typename ktl::flat_set< KEY, COMPARE >::iterator, bool >, ktl::errc >
 ktl::flat_set< KEY, COMPARE >::insert(value_type && value) noexcept
 {
     return ktl::errc::unspecified;

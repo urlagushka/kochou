@@ -1,6 +1,7 @@
 #ifndef KOCHOU_CORE_LOADER_HPP
 #define KOCHOU_CORE_LOADER_HPP
 
+#include <iostream>
 #include <mutex>
 
 #include <ktl/errc.hpp>
@@ -104,6 +105,11 @@ load()
     ::dlerror();
 
     handle_type ptr = ::dlopen(KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_NAME, RTLD_NOW | RTLD_LOCAL);
+    std::cout << ptr << std::endl;
+    if (!ptr)
+    {
+        std::cout << "ptrerror" << std::endl;
+    }
     if (!ptr) [[unlikely]]
     {
         char * err = ::dlerror();

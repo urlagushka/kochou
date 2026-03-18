@@ -46,15 +46,6 @@ struct fixed_string
         }
         data[size] = '\0';
     }
-
-    fixed_string(const char * _other)
-    {
-        ktl::usize other_size = strlen(_other);
-        klt::i32   max_size   = (other_size > SIZE) ? SIZE : other_size;
-        size                  = max_size;
-
-        memcpy(&data, _other, max_size);
-    }
 };
 } // namespace ktl
 
