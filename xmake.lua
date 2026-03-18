@@ -1,3 +1,5 @@
+-- defines
+
 local PROJECT_NAME = "example"
 
 local KOCHOU_VULKAN_DYLIB_PATH = {
@@ -19,29 +21,9 @@ local KOCHOU_WINDOW_BACKEND_DEFAULT = {
     linux   = KOCHOU_WINDOW_BACKEND.XLIB
 }
 
-set_xmakever("3.0.0")
-set_project(PROJECT_NAME)
-set_languages("c++23")
-set_warnings("all")
+-- functions
 
-add_rules("mode.debug", "mode.release")
-if is_plat("windows") then
-    add_cxxflags("-EHsc-", "-GR-", {force = true})
-else
-    add_cxxflags("-fno-exceptions", "-fno-rtti", {force = true})
-end
-
-add_requires("glm")
-
-includes("kochou")
-
-target(PROJECT_NAME)
-    set_kind("binary")
-    add_files("main.cpp")
-    add_deps("kochou")
-    add_packages("glm")
-
-    -- window backend
+function make_window_backend(target)
     local window_backend = get_config("window_backend")
     if not window_backend then
         window_backend = KOCHOU_WINDOW_BACKEND_DEFAULT[os.host()]
@@ -55,32 +37,63 @@ target(PROJECT_NAME)
         end
     end
     if not is_backend_valid then
-        print(
-            "Invalid window backend: '%s'. Available: %s",
-            window_backend,
-            table.concat(table.values(KOCHOU_WINDOW_BACKEND), ", ")
-        )
+        -- raise(
+        --     "Invalid window backend: '%s'. Available: %s",
+        --     window_backend,
+        --     table.concat(table.values(KOCHOU_WINDOW_BACKEND), ", ")
+        -- )
     end
-    add_defines(window_backend)
+    target:add("defines", window_backend)
+end
 
-    -- vulkan dylib
+function make_vulkan_dylib(target)
     local vulkan_dylib = is_mode("debug") and KOCHOU_VULKAN_DYLIB_PATH.debug or KOCHOU_VULKAN_DYLIB_PATH.release
-    add_defines("KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_NAME=\"" .. vulkan_dylib .. "\"")
+    if not vulkan_dylib then
+        raise("Specify vulkan dynamic library path, current: '%s'", vulkan_dylib)
+    end
+    target:add("defines", "KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_NAME=" .. vulkan_dylib)
+end
 
-    -- platform
+function make_platform(target)
     local platform = os.host()
     if platform == "macosx" then
-        add_defines("KOCHOU_PLATFORM_MACOS")
+        target:add("defines", "KOCHOU_PLATFORM_MACOS")
     elseif platform == "linux" then
-        add_defines("KOCHOU_PLATFORM_LINUX")
+        target:add("defines", "KOCHOU_PLATFORM_LINUX")
     elseif platform == "windows" then
-        add_defines("KOCHOU_PLATFORM_WIN32")
+        target:add("defines", "KOCHOU_PLATFORM_WIN32")
     else
-        print(
-            "Unsupported platform: '%s'. Available: %s",
-            platform,
-            table.concat({"macosx", "linux", "windows"}, ", ")
-        )
-        -- need exit // on_load
+        raise("Unsupported platform: '%s'", platform)
     end
+end
 
+-- xmake
+
+set_xmakever("3.0.0")
+set_project(PROJECT_NAME)
+set_languages("c++23")
+set_warnings("all")
+
+add_rules("mode.debug", "mode.release")
+if is_plat("windows") then
+    add_cxxflags("-EHs-c-", "-GR-", {force = true})
+else
+    add_cxxflags("-fno-exceptions", "-fno-rtti", {force = true})
+end
+
+add_requires("glm")
+includes("kochou")
+
+-- target
+
+target(PROJECT_NAME)
+    set_kind("binary")
+    add_files("main.cpp")
+    add_deps("kochou")
+    add_packages("glm")
+
+    on_load(make_window_backend)
+    on_load(make_vulkan_dylib)
+    on_load(make_platform)
+
+    set_default(true)
