@@ -18,6 +18,7 @@ local KOCHOU_WINDOW_BACKEND_DEFAULT = {
 }
 
 function make_defines(target)
+    -- window backend
     local window_backend = get_config("window_backend")
     if not window_backend then
         window_backend = KOCHOU_WINDOW_BACKEND_DEFAULT[os.host()]
@@ -31,20 +32,22 @@ function make_defines(target)
         end
     end
     if not is_backend_valid then
-        -- raise(
-        --     "Invalid window backend: '%s'. Available: %s",
-        --     window_backend,
-        --     table.concat(table.values(KOCHOU_WINDOW_BACKEND), ", ")
-        -- )
+        raise(
+            "Invalid window backend: '%s'. Available: %s",
+            window_backend,
+            table.concat(table.values(KOCHOU_WINDOW_BACKEND), ", ")
+        )
     end
     target:add("defines", window_backend, {public = true})
 
+    -- vulkan dylib
     local vulkan_dylib = is_mode("debug") and KOCHOU_VULKAN_DYLIB_PATH.debug or KOCHOU_VULKAN_DYLIB_PATH.release
     if not vulkan_dylib then
         raise("Specify vulkan dynamic library path, current: '%s'", vulkan_dylib)
     end
     target:add("defines", 'KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_NAME="' .. vulkan_dylib .. '"', {public = true})
 
+    -- platform
     local platform = os.host()
     if platform == "macosx" then
         target:add("defines", "KOCHOU_PLATFORM_MACOS", {public = true})
