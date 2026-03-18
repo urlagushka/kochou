@@ -6,7 +6,9 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/kochou/include"
             ],
-            "defines": [],
+            "defines": [
+                "KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_NAME=\"\""
+            ],
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c23",
             "intelliSenseMode": "macos-clang-arm64",

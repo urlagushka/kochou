@@ -3,7 +3,7 @@ set_project("ktl")
 set_languages("c++23")
 
 target("ktl")
-    set_kind("interface")
+    set_kind("phony")
 
     add_includedirs("include", {public = true})
     add_cxxflags("-Wall", "-Wextra", {force = false})
