@@ -11,7 +11,6 @@
 #if defined(_WIN32)
 #include <windows.h>
 
-#define KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_NAME "vulkan-1.dll"
 #define KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_ERROR_SIZE 256
 
 namespace
@@ -87,10 +86,8 @@ free(handle_type _handle)
 #include <dlfcn.h>
 
 #if defined(__linux__)
-#define KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_NAME "libvulkan.so.1"
 #define KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_ERROR_SIZE 256
 #else
-#define KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_NAME "libMoltenVK.dylib"
 #define KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_ERROR_SIZE 256
 #endif
 
