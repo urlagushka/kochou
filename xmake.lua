@@ -55,7 +55,7 @@ target(PROJECT_NAME)
         end
     end
     if not is_backend_valid then
-        raise(
+        print(
             "Invalid window backend: '%s'. Available: %s",
             window_backend,
             table.concat(table.values(KOCHOU_WINDOW_BACKEND), ", ")
@@ -68,16 +68,19 @@ target(PROJECT_NAME)
     add_defines("KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_NAME=\"" .. vulkan_dylib .. "\"")
 
     -- platform
-    if is_plat("macosx") then
+    local platform = os.host()
+    if platform == "macosx" then
         add_defines("KOCHOU_PLATFORM_MACOS")
-    elseif is_plat("linux") then
+    elseif platform == "linux" then
         add_defines("KOCHOU_PLATFORM_LINUX")
-    elseif is_plat("windows") then
+    elseif platform == "windows" then
         add_defines("KOCHOU_PLATFORM_WIN32")
     else
-        raise(
+        print(
             "Unsupported platform: '%s'. Available: %s",
-            os.host(),
+            platform,
             table.concat({"macosx", "linux", "windows"}, ", ")
         )
+        -- need exit // on_load
     end
+

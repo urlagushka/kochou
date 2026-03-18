@@ -13,8 +13,10 @@
 #include <kochou/core/requirements/ensure.hpp>
 #include <kochou/user/default_render.hpp>
 
-int
-main()
+void instance
+
+    int
+    main()
 {
     auto rc = kochou::loader::load();
     if (!rc.has_value())
