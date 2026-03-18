@@ -58,7 +58,7 @@ target(PROJECT_NAME)
         raise(
             "Invalid window backend: '%s'. Available: %s",
             window_backend,
-            table.concat(table.values(KOCHOU_WINDOW_BACKENDS), ", ")
+            table.concat(table.values(KOCHOU_WINDOW_BACKEND), ", ")
         )
     end
     add_defines(window_backend)
@@ -66,3 +66,18 @@ target(PROJECT_NAME)
     -- vulkan dylib
     local vulkan_dylib = is_mode("debug") and KOCHOU_VULKAN_DYLIB_PATH.debug or KOCHOU_VULKAN_DYLIB_PATH.release
     add_defines("KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_NAME=\"" .. vulkan_dylib .. "\"")
+
+    -- platform
+    if is_plat("macosx") then
+        add_defines("KOCHOU_PLATFORM_MACOS")
+    elseif is_plat("linux") then
+        add_defines("KOCHOU_PLATFORM_LINUX")
+    elseif is_plat("windows") then
+        add_defines("KOCHOU_PLATFORM_WIN32")
+    else
+        raise(
+            "Unsupported platform: '%s'. Available: %s",
+            os.host(),
+            table.concat({"macosx", "linux", "windows"}, ", ")
+        )
+    end

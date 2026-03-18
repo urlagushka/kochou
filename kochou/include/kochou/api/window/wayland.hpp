@@ -1,8 +1,8 @@
 #ifndef KOCHOU_API_WINDOW_WAYLAND_HPP
 #define KOCHOU_API_WINDOW_WAYLAND_HPP
 
-#ifdef WAYLAND_PROFILE
-// #include <X11/Xlib.h>
+#ifdef KOCHOU_WINDOW_BACKEND_WAYLAND
+#include <X11/Xlib.h>
 
 #include <ktl/api/type.hpp>
 

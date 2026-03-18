@@ -1,7 +1,7 @@
 #ifndef KOCHOU_API_WINDOW_XLIB_HPP
 #define KOCHOU_API_WINDOW_XLIB_HPP
 
-#ifdef XLIB_PROFILE
+#ifdef KOCHOU_WINDOW_BACKEND_XLIB
 
 #include <X11/Xlib.h>
 
@@ -16,8 +16,8 @@ struct xlib_config : core::ensure< core::extension< "VK_KHR_xlib_surface" > >,
                      core::ensure< core::extension< "VK_KHR_surface" > >
 {
     using handle_type = void;
-    using create_fn = void (*)();
-    using surface_fn = void (*)();
+    using create_fn   = void (*)();
+    using surface_fn  = void (*)();
     // ...
     using close_fn = void (*)();
 };

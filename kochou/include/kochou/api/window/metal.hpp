@@ -1,7 +1,7 @@
 #ifndef KOCHOU_API_WINDOW_METAL_HPP
 #define KOCHOU_API_WINDOW_METAL_HPP
 
-// #ifdef METAL_PROFILE
+#ifdef KOCHOU_WINDOW_BACKEND_METAL
 
 #include <kochou/core/requirements/ensure.hpp>
 #include <kochou/core/requirements/extension.hpp>
@@ -22,5 +22,5 @@ struct metal_config final : core::ensure< core::extension< "VK_KHR_surface" > >,
 using active_config = metal_config;
 } // namespace kochou::api
 
-// #endif
+#endif
 #endif
