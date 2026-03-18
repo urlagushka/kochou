@@ -46,6 +46,17 @@ struct fixed_string
         }
         data[size] = '\0';
     }
+
+    constexpr fixed_string(const char * _other, ktl::usize _size)
+    {
+        size = (_size > SIZE) ? SIZE : _size;
+
+        for (ktl::usize i = 0; i < size; ++i)
+        {
+            data[i] = _other[i];
+        }
+        data[size] = '\0';
+    }
 };
 } // namespace ktl
 

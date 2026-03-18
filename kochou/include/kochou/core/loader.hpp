@@ -94,6 +94,21 @@ free(handle_type _handle)
 #define KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_ERROR_SIZE 256
 #endif
 
+namespace
+{
+inline ktl::fixed_string< KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_ERROR_SIZE >
+__get_last_error()
+{
+    char * err = ::dlerror();
+    if (!err) [[unlikely]]
+    {
+        std::abort();
+    }
+
+    return ktl::fixed_string< KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_ERROR_SIZE >(err, ::strlen(err));
+}
+} // namespace
+
 namespace kochou::loader
 {
 using handle_type = void *;
@@ -105,19 +120,9 @@ load()
     ::dlerror();
 
     handle_type ptr = ::dlopen(KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_NAME, RTLD_NOW | RTLD_LOCAL);
-    std::cout << ptr << std::endl;
-    if (!ptr)
-    {
-        std::cout << "ptrerror" << std::endl;
-    }
     if (!ptr) [[unlikely]]
     {
-        char * err = ::dlerror();
-        if (!err) [[unlikely]]
-        {
-            std::abort();
-        }
-        return err;
+        return ktl::err(__get_last_error());
     }
     return ptr;
 }
@@ -130,12 +135,7 @@ proc(handle_type _handle, const char * _name)
     proc_type ptr = ::dlsym(_handle, _name);
     if (!ptr) [[unlikely]]
     {
-        char * err = ::dlerror();
-        if (!err) [[unlikely]]
-        {
-            std::abort();
-        }
-        return err;
+        return ktl::err(__get_last_error());
     }
     return ptr;
 }
@@ -148,12 +148,7 @@ free(handle_type _handle)
     int rc = ::dlclose(_handle);
     if (rc) [[unlikely]]
     {
-        char * err = ::dlerror();
-        if (!err) [[unlikely]]
-        {
-            std::abort();
-        }
-        return err;
+        return ktl::err(__get_last_error());
     }
     return nullptr;
 }

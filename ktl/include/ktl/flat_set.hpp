@@ -188,14 +188,14 @@ template < typename KEY, class COMPARE >
 constexpr ktl::result< std::pair< typename ktl::flat_set< KEY, COMPARE >::iterator, bool >, ktl::errc >
 ktl::flat_set< KEY, COMPARE >::insert(const value_type & value) noexcept
 {
-    return ktl::errc::unspecified;
+    return ktl::err(ktl::errc::unspecified);
 }
 
 template < typename KEY, class COMPARE >
 constexpr ktl::result< std::pair< typename ktl::flat_set< KEY, COMPARE >::iterator, bool >, ktl::errc >
 ktl::flat_set< KEY, COMPARE >::insert(value_type && value) noexcept
 {
-    return ktl::errc::unspecified;
+    return ktl::err(ktl::errc::unspecified);
 }
 
 #endif

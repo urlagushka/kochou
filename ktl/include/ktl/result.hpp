@@ -8,16 +8,31 @@
 
 namespace ktl
 {
+template < typename T >
+class err final
+{
+public:
+    explicit constexpr err(T _value) : value_(std::move(_value)) {}
+    T &&
+    value()
+    {
+        return std::move(value_);
+    }
+
+private:
+    T value_;
+};
+
 template < typename OK, typename ERR >
-class result
+class result final
 {
 public:
     using ok_type    = OK;
     using err_type   = ERR;
-    using value_type = std::variant< ok_type, err_type >;
+    using value_type = std::variant< ok_type, err< err_type > >;
 
     constexpr result(ok_type _value) : value_(std::move(_value)) {}
-    constexpr result(err_type _value) : value_(_value) {}
+    constexpr result(err< err_type > _value) : value_(_value) {}
 
     constexpr bool
     has_value() const noexcept
@@ -46,13 +61,13 @@ public:
     }
 
     constexpr err_type
-    error() const noexcept
+    error() noexcept
     {
         if (has_value())
         {
             std::abort();
         }
-        return std::get< err_type >(value_);
+        return std::get< err< err_type > >(value_).value();
     }
 
 private:

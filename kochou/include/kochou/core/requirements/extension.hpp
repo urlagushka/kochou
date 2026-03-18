@@ -94,7 +94,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
     std::string name = NAME.data;
     if (name.size() < 3) [[unlikely]]
     {
-        return ktl::errc::extension_wrong_value;
+        return ktl::err(ktl::errc::extension_wrong_value);
     }
 
     std::string prefix = name.substr(3, name.size() - 3);
@@ -171,7 +171,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::type() noexcept
         return extension_type::mesa;
     }
 
-    return ktl::errc::extension_not_provides;
+    return ktl::err(ktl::errc::extension_not_provides);
 }
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
@@ -193,7 +193,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::target() noexcept
 
     return ktl::err{ktl::errc::extension_not_provided};
     */
-    return ktl::errc::unspecified;
+    return ktl::err(ktl::errc::unspecified);
 }
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
@@ -235,7 +235,7 @@ kochou::core::extension< NAME, FEATURE_TYPE, FEATURE >::version() noexcept
         return ktl::ok{vulkan_version::v1_4};
     }
     */
-    return ktl::errc::unknown_vk_api_version;
+    return ktl::err(ktl::errc::unknown_vk_api_version);
 }
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
