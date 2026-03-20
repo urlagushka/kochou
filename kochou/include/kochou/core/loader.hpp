@@ -125,8 +125,9 @@ __get_mutex()
 
 namespace kochou::loader
 {
-using handle_type = void *;
-using proc_type   = void *;
+using handle_type                = void *;
+using proc_type                  = void *;
+static const proc_type proc_null = nullptr;
 
 inline ktl::result< handle_type, ktl::fixed_string< KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_ERROR_SIZE > >
 load()
