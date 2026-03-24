@@ -17,6 +17,8 @@ static kochou::loader::handle_type handle;
 
 struct vk_instance;
 struct allocator_callbacks;
+using pnf_vk_create_instance = ktl::api::result (*)(const vk_instance_create_info *, const allocator_callbacks *,
+                                                    vk_instance **);
 
 struct vk_application_info final
 {
@@ -43,17 +45,14 @@ struct vk_instance_create_info final
 ktl::api::result
 vk_create_instance(const vk_instance_create_info * _create_info, vk_instance ** _instance)
 {
-    using pnf_vk_create_instance =
-        ktl::api::result (*)(const vk_instance_create_info *, const allocator_callbacks *, vk_instance **);
-
     static kochou::loader::proc_type ptr = kochou::loader::proc_null;
-    if (ptr == kochou::loader::proc_null)
+    if (ptr == kochou::loader::proc_null) [[unlikely]]
     {
         auto result = kochou::loader::proc(handle, "vkCreateInstance");
         if (!result.has_value())
         {
-            std::cerr << result.error() << std::endl;
-            std::abort();
+            std::cerr << result.error() << std::endl; // LogCrit
+            return ktl::api::result::v_error_unknown;
         }
         ptr = result.take_value();
     }
@@ -86,8 +85,8 @@ main()
                                                         .enabled_extension_count = 0,
                                                         .enabled_extension_names = nullptr};
 
-        vk_instance * instance = nullptr;
-        auto          rc       = vk_create_instance(&instance_create_info, &instance);
+        vk_instance *    instance = nullptr;
+        ktl::api::result rc       = vk_create_instance(&instance_create_info, &instance);
         std::cout << (ktl::i32)rc << std::endl;
     }
 

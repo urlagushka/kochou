@@ -6,3 +6,29 @@ category="union"
 <formats>
 <spirvextensions
 <spirvcapabilities
+
+## OPAQUE objects
+```cpp
+namespace
+{
+    struct opaque_instance;
+    struct opaque_device;
+    struct opaque_phisical_device;
+}
+
+namespace ktl::api
+{
+    using ptr_instance = opaque_instance *;
+    using ptr_device = opaque_device *;
+    using ptr_phisical_device = opaque_phisical_device *;
+}
+```
+
+## PNF
+```cpp
+namespace ktl::api
+{
+    using pnf_create_instance = ktl::api::result (*)(const vk_instance_create_info *, const allocator_callbacks *,
+                                                    opaque_instance **);
+}
+```

@@ -1,12 +1,14 @@
 #ifndef KTL_REFLECTION_TYPE_NAME_HPP
 #define KTL_REFLECTION_TYPE_NAME_HPP
 
-#include <string_view>
+#include <ktl/fixed_string.hpp>
+
+#define KTL_REFLECTION_TYPE_NAME_MAX_SIZE 256
 
 namespace ktl::reflection
 {
 template < typename T >
-consteval std::string_view
+consteval ktl::fixed_string< KTL_REFLECTION_TYPE_NAME_MAX_SIZE >
 type_name()
 {
     std::string_view name;
