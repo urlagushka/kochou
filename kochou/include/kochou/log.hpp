@@ -7,6 +7,8 @@
 #include <source_location>
 #include <string_view>
 
+#include <ktl/type.hpp>
+
 namespace kochou::log
 {
 enum class lvl_type : ktl::u8
