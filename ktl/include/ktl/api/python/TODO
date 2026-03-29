@@ -7,12 +7,21 @@ category="union"
 <spirvextensions
 <spirvcapabilities
 
+нужно расширить ktl::api::object_type и ktl::api::structure_type значениями из extension
+
 ## OPAQUE objects
 ```cpp
 namespace
 {
-    struct opaque_instance;
-    struct opaque_device;
+    struct opaque_instance final
+    {
+        using parent = void;
+    };
+
+    struct opaque_device final
+    {
+        using parent = opaque_instance;
+    }
     struct opaque_phisical_device;
 }
 

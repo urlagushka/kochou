@@ -1,3 +1,8 @@
+local KOCHOU_BUILD = {
+    debug   = "KOCHOU_BUILD_DEBUG",
+    release = "KOCHOU_BUILD_RELEASE"
+}
+
 local KOCHOU_VULKAN_DYLIB_PATH = {
     debug   = "/usr/local/lib/libMoltenVK.dylib",
     release = "libMoltenVK.dylib"
@@ -18,6 +23,13 @@ local KOCHOU_WINDOW_BACKEND_DEFAULT = {
 }
 
 function make_defines(target)
+    -- build
+    local build = is_mode("debug") and KOCHOU_VULKAN_DYLIB_PATH.debug or KOCHOU_VULKAN_DYLIB_PATH.release
+    if not build then
+        raise("Specify kochou build mode, current: '%s'", build)
+    end
+    target:add("defines", KOCHOU_BUILD[build], {public = true})
+
     -- window backend
     local window_backend = get_config("window_backend")
     if not window_backend then

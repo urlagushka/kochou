@@ -4,7 +4,7 @@
 #include <ktl/api.hpp>
 #include <ktl/flat_map.hpp>
 #include <ktl/flat_set.hpp>
-#include <ktl/reflection/type_name.hpp>
+// #include <ktl/reflection/type_name.hpp>
 
 #include <kochou/api/window/window.hpp>
 #include <kochou/core/context.hpp>
@@ -15,10 +15,31 @@
 
 static kochou::loader::handle_type handle;
 
-struct vk_instance;
+template < typename T >
+struct ptr_meta final
+{
+    using parent = T::parent;
+    using type   = T::type;
+    enum : std::underlying_type_t< ktl::api::object_type >
+    {
+        object = 0
+    };
+};
+
+struct opaque_instance;
+using ptr_instance = opaque_instance *;
+template <>
+struct ptr_meta< ptr_instance > final
+{
+    using parent = void;
+    using type   = opaque_instance;
+    enum : std::underlying_type_t< ktl::api::object_type >
+    {
+        object = static_cast< std::underlying_type_t< ktl::api::object_type > >(ktl::api::object_type::v_instance)
+    };
+};
+
 struct allocator_callbacks;
-using pnf_vk_create_instance = ktl::api::result (*)(const vk_instance_create_info *, const allocator_callbacks *,
-                                                    vk_instance **);
 
 struct vk_application_info final
 {
@@ -42,8 +63,11 @@ struct vk_instance_create_info final
     const char * const *        enabled_extension_names;
 };
 
+using pnf_vk_create_instance = ktl::api::result (*)(const vk_instance_create_info *, const allocator_callbacks *,
+                                                    ptr_instance *);
+
 ktl::api::result
-vk_create_instance(const vk_instance_create_info * _create_info, vk_instance ** _instance)
+vk_create_instance(const vk_instance_create_info * _create_info, ptr_instance * _instance)
 {
     static kochou::loader::proc_type ptr = kochou::loader::proc_null;
     if (ptr == kochou::loader::proc_null) [[unlikely]]
@@ -85,7 +109,7 @@ main()
                                                         .enabled_extension_count = 0,
                                                         .enabled_extension_names = nullptr};
 
-        vk_instance *    instance = nullptr;
+        ptr_instance     instance = nullptr;
         ktl::api::result rc       = vk_create_instance(&instance_create_info, &instance);
         std::cout << (ktl::i32)rc << std::endl;
     }
@@ -95,6 +119,10 @@ main()
     {
         std::cout << rc1.error() << std::endl;
     }
+
+    ptr_meta< ptr_instance >::parent;
+    ptr_meta< ptr_instance >::type;
+    ptr_meta< ptr_instance >::object;
     // kochou::user::metadata_render render;
 }
 

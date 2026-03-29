@@ -1,14 +1,22 @@
+from dataclasses import dataclass
+
+@dataclass
+class VkHandle:
+    raw_name_str: str
+    opaque_str:   str
+    pointer_str:  str
+    parent_str:   str
+    object_str:   str
+
+
+@dataclass
 class VkConstant:
     name: str
     type: str
     value: str
 
-    def __init__(self, name: str, type: str, value: str):
-        self.name = name
-        self.type = type
-        self.value = value
 
-
+@dataclass
 class VkEnumField:
     name: str
     value: str
@@ -21,6 +29,7 @@ class VkEnumField:
         self.is_deprecated = False
 
 
+@dataclass
 class VkEnum:
     name: str
     fields: dict

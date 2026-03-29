@@ -14,6 +14,17 @@
 
 namespace ktl::api
 {
+template < typename T >
+struct ptr_meta final
+{
+    using parent = T::parent;
+    using type   = T::type;
+    enum : std::underlying_type_t< ktl::api::object_type >
+    {
+        object = 0
+    };
+};
+
 struct extension_name final : ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE >
 {
     using ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE >::fixed_string;
