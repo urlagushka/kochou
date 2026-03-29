@@ -17,8 +17,13 @@ constexpr ktl::usize typearray_size = []
 }();
 
 template < typearray ARRAY >
-using
+using typearray_get // need get type on runtime by passing a value, not constant
 
 } // namespace ktl::reflection
 
 #endif
+/*
+
+
+
+*/
