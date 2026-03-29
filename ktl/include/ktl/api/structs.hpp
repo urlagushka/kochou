@@ -3,6 +3,7 @@
 
 #include <ktl/api/bitmasks.hpp>
 #include <ktl/api/enums.hpp>
+#include <ktl/api/handles.hpp>
 #include <ktl/api/type.hpp>
 
 namespace ktl::api
@@ -188,7 +189,7 @@ struct memory_requirements final
 {
     ktl::dvsize size;
     ktl::dvsize alignment;
-    ktl::i32    memory_type_bits[None];
+    ktl::i32    memory_type_bits;
 };
 
 struct sparse_image_format_properties final
@@ -268,7 +269,7 @@ struct write_descriptor_set final
     ktl::i32                                 descriptor_count;
     ktl::api::descriptor_type                descriptor_type;
     const ktl::api::descriptor_image_info *  image_info;
-    const ktl::api::descriptor_buffer_info * buffer_info[None];
+    const ktl::api::descriptor_buffer_info * buffer_info;
     const ktl::api::buffer_view *            texel_buffer_view;
 };
 
@@ -292,9 +293,7 @@ struct buffer_usage_flags2create_info final
     ktl::api::buffer_usage_flags2 usage;
 };
 
-struct buffer_usage_flags2create_info_khr final
-{
-};
+using buffer_usage_flags2create_info_khr = buffer_usage_flags2create_info;
 
 struct buffer_create_info final
 {
@@ -493,9 +492,9 @@ struct image_copy final
 struct image_blit final
 {
     ktl::api::image_subresource_layers src_subresource;
-    ktl::api::offset3d                 src_offsets[None];
+    ktl::api::offset3d                 src_offsets[2];
     ktl::api::image_subresource_layers dst_subresource;
-    ktl::api::offset3d                 dst_offsets[None];
+    ktl::api::offset3d                 dst_offsets[2];
 };
 
 struct buffer_image_copy final
@@ -522,9 +521,7 @@ struct copy_memory_indirect_command_khr final
     ktl::dvsize size;
 };
 
-struct copy_memory_indirect_command_nv final
-{
-};
+using copy_memory_indirect_command_nv = copy_memory_indirect_command_khr;
 
 struct copy_memory_indirect_info_khr final
 {
@@ -546,9 +543,7 @@ struct copy_memory_to_image_indirect_command_khr final
     ktl::api::extent3d                 image_extent;
 };
 
-struct copy_memory_to_image_indirect_command_nv final
-{
-};
+using copy_memory_to_image_indirect_command_nv = copy_memory_to_image_indirect_command_khr;
 
 struct copy_memory_to_image_indirect_info_khr final
 {
@@ -577,7 +572,7 @@ struct shader_module_create_info final
     const void *                         next  = nullptr;
     ktl::api::shader_module_create_flags flags = 0;
     ktl::usize                           code_size;
-    const ktl::i32 *                     code[None];
+    const ktl::i32 *                     code;
 };
 
 struct descriptor_set_layout_binding final
@@ -677,9 +672,7 @@ struct pipeline_create_flags2create_info final
     ktl::api::pipeline_create_flags2 flags = 0;
 };
 
-struct pipeline_create_flags2create_info_khr final
-{
-};
+using pipeline_create_flags2create_info_khr = pipeline_create_flags2create_info;
 
 struct vertex_input_binding_description final
 {
@@ -760,7 +753,7 @@ struct pipeline_multisample_state_create_info final
     ktl::api::sample_count_flag_bits                  rasterization_samples;
     ktl::bool32                                       sample_shading_enable;
     float                                             min_sample_shading;
-    const ktl::spmask *                               sample_mask[None] = nullptr;
+    const ktl::spmask *                               sample_mask = nullptr;
     ktl::bool32                                       alpha_to_coverage_enable;
     ktl::bool32                                       alpha_to_one_enable;
 };
@@ -786,7 +779,7 @@ struct pipeline_color_blend_state_create_info final
     ktl::api::logic_op                                      logic_op;
     ktl::i32                                                attachment_count = 0;
     const ktl::api::pipeline_color_blend_attachment_state * attachments      = nullptr;
-    float                                                   blend_constants[None];
+    float                                                   blend_constants[4];
 };
 
 struct pipeline_dynamic_state_create_info final
@@ -1264,9 +1257,9 @@ struct physical_device_limits final
     ktl::i32                     max_fragment_dual_src_attachments;
     ktl::i32                     max_fragment_combined_output_resources;
     ktl::i32                     max_compute_shared_memory_size;
-    ktl::i32                     max_compute_work_group_count[None];
+    ktl::i32                     max_compute_work_group_count[3];
     ktl::i32                     max_compute_work_group_invocations;
-    ktl::i32                     max_compute_work_group_size[None];
+    ktl::i32                     max_compute_work_group_size[3];
     ktl::i32                     sub_pixel_precision_bits;
     ktl::i32                     sub_texel_precision_bits;
     ktl::i32                     mipmap_precision_bits;
@@ -1275,8 +1268,8 @@ struct physical_device_limits final
     float                        max_sampler_lod_bias;
     float                        max_sampler_anisotropy;
     ktl::i32                     max_viewports;
-    ktl::i32                     max_viewport_dimensions[None];
-    float                        viewport_bounds_range[None];
+    ktl::i32                     max_viewport_dimensions[2];
+    float                        viewport_bounds_range[2];
     ktl::i32                     viewport_sub_pixel_bits;
     ktl::usize                   min_memory_map_alignment;
     ktl::dvsize                  min_texel_buffer_offset_alignment;
@@ -1309,8 +1302,8 @@ struct physical_device_limits final
     ktl::i32                     max_cull_distances;
     ktl::i32                     max_combined_clip_and_cull_distances;
     ktl::i32                     discrete_queue_priorities;
-    float                        point_size_range[None];
-    float                        line_width_range[None];
+    float                        point_size_range[2];
+    float                        line_width_range[2];
     float                        point_size_granularity;
     float                        line_width_granularity;
     ktl::bool32                  strict_lines;
@@ -1716,7 +1709,7 @@ struct debug_marker_marker_info_ext final
     ktl::api::structure_type type = ktl::api::structure_type::v_debug_marker_marker_info_ext;
     const void *             next = nullptr;
     const char *             marker_name;
-    float                    color[None];
+    float                    color[4];
 };
 
 struct dedicated_allocation_image_create_info_nv final
@@ -1817,9 +1810,7 @@ struct physical_device_external_memory_sci_buf_features_nv final
     ktl::bool32              sci_buf_export;
 };
 
-struct physical_device_external_sci_buf_features_nv final
-{
-};
+using physical_device_external_sci_buf_features_nv = physical_device_external_memory_sci_buf_features_nv;
 
 struct win32keyed_mutex_acquire_release_info_nv final
 {
@@ -1882,9 +1873,7 @@ struct device_private_data_create_info final
     ktl::i32                 private_data_slot_request_count;
 };
 
-struct device_private_data_create_info_ext final
-{
-};
+using device_private_data_create_info_ext = device_private_data_create_info;
 
 struct private_data_slot_create_info final
 {
@@ -1893,9 +1882,7 @@ struct private_data_slot_create_info final
     ktl::api::private_data_slot_create_flags flags;
 };
 
-struct private_data_slot_create_info_ext final
-{
-};
+using private_data_slot_create_info_ext = private_data_slot_create_info;
 
 struct physical_device_private_data_features final
 {
@@ -1904,9 +1891,7 @@ struct physical_device_private_data_features final
     ktl::bool32              private_data;
 };
 
-struct physical_device_private_data_features_ext final
-{
-};
+using physical_device_private_data_features_ext = physical_device_private_data_features;
 
 struct physical_device_device_generated_commands_properties_nv final
 {
@@ -2233,9 +2218,7 @@ struct physical_device_features2 final
     ktl::api::physical_device_features features;
 };
 
-struct physical_device_features2khr final
-{
-};
+using physical_device_features2khr = physical_device_features2;
 
 struct physical_device_properties2 final
 {
@@ -2244,9 +2227,7 @@ struct physical_device_properties2 final
     ktl::api::physical_device_properties properties;
 };
 
-struct physical_device_properties2khr final
-{
-};
+using physical_device_properties2khr = physical_device_properties2;
 
 struct format_properties2 final
 {
@@ -2255,9 +2236,7 @@ struct format_properties2 final
     ktl::api::format_properties format_properties;
 };
 
-struct format_properties2khr final
-{
-};
+using format_properties2khr = format_properties2;
 
 struct image_format_properties2 final
 {
@@ -2266,9 +2245,7 @@ struct image_format_properties2 final
     ktl::api::image_format_properties image_format_properties;
 };
 
-struct image_format_properties2khr final
-{
-};
+using image_format_properties2khr = image_format_properties2;
 
 struct physical_device_image_format_info2 final
 {
@@ -2281,9 +2258,7 @@ struct physical_device_image_format_info2 final
     ktl::api::image_create_flags flags = 0;
 };
 
-struct physical_device_image_format_info2khr final
-{
-};
+using physical_device_image_format_info2khr = physical_device_image_format_info2;
 
 struct queue_family_properties2 final
 {
@@ -2292,9 +2267,7 @@ struct queue_family_properties2 final
     ktl::api::queue_family_properties queue_family_properties;
 };
 
-struct queue_family_properties2khr final
-{
-};
+using queue_family_properties2khr = queue_family_properties2;
 
 struct physical_device_memory_properties2 final
 {
@@ -2303,9 +2276,7 @@ struct physical_device_memory_properties2 final
     ktl::api::physical_device_memory_properties memory_properties;
 };
 
-struct physical_device_memory_properties2khr final
-{
-};
+using physical_device_memory_properties2khr = physical_device_memory_properties2;
 
 struct sparse_image_format_properties2 final
 {
@@ -2314,9 +2285,7 @@ struct sparse_image_format_properties2 final
     ktl::api::sparse_image_format_properties properties;
 };
 
-struct sparse_image_format_properties2khr final
-{
-};
+using sparse_image_format_properties2khr = sparse_image_format_properties2;
 
 struct physical_device_sparse_image_format_info2 final
 {
@@ -2329,9 +2298,7 @@ struct physical_device_sparse_image_format_info2 final
     ktl::api::image_tiling           tiling;
 };
 
-struct physical_device_sparse_image_format_info2khr final
-{
-};
+using physical_device_sparse_image_format_info2khr = physical_device_sparse_image_format_info2;
 
 struct physical_device_push_descriptor_properties final
 {
@@ -2340,9 +2307,7 @@ struct physical_device_push_descriptor_properties final
     ktl::i32                 max_push_descriptors;
 };
 
-struct physical_device_push_descriptor_properties_khr final
-{
-};
+using physical_device_push_descriptor_properties_khr = physical_device_push_descriptor_properties;
 
 struct conformance_version final
 {
@@ -2352,9 +2317,7 @@ struct conformance_version final
     ktl::u8 patch;
 };
 
-struct conformance_version_khr final
-{
-};
+using conformance_version_khr = conformance_version;
 
 struct physical_device_driver_properties final
 {
@@ -2366,9 +2329,7 @@ struct physical_device_driver_properties final
     ktl::api::conformance_version conformance_version;
 };
 
-struct physical_device_driver_properties_khr final
-{
-};
+using physical_device_driver_properties_khr = physical_device_driver_properties;
 
 struct present_regions_khr final
 {
@@ -2399,17 +2360,11 @@ struct physical_device_variable_pointers_features final
     ktl::bool32              variable_pointers;
 };
 
-struct physical_device_variable_pointers_features_khr final
-{
-};
+using physical_device_variable_pointers_features_khr = physical_device_variable_pointers_features;
 
-struct physical_device_variable_pointer_features_khr final
-{
-};
+using physical_device_variable_pointer_features_khr = physical_device_variable_pointers_features;
 
-struct physical_device_variable_pointer_features final
-{
-};
+using physical_device_variable_pointer_features = physical_device_variable_pointers_features;
 
 struct external_memory_properties final
 {
@@ -2418,9 +2373,7 @@ struct external_memory_properties final
     ktl::api::external_memory_handle_type_flags compatible_handle_types;
 };
 
-struct external_memory_properties_khr final
-{
-};
+using external_memory_properties_khr = external_memory_properties;
 
 struct physical_device_external_image_format_info final
 {
@@ -2429,9 +2382,7 @@ struct physical_device_external_image_format_info final
     ktl::api::external_memory_handle_type_flag_bits handle_type = 0;
 };
 
-struct physical_device_external_image_format_info_khr final
-{
-};
+using physical_device_external_image_format_info_khr = physical_device_external_image_format_info;
 
 struct external_image_format_properties final
 {
@@ -2440,9 +2391,7 @@ struct external_image_format_properties final
     ktl::api::external_memory_properties external_memory_properties;
 };
 
-struct external_image_format_properties_khr final
-{
-};
+using external_image_format_properties_khr = external_image_format_properties;
 
 struct physical_device_external_buffer_info final
 {
@@ -2453,9 +2402,7 @@ struct physical_device_external_buffer_info final
     ktl::api::external_memory_handle_type_flag_bits handle_type;
 };
 
-struct physical_device_external_buffer_info_khr final
-{
-};
+using physical_device_external_buffer_info_khr = physical_device_external_buffer_info;
 
 struct external_buffer_properties final
 {
@@ -2464,9 +2411,7 @@ struct external_buffer_properties final
     ktl::api::external_memory_properties external_memory_properties;
 };
 
-struct external_buffer_properties_khr final
-{
-};
+using external_buffer_properties_khr = external_buffer_properties;
 
 struct physical_device_idproperties final
 {
@@ -2479,9 +2424,7 @@ struct physical_device_idproperties final
     ktl::bool32              device_luidvalid;
 };
 
-struct physical_device_idproperties_khr final
-{
-};
+using physical_device_idproperties_khr = physical_device_idproperties;
 
 struct external_memory_image_create_info final
 {
@@ -2490,9 +2433,7 @@ struct external_memory_image_create_info final
     ktl::api::external_memory_handle_type_flags handle_types = 0;
 };
 
-struct external_memory_image_create_info_khr final
-{
-};
+using external_memory_image_create_info_khr = external_memory_image_create_info;
 
 struct external_memory_buffer_create_info final
 {
@@ -2501,9 +2442,7 @@ struct external_memory_buffer_create_info final
     ktl::api::external_memory_handle_type_flags handle_types = 0;
 };
 
-struct external_memory_buffer_create_info_khr final
-{
-};
+using external_memory_buffer_create_info_khr = external_memory_buffer_create_info;
 
 struct export_memory_allocate_info final
 {
@@ -2512,9 +2451,7 @@ struct export_memory_allocate_info final
     ktl::api::external_memory_handle_type_flags handle_types = 0;
 };
 
-struct export_memory_allocate_info_khr final
-{
-};
+using export_memory_allocate_info_khr = export_memory_allocate_info;
 
 struct import_memory_win32handle_info_khr final
 {
@@ -2638,9 +2575,7 @@ struct physical_device_external_semaphore_info final
     ktl::api::external_semaphore_handle_type_flag_bits handle_type;
 };
 
-struct physical_device_external_semaphore_info_khr final
-{
-};
+using physical_device_external_semaphore_info_khr = physical_device_external_semaphore_info;
 
 struct external_semaphore_properties final
 {
@@ -2651,9 +2586,7 @@ struct external_semaphore_properties final
     ktl::api::external_semaphore_feature_flags     external_semaphore_features = 0;
 };
 
-struct external_semaphore_properties_khr final
-{
-};
+using external_semaphore_properties_khr = external_semaphore_properties;
 
 struct export_semaphore_create_info final
 {
@@ -2662,9 +2595,7 @@ struct export_semaphore_create_info final
     ktl::api::external_semaphore_handle_type_flags handle_types = 0;
 };
 
-struct export_semaphore_create_info_khr final
-{
-};
+using export_semaphore_create_info_khr = export_semaphore_create_info;
 
 struct import_semaphore_win32handle_info_khr final
 {
@@ -2747,9 +2678,7 @@ struct physical_device_external_fence_info final
     ktl::api::external_fence_handle_type_flag_bits handle_type;
 };
 
-struct physical_device_external_fence_info_khr final
-{
-};
+using physical_device_external_fence_info_khr = physical_device_external_fence_info;
 
 struct external_fence_properties final
 {
@@ -2760,9 +2689,7 @@ struct external_fence_properties final
     ktl::api::external_fence_feature_flags     external_fence_features = 0;
 };
 
-struct external_fence_properties_khr final
-{
-};
+using external_fence_properties_khr = external_fence_properties;
 
 struct export_fence_create_info final
 {
@@ -2771,9 +2698,7 @@ struct export_fence_create_info final
     ktl::api::external_fence_handle_type_flags handle_types = 0;
 };
 
-struct export_fence_create_info_khr final
-{
-};
+using export_fence_create_info_khr = export_fence_create_info;
 
 struct import_fence_win32handle_info_khr final
 {
@@ -2929,9 +2854,7 @@ struct physical_device_multiview_features final
     ktl::bool32              multiview_tessellation_shader;
 };
 
-struct physical_device_multiview_features_khr final
-{
-};
+using physical_device_multiview_features_khr = physical_device_multiview_features;
 
 struct physical_device_multiview_properties final
 {
@@ -2941,9 +2864,7 @@ struct physical_device_multiview_properties final
     ktl::i32                 max_multiview_instance_index;
 };
 
-struct physical_device_multiview_properties_khr final
-{
-};
+using physical_device_multiview_properties_khr = physical_device_multiview_properties;
 
 struct render_pass_multiview_create_info final
 {
@@ -2957,9 +2878,7 @@ struct render_pass_multiview_create_info final
     const ktl::i32 *         correlation_masks;
 };
 
-struct render_pass_multiview_create_info_khr final
-{
-};
+using render_pass_multiview_create_info_khr = render_pass_multiview_create_info;
 
 struct surface_capabilities2ext final
 {
@@ -3015,9 +2934,7 @@ struct physical_device_group_properties final
     ktl::bool32               subset_allocation;
 };
 
-struct physical_device_group_properties_khr final
-{
-};
+using physical_device_group_properties_khr = physical_device_group_properties;
 
 struct memory_allocate_flags_info final
 {
@@ -3027,9 +2944,7 @@ struct memory_allocate_flags_info final
     ktl::i32                        device_mask;
 };
 
-struct memory_allocate_flags_info_khr final
-{
-};
+using memory_allocate_flags_info_khr = memory_allocate_flags_info;
 
 struct bind_buffer_memory_info final
 {
@@ -3040,9 +2955,7 @@ struct bind_buffer_memory_info final
     ktl::dvsize              memory_offset;
 };
 
-struct bind_buffer_memory_info_khr final
-{
-};
+using bind_buffer_memory_info_khr = bind_buffer_memory_info;
 
 struct bind_buffer_memory_device_group_info final
 {
@@ -3052,9 +2965,7 @@ struct bind_buffer_memory_device_group_info final
     const ktl::i32 *         device_indices;
 };
 
-struct bind_buffer_memory_device_group_info_khr final
-{
-};
+using bind_buffer_memory_device_group_info_khr = bind_buffer_memory_device_group_info;
 
 struct bind_image_memory_info final
 {
@@ -3065,9 +2976,7 @@ struct bind_image_memory_info final
     ktl::dvsize              memory_offset;
 };
 
-struct bind_image_memory_info_khr final
-{
-};
+using bind_image_memory_info_khr = bind_image_memory_info;
 
 struct bind_image_memory_device_group_info final
 {
@@ -3079,9 +2988,7 @@ struct bind_image_memory_device_group_info final
     const ktl::api::rect2d * split_instance_bind_regions;
 };
 
-struct bind_image_memory_device_group_info_khr final
-{
-};
+using bind_image_memory_device_group_info_khr = bind_image_memory_device_group_info;
 
 struct device_group_render_pass_begin_info final
 {
@@ -3092,9 +2999,7 @@ struct device_group_render_pass_begin_info final
     const ktl::api::rect2d * device_render_areas;
 };
 
-struct device_group_render_pass_begin_info_khr final
-{
-};
+using device_group_render_pass_begin_info_khr = device_group_render_pass_begin_info;
 
 struct device_group_command_buffer_begin_info final
 {
@@ -3103,9 +3008,7 @@ struct device_group_command_buffer_begin_info final
     ktl::i32                 device_mask;
 };
 
-struct device_group_command_buffer_begin_info_khr final
-{
-};
+using device_group_command_buffer_begin_info_khr = device_group_command_buffer_begin_info;
 
 struct device_group_submit_info final
 {
@@ -3119,9 +3022,7 @@ struct device_group_submit_info final
     const ktl::i32 *         signal_semaphore_device_indices;
 };
 
-struct device_group_submit_info_khr final
-{
-};
+using device_group_submit_info_khr = device_group_submit_info;
 
 struct device_group_bind_sparse_info final
 {
@@ -3131,9 +3032,7 @@ struct device_group_bind_sparse_info final
     ktl::i32                 memory_device_index;
 };
 
-struct device_group_bind_sparse_info_khr final
-{
-};
+using device_group_bind_sparse_info_khr = device_group_bind_sparse_info;
 
 struct device_group_present_capabilities_khr final
 {
@@ -3186,9 +3085,7 @@ struct device_group_device_create_info final
     const ktl::api::physical_device * physical_devices;
 };
 
-struct device_group_device_create_info_khr final
-{
-};
+using device_group_device_create_info_khr = device_group_device_create_info;
 
 struct device_group_swapchain_create_info_khr final
 {
@@ -3207,9 +3104,7 @@ struct descriptor_update_template_entry final
     ktl::usize                stride;
 };
 
-struct descriptor_update_template_entry_khr final
-{
-};
+using descriptor_update_template_entry_khr = descriptor_update_template_entry;
 
 struct descriptor_update_template_create_info final
 {
@@ -3225,9 +3120,7 @@ struct descriptor_update_template_create_info final
     ktl::i32                                           set;
 };
 
-struct descriptor_update_template_create_info_khr final
-{
-};
+using descriptor_update_template_create_info_khr = descriptor_update_template_create_info;
 
 struct xycolor_ext final
 {
@@ -3540,9 +3433,7 @@ struct input_attachment_aspect_reference final
     ktl::api::image_aspect_flags aspect_mask;
 };
 
-struct input_attachment_aspect_reference_khr final
-{
-};
+using input_attachment_aspect_reference_khr = input_attachment_aspect_reference;
 
 struct render_pass_input_attachment_aspect_create_info final
 {
@@ -3552,9 +3443,7 @@ struct render_pass_input_attachment_aspect_create_info final
     const ktl::api::input_attachment_aspect_reference * aspect_references;
 };
 
-struct render_pass_input_attachment_aspect_create_info_khr final
-{
-};
+using render_pass_input_attachment_aspect_create_info_khr = render_pass_input_attachment_aspect_create_info;
 
 struct physical_device_surface_info2khr final
 {
@@ -3637,9 +3526,7 @@ struct physical_device16bit_storage_features final
     ktl::bool32              storage_input_output16;
 };
 
-struct physical_device16bit_storage_features_khr final
-{
-};
+using physical_device16bit_storage_features_khr = physical_device16bit_storage_features;
 
 struct physical_device_subgroup_properties final
 {
@@ -3658,9 +3545,8 @@ struct physical_device_shader_subgroup_extended_types_features final
     ktl::bool32              shader_subgroup_extended_types;
 };
 
-struct physical_device_shader_subgroup_extended_types_features_khr final
-{
-};
+using physical_device_shader_subgroup_extended_types_features_khr =
+    physical_device_shader_subgroup_extended_types_features;
 
 struct buffer_memory_requirements_info2 final
 {
@@ -3669,9 +3555,7 @@ struct buffer_memory_requirements_info2 final
     ktl::api::buffer         buffer;
 };
 
-struct buffer_memory_requirements_info2khr final
-{
-};
+using buffer_memory_requirements_info2khr = buffer_memory_requirements_info2;
 
 struct device_buffer_memory_requirements final
 {
@@ -3680,9 +3564,7 @@ struct device_buffer_memory_requirements final
     const ktl::api::buffer_create_info * create_info;
 };
 
-struct device_buffer_memory_requirements_khr final
-{
-};
+using device_buffer_memory_requirements_khr = device_buffer_memory_requirements;
 
 struct image_memory_requirements_info2 final
 {
@@ -3691,9 +3573,7 @@ struct image_memory_requirements_info2 final
     ktl::api::image          image;
 };
 
-struct image_memory_requirements_info2khr final
-{
-};
+using image_memory_requirements_info2khr = image_memory_requirements_info2;
 
 struct image_sparse_memory_requirements_info2 final
 {
@@ -3702,9 +3582,7 @@ struct image_sparse_memory_requirements_info2 final
     ktl::api::image          image;
 };
 
-struct image_sparse_memory_requirements_info2khr final
-{
-};
+using image_sparse_memory_requirements_info2khr = image_sparse_memory_requirements_info2;
 
 struct device_image_memory_requirements final
 {
@@ -3714,9 +3592,7 @@ struct device_image_memory_requirements final
     ktl::api::image_aspect_flag_bits    plane_aspect = 0;
 };
 
-struct device_image_memory_requirements_khr final
-{
-};
+using device_image_memory_requirements_khr = device_image_memory_requirements;
 
 struct memory_requirements2 final
 {
@@ -3725,9 +3601,7 @@ struct memory_requirements2 final
     ktl::api::memory_requirements memory_requirements;
 };
 
-struct memory_requirements2khr final
-{
-};
+using memory_requirements2khr = memory_requirements2;
 
 struct sparse_image_memory_requirements2 final
 {
@@ -3736,9 +3610,7 @@ struct sparse_image_memory_requirements2 final
     ktl::api::sparse_image_memory_requirements memory_requirements;
 };
 
-struct sparse_image_memory_requirements2khr final
-{
-};
+using sparse_image_memory_requirements2khr = sparse_image_memory_requirements2;
 
 struct physical_device_point_clipping_properties final
 {
@@ -3747,9 +3619,7 @@ struct physical_device_point_clipping_properties final
     ktl::api::point_clipping_behavior point_clipping_behavior;
 };
 
-struct physical_device_point_clipping_properties_khr final
-{
-};
+using physical_device_point_clipping_properties_khr = physical_device_point_clipping_properties;
 
 struct memory_dedicated_requirements final
 {
@@ -3759,9 +3629,7 @@ struct memory_dedicated_requirements final
     ktl::bool32              requires_dedicated_allocation;
 };
 
-struct memory_dedicated_requirements_khr final
-{
-};
+using memory_dedicated_requirements_khr = memory_dedicated_requirements;
 
 struct memory_dedicated_allocate_info final
 {
@@ -3771,9 +3639,7 @@ struct memory_dedicated_allocate_info final
     ktl::api::buffer         buffer = 0;
 };
 
-struct memory_dedicated_allocate_info_khr final
-{
-};
+using memory_dedicated_allocate_info_khr = memory_dedicated_allocate_info;
 
 struct image_view_usage_create_info final
 {
@@ -3790,9 +3656,7 @@ struct image_view_sliced_create_info_ext final
     ktl::i32                 slice_count;
 };
 
-struct image_view_usage_create_info_khr final
-{
-};
+using image_view_usage_create_info_khr = image_view_usage_create_info;
 
 struct pipeline_tessellation_domain_origin_state_create_info final
 {
@@ -3801,9 +3665,7 @@ struct pipeline_tessellation_domain_origin_state_create_info final
     ktl::api::tessellation_domain_origin domain_origin;
 };
 
-struct pipeline_tessellation_domain_origin_state_create_info_khr final
-{
-};
+using pipeline_tessellation_domain_origin_state_create_info_khr = pipeline_tessellation_domain_origin_state_create_info;
 
 struct sampler_ycbcr_conversion_info final
 {
@@ -3812,9 +3674,7 @@ struct sampler_ycbcr_conversion_info final
     ktl::api::sampler_ycbcr_conversion conversion;
 };
 
-struct sampler_ycbcr_conversion_info_khr final
-{
-};
+using sampler_ycbcr_conversion_info_khr = sampler_ycbcr_conversion_info;
 
 struct sampler_ycbcr_conversion_create_info final
 {
@@ -3830,9 +3690,7 @@ struct sampler_ycbcr_conversion_create_info final
     const ktl::bool32                        force_explicit_reconstruction;
 };
 
-struct sampler_ycbcr_conversion_create_info_khr final
-{
-};
+using sampler_ycbcr_conversion_create_info_khr = sampler_ycbcr_conversion_create_info;
 
 struct bind_image_plane_memory_info final
 {
@@ -3841,9 +3699,7 @@ struct bind_image_plane_memory_info final
     ktl::api::image_aspect_flag_bits plane_aspect;
 };
 
-struct bind_image_plane_memory_info_khr final
-{
-};
+using bind_image_plane_memory_info_khr = bind_image_plane_memory_info;
 
 struct image_plane_memory_requirements_info final
 {
@@ -3852,9 +3708,7 @@ struct image_plane_memory_requirements_info final
     ktl::api::image_aspect_flag_bits plane_aspect;
 };
 
-struct image_plane_memory_requirements_info_khr final
-{
-};
+using image_plane_memory_requirements_info_khr = image_plane_memory_requirements_info;
 
 struct physical_device_sampler_ycbcr_conversion_features final
 {
@@ -3863,9 +3717,7 @@ struct physical_device_sampler_ycbcr_conversion_features final
     ktl::bool32              sampler_ycbcr_conversion;
 };
 
-struct physical_device_sampler_ycbcr_conversion_features_khr final
-{
-};
+using physical_device_sampler_ycbcr_conversion_features_khr = physical_device_sampler_ycbcr_conversion_features;
 
 struct sampler_ycbcr_conversion_image_format_properties final
 {
@@ -3874,9 +3726,7 @@ struct sampler_ycbcr_conversion_image_format_properties final
     ktl::i32                 combined_image_sampler_descriptor_count;
 };
 
-struct sampler_ycbcr_conversion_image_format_properties_khr final
-{
-};
+using sampler_ycbcr_conversion_image_format_properties_khr = sampler_ycbcr_conversion_image_format_properties;
 
 struct texture_lodgather_format_properties_amd final
 {
@@ -3941,9 +3791,7 @@ struct physical_device_sampler_filter_minmax_properties final
     ktl::bool32              filter_minmax_image_component_mapping;
 };
 
-struct physical_device_sampler_filter_minmax_properties_ext final
-{
-};
+using physical_device_sampler_filter_minmax_properties_ext = physical_device_sampler_filter_minmax_properties;
 
 struct sample_location_ext final
 {
@@ -3997,7 +3845,7 @@ struct physical_device_sample_locations_properties_ext final
     void *                       next = nullptr;
     ktl::api::sample_count_flags sample_location_sample_counts;
     ktl::api::extent2d           max_sample_location_grid_size;
-    float                        sample_location_coordinate_range[None];
+    float                        sample_location_coordinate_range[2];
     ktl::i32                     sample_location_sub_pixel_bits;
     ktl::bool32                  variable_sample_locations;
 };
@@ -4016,9 +3864,7 @@ struct sampler_reduction_mode_create_info final
     ktl::api::sampler_reduction_mode reduction_mode;
 };
 
-struct sampler_reduction_mode_create_info_ext final
-{
-};
+using sampler_reduction_mode_create_info_ext = sampler_reduction_mode_create_info;
 
 struct physical_device_blend_operation_advanced_features_ext final
 {
@@ -4063,9 +3909,7 @@ struct physical_device_inline_uniform_block_features final
     ktl::bool32              descriptor_binding_inline_uniform_block_update_after_bind;
 };
 
-struct physical_device_inline_uniform_block_features_ext final
-{
-};
+using physical_device_inline_uniform_block_features_ext = physical_device_inline_uniform_block_features;
 
 struct physical_device_inline_uniform_block_properties final
 {
@@ -4078,9 +3922,7 @@ struct physical_device_inline_uniform_block_properties final
     ktl::i32                 max_descriptor_set_update_after_bind_inline_uniform_blocks;
 };
 
-struct physical_device_inline_uniform_block_properties_ext final
-{
-};
+using physical_device_inline_uniform_block_properties_ext = physical_device_inline_uniform_block_properties;
 
 struct write_descriptor_set_inline_uniform_block final
 {
@@ -4090,9 +3932,7 @@ struct write_descriptor_set_inline_uniform_block final
     const void *             data;
 };
 
-struct write_descriptor_set_inline_uniform_block_ext final
-{
-};
+using write_descriptor_set_inline_uniform_block_ext = write_descriptor_set_inline_uniform_block;
 
 struct descriptor_pool_inline_uniform_block_create_info final
 {
@@ -4101,9 +3941,7 @@ struct descriptor_pool_inline_uniform_block_create_info final
     ktl::i32                 max_inline_uniform_block_bindings;
 };
 
-struct descriptor_pool_inline_uniform_block_create_info_ext final
-{
-};
+using descriptor_pool_inline_uniform_block_create_info_ext = descriptor_pool_inline_uniform_block_create_info;
 
 struct pipeline_coverage_modulation_state_create_info_nv final
 {
@@ -4124,9 +3962,7 @@ struct image_format_list_create_info final
     const ktl::api::format * view_formats;
 };
 
-struct image_format_list_create_info_khr final
-{
-};
+using image_format_list_create_info_khr = image_format_list_create_info;
 
 struct validation_cache_create_info_ext final
 {
@@ -4152,9 +3988,7 @@ struct physical_device_maintenance3properties final
     ktl::dvsize              max_memory_allocation_size;
 };
 
-struct physical_device_maintenance3properties_khr final
-{
-};
+using physical_device_maintenance3properties_khr = physical_device_maintenance3properties;
 
 struct physical_device_maintenance4features final
 {
@@ -4163,9 +3997,7 @@ struct physical_device_maintenance4features final
     ktl::bool32              maintenance4;
 };
 
-struct physical_device_maintenance4features_khr final
-{
-};
+using physical_device_maintenance4features_khr = physical_device_maintenance4features;
 
 struct physical_device_maintenance4properties final
 {
@@ -4174,9 +4006,7 @@ struct physical_device_maintenance4properties final
     ktl::dvsize              max_buffer_size;
 };
 
-struct physical_device_maintenance4properties_khr final
-{
-};
+using physical_device_maintenance4properties_khr = physical_device_maintenance4properties;
 
 struct physical_device_maintenance5features final
 {
@@ -4185,9 +4015,7 @@ struct physical_device_maintenance5features final
     ktl::bool32              maintenance5;
 };
 
-struct physical_device_maintenance5features_khr final
-{
-};
+using physical_device_maintenance5features_khr = physical_device_maintenance5features;
 
 struct physical_device_maintenance5properties final
 {
@@ -4201,9 +4029,7 @@ struct physical_device_maintenance5properties final
     ktl::bool32              non_strict_wide_lines_use_parallelogram;
 };
 
-struct physical_device_maintenance5properties_khr final
-{
-};
+using physical_device_maintenance5properties_khr = physical_device_maintenance5properties;
 
 struct physical_device_maintenance6features final
 {
@@ -4212,9 +4038,7 @@ struct physical_device_maintenance6features final
     ktl::bool32              maintenance6;
 };
 
-struct physical_device_maintenance6features_khr final
-{
-};
+using physical_device_maintenance6features_khr = physical_device_maintenance6features;
 
 struct physical_device_maintenance6properties final
 {
@@ -4225,9 +4049,7 @@ struct physical_device_maintenance6properties final
     ktl::bool32              fragment_shading_rate_clamp_combiner_inputs;
 };
 
-struct physical_device_maintenance6properties_khr final
-{
-};
+using physical_device_maintenance6properties_khr = physical_device_maintenance6properties;
 
 struct physical_device_maintenance7features_khr final
 {
@@ -4331,9 +4153,7 @@ struct rendering_area_info final
     ktl::api::format         stencil_attachment_format;
 };
 
-struct rendering_area_info_khr final
-{
-};
+using rendering_area_info_khr = rendering_area_info;
 
 struct descriptor_set_layout_support final
 {
@@ -4342,9 +4162,7 @@ struct descriptor_set_layout_support final
     ktl::bool32              supported;
 };
 
-struct descriptor_set_layout_support_khr final
-{
-};
+using descriptor_set_layout_support_khr = descriptor_set_layout_support;
 
 struct physical_device_shader_draw_parameters_features final
 {
@@ -4353,9 +4171,7 @@ struct physical_device_shader_draw_parameters_features final
     ktl::bool32              shader_draw_parameters;
 };
 
-struct physical_device_shader_draw_parameter_features final
-{
-};
+using physical_device_shader_draw_parameter_features = physical_device_shader_draw_parameters_features;
 
 struct physical_device_shader_float16int8features final
 {
@@ -4365,13 +4181,9 @@ struct physical_device_shader_float16int8features final
     ktl::bool32              shader_int8;
 };
 
-struct physical_device_shader_float16int8features_khr final
-{
-};
+using physical_device_shader_float16int8features_khr = physical_device_shader_float16int8features;
 
-struct physical_device_float16int8features_khr final
-{
-};
+using physical_device_float16int8features_khr = physical_device_shader_float16int8features;
 
 struct physical_device_float_controls_properties final
 {
@@ -4396,9 +4208,7 @@ struct physical_device_float_controls_properties final
     ktl::bool32                                  shader_rounding_mode_rtzfloat64;
 };
 
-struct physical_device_float_controls_properties_khr final
-{
-};
+using physical_device_float_controls_properties_khr = physical_device_float_controls_properties;
 
 struct physical_device_host_query_reset_features final
 {
@@ -4407,9 +4217,7 @@ struct physical_device_host_query_reset_features final
     ktl::bool32              host_query_reset;
 };
 
-struct physical_device_host_query_reset_features_ext final
-{
-};
+using physical_device_host_query_reset_features_ext = physical_device_host_query_reset_features;
 
 struct native_buffer_usage2android final
 {
@@ -4459,7 +4267,7 @@ struct shader_statistics_info_amd final
     ktl::i32                            num_physical_sgprs;
     ktl::i32                            num_available_vgprs;
     ktl::i32                            num_available_sgprs;
-    ktl::i32                            compute_work_group_size[None];
+    ktl::i32                            compute_work_group_size[3];
 };
 
 struct device_queue_global_priority_create_info final
@@ -4469,13 +4277,9 @@ struct device_queue_global_priority_create_info final
     ktl::api::queue_global_priority global_priority;
 };
 
-struct device_queue_global_priority_create_info_khr final
-{
-};
+using device_queue_global_priority_create_info_khr = device_queue_global_priority_create_info;
 
-struct device_queue_global_priority_create_info_ext final
-{
-};
+using device_queue_global_priority_create_info_ext = device_queue_global_priority_create_info;
 
 struct physical_device_global_priority_query_features final
 {
@@ -4484,13 +4288,9 @@ struct physical_device_global_priority_query_features final
     ktl::bool32              global_priority_query;
 };
 
-struct physical_device_global_priority_query_features_khr final
-{
-};
+using physical_device_global_priority_query_features_khr = physical_device_global_priority_query_features;
 
-struct physical_device_global_priority_query_features_ext final
-{
-};
+using physical_device_global_priority_query_features_ext = physical_device_global_priority_query_features;
 
 struct queue_family_global_priority_properties final
 {
@@ -4500,13 +4300,9 @@ struct queue_family_global_priority_properties final
     ktl::api::queue_global_priority priorities[KTL_API_MAX_GLOBAL_PRIORITY_SIZE];
 };
 
-struct queue_family_global_priority_properties_khr final
-{
-};
+using queue_family_global_priority_properties_khr = queue_family_global_priority_properties;
 
-struct queue_family_global_priority_properties_ext final
-{
-};
+using queue_family_global_priority_properties_ext = queue_family_global_priority_properties;
 
 struct debug_utils_object_name_info_ext final
 {
@@ -4533,7 +4329,7 @@ struct debug_utils_label_ext final
     ktl::api::structure_type type = ktl::api::structure_type::v_debug_utils_label_ext;
     const void *             next = nullptr;
     const char *             label_name;
-    float                    color[None];
+    float                    color[4];
 };
 
 struct debug_utils_messenger_create_info_ext final
@@ -4637,9 +4433,7 @@ struct calibrated_timestamp_info_khr final
     ktl::api::time_domain_khr time_domain;
 };
 
-struct calibrated_timestamp_info_ext final
-{
-};
+using calibrated_timestamp_info_ext = calibrated_timestamp_info_khr;
 
 struct physical_device_shader_core_properties_amd final
 {
@@ -4705,9 +4499,7 @@ struct physical_device_descriptor_indexing_features final
     ktl::bool32              runtime_descriptor_array;
 };
 
-struct physical_device_descriptor_indexing_features_ext final
-{
-};
+using physical_device_descriptor_indexing_features_ext = physical_device_descriptor_indexing_features;
 
 struct physical_device_descriptor_indexing_properties final
 {
@@ -4738,9 +4530,7 @@ struct physical_device_descriptor_indexing_properties final
     ktl::i32                 max_descriptor_set_update_after_bind_input_attachments;
 };
 
-struct physical_device_descriptor_indexing_properties_ext final
-{
-};
+using physical_device_descriptor_indexing_properties_ext = physical_device_descriptor_indexing_properties;
 
 struct descriptor_set_layout_binding_flags_create_info final
 {
@@ -4750,9 +4540,7 @@ struct descriptor_set_layout_binding_flags_create_info final
     const ktl::api::descriptor_binding_flags * binding_flags;
 };
 
-struct descriptor_set_layout_binding_flags_create_info_ext final
-{
-};
+using descriptor_set_layout_binding_flags_create_info_ext = descriptor_set_layout_binding_flags_create_info;
 
 struct descriptor_set_variable_descriptor_count_allocate_info final
 {
@@ -4762,9 +4550,8 @@ struct descriptor_set_variable_descriptor_count_allocate_info final
     const ktl::i32 *         descriptor_counts;
 };
 
-struct descriptor_set_variable_descriptor_count_allocate_info_ext final
-{
-};
+using descriptor_set_variable_descriptor_count_allocate_info_ext =
+    descriptor_set_variable_descriptor_count_allocate_info;
 
 struct descriptor_set_variable_descriptor_count_layout_support final
 {
@@ -4773,9 +4560,8 @@ struct descriptor_set_variable_descriptor_count_layout_support final
     ktl::i32                 max_variable_descriptor_count;
 };
 
-struct descriptor_set_variable_descriptor_count_layout_support_ext final
-{
-};
+using descriptor_set_variable_descriptor_count_layout_support_ext =
+    descriptor_set_variable_descriptor_count_layout_support;
 
 struct attachment_description2 final
 {
@@ -4792,9 +4578,7 @@ struct attachment_description2 final
     ktl::api::image_layout                 final_layout;
 };
 
-struct attachment_description2khr final
-{
-};
+using attachment_description2khr = attachment_description2;
 
 struct attachment_reference2 final
 {
@@ -4805,9 +4589,7 @@ struct attachment_reference2 final
     ktl::api::image_aspect_flags aspect_mask;
 };
 
-struct attachment_reference2khr final
-{
-};
+using attachment_reference2khr = attachment_reference2;
 
 struct subpass_description2 final
 {
@@ -4826,9 +4608,7 @@ struct subpass_description2 final
     const ktl::i32 *                        preserve_attachments;
 };
 
-struct subpass_description2khr final
-{
-};
+using subpass_description2khr = subpass_description2;
 
 struct subpass_dependency2 final
 {
@@ -4844,9 +4624,7 @@ struct subpass_dependency2 final
     ktl::i32                       view_offset;
 };
 
-struct subpass_dependency2khr final
-{
-};
+using subpass_dependency2khr = subpass_dependency2;
 
 struct render_pass_create_info2 final
 {
@@ -4863,9 +4641,7 @@ struct render_pass_create_info2 final
     const ktl::i32 *                          correlated_view_masks;
 };
 
-struct render_pass_create_info2khr final
-{
-};
+using render_pass_create_info2khr = render_pass_create_info2;
 
 struct subpass_begin_info final
 {
@@ -4874,9 +4650,7 @@ struct subpass_begin_info final
     ktl::api::subpass_contents contents;
 };
 
-struct subpass_begin_info_khr final
-{
-};
+using subpass_begin_info_khr = subpass_begin_info;
 
 struct subpass_end_info final
 {
@@ -4884,9 +4658,7 @@ struct subpass_end_info final
     const void *             next = nullptr;
 };
 
-struct subpass_end_info_khr final
-{
-};
+using subpass_end_info_khr = subpass_end_info;
 
 struct physical_device_timeline_semaphore_features final
 {
@@ -4895,9 +4667,7 @@ struct physical_device_timeline_semaphore_features final
     ktl::bool32              timeline_semaphore;
 };
 
-struct physical_device_timeline_semaphore_features_khr final
-{
-};
+using physical_device_timeline_semaphore_features_khr = physical_device_timeline_semaphore_features;
 
 struct physical_device_timeline_semaphore_properties final
 {
@@ -4906,9 +4676,7 @@ struct physical_device_timeline_semaphore_properties final
     ktl::u64                 max_timeline_semaphore_value_difference;
 };
 
-struct physical_device_timeline_semaphore_properties_khr final
-{
-};
+using physical_device_timeline_semaphore_properties_khr = physical_device_timeline_semaphore_properties;
 
 struct semaphore_type_create_info final
 {
@@ -4918,9 +4686,7 @@ struct semaphore_type_create_info final
     ktl::u64                 initial_value;
 };
 
-struct semaphore_type_create_info_khr final
-{
-};
+using semaphore_type_create_info_khr = semaphore_type_create_info;
 
 struct timeline_semaphore_submit_info final
 {
@@ -4932,9 +4698,7 @@ struct timeline_semaphore_submit_info final
     const ktl::u64 *         signal_semaphore_values      = nullptr;
 };
 
-struct timeline_semaphore_submit_info_khr final
-{
-};
+using timeline_semaphore_submit_info_khr = timeline_semaphore_submit_info;
 
 struct semaphore_wait_info final
 {
@@ -4946,9 +4710,7 @@ struct semaphore_wait_info final
     const ktl::u64 *               values;
 };
 
-struct semaphore_wait_info_khr final
-{
-};
+using semaphore_wait_info_khr = semaphore_wait_info;
 
 struct semaphore_signal_info final
 {
@@ -4958,9 +4720,7 @@ struct semaphore_signal_info final
     ktl::u64                 value;
 };
 
-struct semaphore_signal_info_khr final
-{
-};
+using semaphore_signal_info_khr = semaphore_signal_info;
 
 struct vertex_input_binding_divisor_description final
 {
@@ -4968,13 +4728,9 @@ struct vertex_input_binding_divisor_description final
     ktl::i32 divisor;
 };
 
-struct vertex_input_binding_divisor_description_khr final
-{
-};
+using vertex_input_binding_divisor_description_khr = vertex_input_binding_divisor_description;
 
-struct vertex_input_binding_divisor_description_ext final
-{
-};
+using vertex_input_binding_divisor_description_ext = vertex_input_binding_divisor_description;
 
 struct pipeline_vertex_input_divisor_state_create_info final
 {
@@ -4984,13 +4740,9 @@ struct pipeline_vertex_input_divisor_state_create_info final
     const ktl::api::vertex_input_binding_divisor_description * vertex_binding_divisors;
 };
 
-struct pipeline_vertex_input_divisor_state_create_info_khr final
-{
-};
+using pipeline_vertex_input_divisor_state_create_info_khr = pipeline_vertex_input_divisor_state_create_info;
 
-struct pipeline_vertex_input_divisor_state_create_info_ext final
-{
-};
+using pipeline_vertex_input_divisor_state_create_info_ext = pipeline_vertex_input_divisor_state_create_info;
 
 struct physical_device_vertex_attribute_divisor_properties_ext final
 {
@@ -5007,9 +4759,7 @@ struct physical_device_vertex_attribute_divisor_properties final
     ktl::bool32              supports_non_zero_first_instance;
 };
 
-struct physical_device_vertex_attribute_divisor_properties_khr final
-{
-};
+using physical_device_vertex_attribute_divisor_properties_khr = physical_device_vertex_attribute_divisor_properties;
 
 struct physical_device_pcibus_info_properties_ext final
 {
@@ -5088,9 +4838,7 @@ struct physical_device8bit_storage_features final
     ktl::bool32              storage_push_constant8;
 };
 
-struct physical_device8bit_storage_features_khr final
-{
-};
+using physical_device8bit_storage_features_khr = physical_device8bit_storage_features;
 
 struct physical_device_conditional_rendering_features_ext final
 {
@@ -5109,9 +4857,7 @@ struct physical_device_vulkan_memory_model_features final
     ktl::bool32              vulkan_memory_model_availability_visibility_chains;
 };
 
-struct physical_device_vulkan_memory_model_features_khr final
-{
-};
+using physical_device_vulkan_memory_model_features_khr = physical_device_vulkan_memory_model_features;
 
 struct physical_device_shader_atomic_int64features final
 {
@@ -5121,9 +4867,7 @@ struct physical_device_shader_atomic_int64features final
     ktl::bool32              shader_shared_int64atomics;
 };
 
-struct physical_device_shader_atomic_int64features_khr final
-{
-};
+using physical_device_shader_atomic_int64features_khr = physical_device_shader_atomic_int64features;
 
 struct physical_device_shader_atomic_float_features_ext final
 {
@@ -5169,13 +4913,9 @@ struct physical_device_vertex_attribute_divisor_features final
     ktl::bool32              vertex_attribute_instance_rate_zero_divisor;
 };
 
-struct physical_device_vertex_attribute_divisor_features_khr final
-{
-};
+using physical_device_vertex_attribute_divisor_features_khr = physical_device_vertex_attribute_divisor_features;
 
-struct physical_device_vertex_attribute_divisor_features_ext final
-{
-};
+using physical_device_vertex_attribute_divisor_features_ext = physical_device_vertex_attribute_divisor_features;
 
 struct queue_family_checkpoint_properties_nv final
 {
@@ -5202,9 +4942,7 @@ struct physical_device_depth_stencil_resolve_properties final
     ktl::bool32                  independent_resolve;
 };
 
-struct physical_device_depth_stencil_resolve_properties_khr final
-{
-};
+using physical_device_depth_stencil_resolve_properties_khr = physical_device_depth_stencil_resolve_properties;
 
 struct subpass_description_depth_stencil_resolve final
 {
@@ -5215,9 +4953,7 @@ struct subpass_description_depth_stencil_resolve final
     const ktl::api::attachment_reference2 * depth_stencil_resolve_attachment = nullptr;
 };
 
-struct subpass_description_depth_stencil_resolve_khr final
-{
-};
+using subpass_description_depth_stencil_resolve_khr = subpass_description_depth_stencil_resolve;
 
 struct image_view_astcdecode_mode_ext final
 {
@@ -5312,9 +5048,7 @@ struct physical_device_compute_shader_derivatives_features_khr final
     ktl::bool32              compute_derivative_group_linear;
 };
 
-struct physical_device_compute_shader_derivatives_features_nv final
-{
-};
+using physical_device_compute_shader_derivatives_features_nv = physical_device_compute_shader_derivatives_features_khr;
 
 struct physical_device_compute_shader_derivatives_properties_khr final
 {
@@ -5324,9 +5058,8 @@ struct physical_device_compute_shader_derivatives_properties_khr final
     ktl::bool32 mesh_and_task_shader_derivatives;
 };
 
-struct physical_device_fragment_shader_barycentric_features_nv final
-{
-};
+using physical_device_fragment_shader_barycentric_features_nv =
+    physical_device_fragment_shader_barycentric_features_khr;
 
 struct physical_device_shader_image_footprint_features_nv final
 {
@@ -5365,9 +5098,7 @@ struct physical_device_copy_memory_indirect_properties_khr final
     ktl::api::queue_flags    supported_queues;
 };
 
-struct physical_device_copy_memory_indirect_properties_nv final
-{
-};
+using physical_device_copy_memory_indirect_properties_nv = physical_device_copy_memory_indirect_properties_khr;
 
 struct physical_device_memory_decompression_features_ext final
 {
@@ -5376,9 +5107,7 @@ struct physical_device_memory_decompression_features_ext final
     ktl::bool32              memory_decompression;
 };
 
-struct physical_device_memory_decompression_features_nv final
-{
-};
+using physical_device_memory_decompression_features_nv = physical_device_memory_decompression_features_ext;
 
 struct physical_device_memory_decompression_properties_ext final
 {
@@ -5388,9 +5117,7 @@ struct physical_device_memory_decompression_properties_ext final
     ktl::u64                                        max_decompression_indirect_count;
 };
 
-struct physical_device_memory_decompression_properties_nv final
-{
-};
+using physical_device_memory_decompression_properties_nv = physical_device_memory_decompression_properties_ext;
 
 struct shading_rate_palette_nv final
 {
@@ -5471,11 +5198,11 @@ struct physical_device_mesh_shader_properties_nv final
     void *                   next = nullptr;
     ktl::i32                 max_draw_mesh_tasks_count;
     ktl::i32                 max_task_work_group_invocations;
-    ktl::i32                 max_task_work_group_size[None];
+    ktl::i32                 max_task_work_group_size[3];
     ktl::i32                 max_task_total_memory_size;
     ktl::i32                 max_task_output_count;
     ktl::i32                 max_mesh_work_group_invocations;
-    ktl::i32                 max_mesh_work_group_size[None];
+    ktl::i32                 max_mesh_work_group_size[3];
     ktl::i32                 max_mesh_total_memory_size;
     ktl::i32                 max_mesh_output_vertices;
     ktl::i32                 max_mesh_output_primitives;
@@ -5506,16 +5233,16 @@ struct physical_device_mesh_shader_properties_ext final
     ktl::api::structure_type type = ktl::api::structure_type::v_physical_device_mesh_shader_properties_ext;
     void *                   next = nullptr;
     ktl::i32                 max_task_work_group_total_count;
-    ktl::i32                 max_task_work_group_count[None];
+    ktl::i32                 max_task_work_group_count[3];
     ktl::i32                 max_task_work_group_invocations;
-    ktl::i32                 max_task_work_group_size[None];
+    ktl::i32                 max_task_work_group_size[3];
     ktl::i32                 max_task_payload_size;
     ktl::i32                 max_task_shared_memory_size;
     ktl::i32                 max_task_payload_and_shared_memory_size;
     ktl::i32                 max_mesh_work_group_total_count;
-    ktl::i32                 max_mesh_work_group_count[None];
+    ktl::i32                 max_mesh_work_group_count[3];
     ktl::i32                 max_mesh_work_group_invocations;
-    ktl::i32                 max_mesh_work_group_size[None];
+    ktl::i32                 max_mesh_work_group_size[3];
     ktl::i32                 max_mesh_shared_memory_size;
     ktl::i32                 max_mesh_payload_and_shared_memory_size;
     ktl::i32                 max_mesh_output_memory_size;
@@ -5861,9 +5588,7 @@ struct image_stencil_usage_create_info final
     ktl::api::image_usage_flags stencil_usage;
 };
 
-struct image_stencil_usage_create_info_ext final
-{
-};
+using image_stencil_usage_create_info_ext = image_stencil_usage_create_info;
 
 struct device_memory_overallocation_create_info_amd final
 {
@@ -5896,9 +5621,8 @@ struct physical_device_fragment_density_map_offset_features_ext final
     ktl::bool32 fragment_density_map_offset;
 };
 
-struct physical_device_fragment_density_map_offset_features_qcom final
-{
-};
+using physical_device_fragment_density_map_offset_features_qcom =
+    physical_device_fragment_density_map_offset_features_ext;
 
 struct physical_device_fragment_density_map_properties_ext final
 {
@@ -5927,9 +5651,8 @@ struct physical_device_fragment_density_map_offset_properties_ext final
     ktl::api::extent2d fragment_density_offset_granularity;
 };
 
-struct physical_device_fragment_density_map_offset_properties_qcom final
-{
-};
+using physical_device_fragment_density_map_offset_properties_qcom =
+    physical_device_fragment_density_map_offset_properties_ext;
 
 struct render_pass_fragment_density_map_create_info_ext final
 {
@@ -5946,9 +5669,7 @@ struct render_pass_fragment_density_map_offset_end_info_ext final
     const ktl::api::offset2d * fragment_density_offsets;
 };
 
-struct subpass_fragment_density_map_offset_end_info_qcom final
-{
-};
+using subpass_fragment_density_map_offset_end_info_qcom = render_pass_fragment_density_map_offset_end_info_ext;
 
 struct physical_device_scalar_block_layout_features final
 {
@@ -5957,9 +5678,7 @@ struct physical_device_scalar_block_layout_features final
     ktl::bool32              scalar_block_layout;
 };
 
-struct physical_device_scalar_block_layout_features_ext final
-{
-};
+using physical_device_scalar_block_layout_features_ext = physical_device_scalar_block_layout_features;
 
 struct surface_protected_capabilities_khr final
 {
@@ -5975,9 +5694,8 @@ struct physical_device_uniform_buffer_standard_layout_features final
     ktl::bool32              uniform_buffer_standard_layout;
 };
 
-struct physical_device_uniform_buffer_standard_layout_features_khr final
-{
-};
+using physical_device_uniform_buffer_standard_layout_features_khr =
+    physical_device_uniform_buffer_standard_layout_features;
 
 struct physical_device_depth_clip_enable_features_ext final
 {
@@ -6033,9 +5751,7 @@ struct physical_device_buffer_device_address_features final
     ktl::bool32              buffer_device_address_multi_device;
 };
 
-struct physical_device_buffer_device_address_features_khr final
-{
-};
+using physical_device_buffer_device_address_features_khr = physical_device_buffer_device_address_features;
 
 struct physical_device_buffer_device_address_features_ext final
 {
@@ -6046,9 +5762,7 @@ struct physical_device_buffer_device_address_features_ext final
     ktl::bool32              buffer_device_address_multi_device;
 };
 
-struct physical_device_buffer_address_features_ext final
-{
-};
+using physical_device_buffer_address_features_ext = physical_device_buffer_device_address_features_ext;
 
 struct buffer_device_address_info final
 {
@@ -6057,13 +5771,9 @@ struct buffer_device_address_info final
     ktl::api::buffer         buffer;
 };
 
-struct buffer_device_address_info_khr final
-{
-};
+using buffer_device_address_info_khr = buffer_device_address_info;
 
-struct buffer_device_address_info_ext final
-{
-};
+using buffer_device_address_info_ext = buffer_device_address_info;
 
 struct buffer_opaque_capture_address_create_info final
 {
@@ -6072,9 +5782,7 @@ struct buffer_opaque_capture_address_create_info final
     ktl::u64                 opaque_capture_address;
 };
 
-struct buffer_opaque_capture_address_create_info_khr final
-{
-};
+using buffer_opaque_capture_address_create_info_khr = buffer_opaque_capture_address_create_info;
 
 struct buffer_device_address_create_info_ext final
 {
@@ -6105,9 +5813,7 @@ struct physical_device_imageless_framebuffer_features final
     ktl::bool32              imageless_framebuffer;
 };
 
-struct physical_device_imageless_framebuffer_features_khr final
-{
-};
+using physical_device_imageless_framebuffer_features_khr = physical_device_imageless_framebuffer_features;
 
 struct framebuffer_attachments_create_info final
 {
@@ -6117,9 +5823,7 @@ struct framebuffer_attachments_create_info final
     const ktl::api::framebuffer_attachment_image_info * attachment_image_infos;
 };
 
-struct framebuffer_attachments_create_info_khr final
-{
-};
+using framebuffer_attachments_create_info_khr = framebuffer_attachments_create_info;
 
 struct framebuffer_attachment_image_info final
 {
@@ -6134,9 +5838,7 @@ struct framebuffer_attachment_image_info final
     const ktl::api::format *     view_formats;
 };
 
-struct framebuffer_attachment_image_info_khr final
-{
-};
+using framebuffer_attachment_image_info_khr = framebuffer_attachment_image_info;
 
 struct render_pass_attachment_begin_info final
 {
@@ -6146,9 +5848,7 @@ struct render_pass_attachment_begin_info final
     const ktl::api::image_view * attachments;
 };
 
-struct render_pass_attachment_begin_info_khr final
-{
-};
+using render_pass_attachment_begin_info_khr = render_pass_attachment_begin_info;
 
 struct physical_device_texture_compression_astchdrfeatures final
 {
@@ -6157,9 +5857,7 @@ struct physical_device_texture_compression_astchdrfeatures final
     ktl::bool32              texture_compression_astc__hdr;
 };
 
-struct physical_device_texture_compression_astchdrfeatures_ext final
-{
-};
+using physical_device_texture_compression_astchdrfeatures_ext = physical_device_texture_compression_astchdrfeatures;
 
 struct physical_device_cooperative_matrix_features_nv final
 {
@@ -6227,9 +5925,7 @@ struct pipeline_creation_feedback final
     ktl::u64                                   duration;
 };
 
-struct pipeline_creation_feedback_ext final
-{
-};
+using pipeline_creation_feedback_ext = pipeline_creation_feedback;
 
 struct pipeline_creation_feedback_create_info final
 {
@@ -6240,9 +5936,7 @@ struct pipeline_creation_feedback_create_info final
     ktl::api::pipeline_creation_feedback * pipeline_stage_creation_feedbacks;
 };
 
-struct pipeline_creation_feedback_create_info_ext final
-{
-};
+using pipeline_creation_feedback_create_info_ext = pipeline_creation_feedback_create_info;
 
 struct surface_full_screen_exclusive_info_ext final
 {
@@ -6412,9 +6106,7 @@ struct query_pool_performance_query_create_info_intel final
     ktl::api::query_pool_sampling_mode_intel performance_counters_sampling;
 };
 
-struct query_pool_create_info_intel final
-{
-};
+using query_pool_create_info_intel = query_pool_performance_query_create_info_intel;
 
 struct performance_marker_info_intel final
 {
@@ -6461,13 +6153,9 @@ struct physical_device_index_type_uint8features final
     ktl::bool32              index_type_uint8;
 };
 
-struct physical_device_index_type_uint8features_khr final
-{
-};
+using physical_device_index_type_uint8features_khr = physical_device_index_type_uint8features;
 
-struct physical_device_index_type_uint8features_ext final
-{
-};
+using physical_device_index_type_uint8features_ext = physical_device_index_type_uint8features;
 
 struct physical_device_shader_smbuiltins_properties_nv final
 {
@@ -6500,9 +6188,8 @@ struct physical_device_separate_depth_stencil_layouts_features final
     ktl::bool32              separate_depth_stencil_layouts;
 };
 
-struct physical_device_separate_depth_stencil_layouts_features_khr final
-{
-};
+using physical_device_separate_depth_stencil_layouts_features_khr =
+    physical_device_separate_depth_stencil_layouts_features;
 
 struct attachment_reference_stencil_layout final
 {
@@ -6520,9 +6207,7 @@ struct physical_device_primitive_topology_list_restart_features_ext final
     ktl::bool32 primitive_topology_patch_list_restart;
 };
 
-struct attachment_reference_stencil_layout_khr final
-{
-};
+using attachment_reference_stencil_layout_khr = attachment_reference_stencil_layout;
 
 struct attachment_description_stencil_layout final
 {
@@ -6532,9 +6217,7 @@ struct attachment_description_stencil_layout final
     ktl::api::image_layout   stencil_final_layout;
 };
 
-struct attachment_description_stencil_layout_khr final
-{
-};
+using attachment_description_stencil_layout_khr = attachment_description_stencil_layout;
 
 struct physical_device_pipeline_executable_properties_features_khr final
 {
@@ -6551,9 +6234,7 @@ struct pipeline_info_khr final
     ktl::api::pipeline       pipeline;
 };
 
-struct pipeline_info_ext final
-{
-};
+using pipeline_info_ext = pipeline_info_khr;
 
 struct pipeline_executable_properties_khr final
 {
@@ -6602,9 +6283,8 @@ struct physical_device_shader_demote_to_helper_invocation_features final
     ktl::bool32 shader_demote_to_helper_invocation;
 };
 
-struct physical_device_shader_demote_to_helper_invocation_features_ext final
-{
-};
+using physical_device_shader_demote_to_helper_invocation_features_ext =
+    physical_device_shader_demote_to_helper_invocation_features;
 
 struct physical_device_texel_buffer_alignment_features_ext final
 {
@@ -6623,9 +6303,7 @@ struct physical_device_texel_buffer_alignment_properties final
     ktl::bool32              uniform_texel_buffer_offset_single_texel_alignment;
 };
 
-struct physical_device_texel_buffer_alignment_properties_ext final
-{
-};
+using physical_device_texel_buffer_alignment_properties_ext = physical_device_texel_buffer_alignment_properties;
 
 struct physical_device_subgroup_size_control_features final
 {
@@ -6635,9 +6313,7 @@ struct physical_device_subgroup_size_control_features final
     ktl::bool32              compute_full_subgroups;
 };
 
-struct physical_device_subgroup_size_control_features_ext final
-{
-};
+using physical_device_subgroup_size_control_features_ext = physical_device_subgroup_size_control_features;
 
 struct physical_device_subgroup_size_control_properties final
 {
@@ -6649,9 +6325,7 @@ struct physical_device_subgroup_size_control_properties final
     ktl::api::shader_stage_flags required_subgroup_size_stages;
 };
 
-struct physical_device_subgroup_size_control_properties_ext final
-{
-};
+using physical_device_subgroup_size_control_properties_ext = physical_device_subgroup_size_control_properties;
 
 struct pipeline_shader_stage_required_subgroup_size_create_info final
 {
@@ -6661,13 +6335,10 @@ struct pipeline_shader_stage_required_subgroup_size_create_info final
     ktl::i32     required_subgroup_size;
 };
 
-struct pipeline_shader_stage_required_subgroup_size_create_info_ext final
-{
-};
+using pipeline_shader_stage_required_subgroup_size_create_info_ext =
+    pipeline_shader_stage_required_subgroup_size_create_info;
 
-struct shader_required_subgroup_size_create_info_ext final
-{
-};
+using shader_required_subgroup_size_create_info_ext = pipeline_shader_stage_required_subgroup_size_create_info;
 
 struct subpass_shading_pipeline_create_info_huawei final
 {
@@ -6689,8 +6360,8 @@ struct physical_device_cluster_culling_shader_properties_huawei final
     ktl::api::structure_type type =
         ktl::api::structure_type::v_physical_device_cluster_culling_shader_properties_huawei;
     void *      next = nullptr;
-    ktl::i32    max_work_group_count[None];
-    ktl::i32    max_work_group_size[None];
+    ktl::i32    max_work_group_count[3];
+    ktl::i32    max_work_group_size[3];
     ktl::i32    max_output_cluster_count;
     ktl::dvsize indirect_buffer_offset_alignment;
 };
@@ -6702,9 +6373,7 @@ struct memory_opaque_capture_address_allocate_info final
     ktl::u64                 opaque_capture_address;
 };
 
-struct memory_opaque_capture_address_allocate_info_khr final
-{
-};
+using memory_opaque_capture_address_allocate_info_khr = memory_opaque_capture_address_allocate_info;
 
 struct device_memory_opaque_capture_address_info final
 {
@@ -6713,9 +6382,7 @@ struct device_memory_opaque_capture_address_info final
     ktl::api::device_memory  memory;
 };
 
-struct device_memory_opaque_capture_address_info_khr final
-{
-};
+using device_memory_opaque_capture_address_info_khr = device_memory_opaque_capture_address_info;
 
 struct physical_device_line_rasterization_features final
 {
@@ -6729,13 +6396,9 @@ struct physical_device_line_rasterization_features final
     ktl::bool32              stippled_smooth_lines;
 };
 
-struct physical_device_line_rasterization_features_khr final
-{
-};
+using physical_device_line_rasterization_features_khr = physical_device_line_rasterization_features;
 
-struct physical_device_line_rasterization_features_ext final
-{
-};
+using physical_device_line_rasterization_features_ext = physical_device_line_rasterization_features;
 
 struct physical_device_line_rasterization_properties final
 {
@@ -6744,13 +6407,9 @@ struct physical_device_line_rasterization_properties final
     ktl::i32                 line_sub_pixel_precision_bits;
 };
 
-struct physical_device_line_rasterization_properties_khr final
-{
-};
+using physical_device_line_rasterization_properties_khr = physical_device_line_rasterization_properties;
 
-struct physical_device_line_rasterization_properties_ext final
-{
-};
+using physical_device_line_rasterization_properties_ext = physical_device_line_rasterization_properties;
 
 struct pipeline_rasterization_line_state_create_info final
 {
@@ -6762,13 +6421,9 @@ struct pipeline_rasterization_line_state_create_info final
     ktl::u16                          line_stipple_pattern;
 };
 
-struct pipeline_rasterization_line_state_create_info_khr final
-{
-};
+using pipeline_rasterization_line_state_create_info_khr = pipeline_rasterization_line_state_create_info;
 
-struct pipeline_rasterization_line_state_create_info_ext final
-{
-};
+using pipeline_rasterization_line_state_create_info_ext = pipeline_rasterization_line_state_create_info;
 
 struct physical_device_pipeline_creation_cache_control_features final
 {
@@ -6778,9 +6433,8 @@ struct physical_device_pipeline_creation_cache_control_features final
     ktl::bool32 pipeline_creation_cache_control;
 };
 
-struct physical_device_pipeline_creation_cache_control_features_ext final
-{
-};
+using physical_device_pipeline_creation_cache_control_features_ext =
+    physical_device_pipeline_creation_cache_control_features;
 
 struct physical_device_vulkan11features final
 {
@@ -7104,9 +6758,7 @@ struct physical_device_tool_properties final
     char                         layer[KTL_API_MAX_EXTENSION_NAME_SIZE];
 };
 
-struct physical_device_tool_properties_ext final
-{
-};
+using physical_device_tool_properties_ext = physical_device_tool_properties;
 
 struct sampler_custom_border_color_create_info_ext final
 {
@@ -7263,18 +6915,14 @@ struct aabb_positions_khr final
     float max_z;
 };
 
-struct aabb_positions_nv final
-{
-};
+using aabb_positions_nv = aabb_positions_khr;
 
 struct transform_matrix_khr final
 {
-    float matrix[None];
+    float matrix[3];
 };
 
-struct transform_matrix_nv final
-{
-};
+using transform_matrix_nv = transform_matrix_khr;
 
 struct acceleration_structure_instance_khr final
 {
@@ -7286,9 +6934,7 @@ struct acceleration_structure_instance_khr final
     ktl::u64                              acceleration_structure_reference;
 };
 
-struct acceleration_structure_instance_nv final
-{
-};
+using acceleration_structure_instance_nv = acceleration_structure_instance_khr;
 
 struct acceleration_structure_device_address_info_khr final
 {
@@ -7301,7 +6947,7 @@ struct acceleration_structure_version_info_khr final
 {
     ktl::api::structure_type type = ktl::api::structure_type::v_acceleration_structure_version_info_khr;
     const void *             next = nullptr;
-    const ktl::u8 *          version_data[None];
+    const ktl::u8 *          version_data;
 };
 
 struct copy_acceleration_structure_info_khr final
@@ -7497,7 +7143,7 @@ struct partitioned_acceleration_structure_flags_nv final
 struct partitioned_acceleration_structure_write_instance_data_nv final
 {
     ktl::api::transform_matrix_khr                                 transform;
-    float                                                          explicit_aabb[None];
+    float                                                          explicit_aabb[6];
     ktl::i32                                                       instance_id;
     ktl::i32                                                       instance_mask;
     ktl::i32                                                       instance_contribution_to_hit_group_index;
@@ -7517,7 +7163,7 @@ struct partitioned_acceleration_structure_update_instance_data_nv final
 struct partitioned_acceleration_structure_write_partition_translation_data_nv final
 {
     ktl::i32 partition_index;
-    float    partition_translation[None];
+    float    partition_translation[3];
 };
 
 struct write_descriptor_set_partitioned_acceleration_structure_nv final
@@ -7583,9 +7229,8 @@ struct physical_device_zero_initialize_workgroup_memory_features final
     ktl::bool32 shader_zero_initialize_workgroup_memory;
 };
 
-struct physical_device_zero_initialize_workgroup_memory_features_khr final
-{
-};
+using physical_device_zero_initialize_workgroup_memory_features_khr =
+    physical_device_zero_initialize_workgroup_memory_features;
 
 struct physical_device_shader_subgroup_uniform_control_flow_features_khr final
 {
@@ -7604,9 +7249,7 @@ struct physical_device_robustness2features_khr final
     ktl::bool32              null_descriptor;
 };
 
-struct physical_device_robustness2features_ext final
-{
-};
+using physical_device_robustness2features_ext = physical_device_robustness2features_khr;
 
 struct physical_device_robustness2properties_khr final
 {
@@ -7616,9 +7259,7 @@ struct physical_device_robustness2properties_khr final
     ktl::dvsize              robust_uniform_buffer_access_size_alignment;
 };
 
-struct physical_device_robustness2properties_ext final
-{
-};
+using physical_device_robustness2properties_ext = physical_device_robustness2properties_khr;
 
 struct physical_device_image_robustness_features final
 {
@@ -7627,9 +7268,7 @@ struct physical_device_image_robustness_features final
     ktl::bool32              robust_image_access;
 };
 
-struct physical_device_image_robustness_features_ext final
-{
-};
+using physical_device_image_robustness_features_ext = physical_device_image_robustness_features;
 
 struct physical_device_workgroup_memory_explicit_layout_features_khr final
 {
@@ -7710,9 +7349,7 @@ struct buffer_copy2 final
     ktl::dvsize              size;
 };
 
-struct buffer_copy2khr final
-{
-};
+using buffer_copy2khr = buffer_copy2;
 
 struct image_copy2 final
 {
@@ -7725,23 +7362,19 @@ struct image_copy2 final
     ktl::api::extent3d                 extent;
 };
 
-struct image_copy2khr final
-{
-};
+using image_copy2khr = image_copy2;
 
 struct image_blit2 final
 {
     ktl::api::structure_type           type = ktl::api::structure_type::v_image_blit_2;
     const void *                       next = nullptr;
     ktl::api::image_subresource_layers src_subresource;
-    ktl::api::offset3d                 src_offsets[None];
+    ktl::api::offset3d                 src_offsets[2];
     ktl::api::image_subresource_layers dst_subresource;
-    ktl::api::offset3d                 dst_offsets[None];
+    ktl::api::offset3d                 dst_offsets[2];
 };
 
-struct image_blit2khr final
-{
-};
+using image_blit2khr = image_blit2;
 
 struct buffer_image_copy2 final
 {
@@ -7755,9 +7388,7 @@ struct buffer_image_copy2 final
     ktl::api::extent3d                 image_extent;
 };
 
-struct buffer_image_copy2khr final
-{
-};
+using buffer_image_copy2khr = buffer_image_copy2;
 
 struct image_resolve2 final
 {
@@ -7770,9 +7401,7 @@ struct image_resolve2 final
     ktl::api::extent3d                 extent;
 };
 
-struct image_resolve2khr final
-{
-};
+using image_resolve2khr = image_resolve2;
 
 struct copy_buffer_info2 final
 {
@@ -7784,9 +7413,7 @@ struct copy_buffer_info2 final
     const ktl::api::buffer_copy2 * regions;
 };
 
-struct copy_buffer_info2khr final
-{
-};
+using copy_buffer_info2khr = copy_buffer_info2;
 
 struct copy_image_info2 final
 {
@@ -7800,9 +7427,7 @@ struct copy_image_info2 final
     const ktl::api::image_copy2 * regions;
 };
 
-struct copy_image_info2khr final
-{
-};
+using copy_image_info2khr = copy_image_info2;
 
 struct blit_image_info2 final
 {
@@ -7817,9 +7442,7 @@ struct blit_image_info2 final
     ktl::api::filter              filter;
 };
 
-struct blit_image_info2khr final
-{
-};
+using blit_image_info2khr = blit_image_info2;
 
 struct copy_buffer_to_image_info2 final
 {
@@ -7832,9 +7455,7 @@ struct copy_buffer_to_image_info2 final
     const ktl::api::buffer_image_copy2 * regions;
 };
 
-struct copy_buffer_to_image_info2khr final
-{
-};
+using copy_buffer_to_image_info2khr = copy_buffer_to_image_info2;
 
 struct copy_image_to_buffer_info2 final
 {
@@ -7847,9 +7468,7 @@ struct copy_image_to_buffer_info2 final
     const ktl::api::buffer_image_copy2 * regions;
 };
 
-struct copy_image_to_buffer_info2khr final
-{
-};
+using copy_image_to_buffer_info2khr = copy_image_to_buffer_info2;
 
 struct resolve_image_info2 final
 {
@@ -7863,9 +7482,7 @@ struct resolve_image_info2 final
     const ktl::api::image_resolve2 * regions;
 };
 
-struct resolve_image_info2khr final
-{
-};
+using resolve_image_info2khr = resolve_image_info2;
 
 struct physical_device_shader_image_atomic_int64features_ext final
 {
@@ -7888,7 +7505,7 @@ struct pipeline_fragment_shading_rate_state_create_info_khr final
     ktl::api::structure_type type = ktl::api::structure_type::v_pipeline_fragment_shading_rate_state_create_info_khr;
     const void *             next = nullptr;
     ktl::api::extent2d       fragment_size;
-    ktl::api::fragment_shading_rate_combiner_op_khr combiner_ops[None];
+    ktl::api::fragment_shading_rate_combiner_op_khr combiner_ops[2];
 };
 
 struct physical_device_fragment_shading_rate_features_khr final
@@ -7938,9 +7555,7 @@ struct physical_device_shader_terminate_invocation_features final
     ktl::bool32              shader_terminate_invocation;
 };
 
-struct physical_device_shader_terminate_invocation_features_khr final
-{
-};
+using physical_device_shader_terminate_invocation_features_khr = physical_device_shader_terminate_invocation_features;
 
 struct physical_device_fragment_shading_rate_enums_features_nv final
 {
@@ -7966,7 +7581,7 @@ struct pipeline_fragment_shading_rate_enum_state_create_info_nv final
     const void *                                    next = nullptr;
     ktl::api::fragment_shading_rate_type_nv         shading_rate_type;
     ktl::api::fragment_shading_rate_nv              shading_rate;
-    ktl::api::fragment_shading_rate_combiner_op_khr combiner_ops[None];
+    ktl::api::fragment_shading_rate_combiner_op_khr combiner_ops[2];
 };
 
 struct acceleration_structure_build_sizes_info_khr final
@@ -8022,9 +7637,7 @@ struct physical_device_mutable_descriptor_type_features_ext final
     ktl::bool32              mutable_descriptor_type;
 };
 
-struct physical_device_mutable_descriptor_type_features_valve final
-{
-};
+using physical_device_mutable_descriptor_type_features_valve = physical_device_mutable_descriptor_type_features_ext;
 
 struct mutable_descriptor_type_list_ext final
 {
@@ -8032,9 +7645,7 @@ struct mutable_descriptor_type_list_ext final
     const ktl::api::descriptor_type * descriptor_types;
 };
 
-struct mutable_descriptor_type_list_valve final
-{
-};
+using mutable_descriptor_type_list_valve = mutable_descriptor_type_list_ext;
 
 struct mutable_descriptor_type_create_info_ext final
 {
@@ -8044,9 +7655,7 @@ struct mutable_descriptor_type_create_info_ext final
     const ktl::api::mutable_descriptor_type_list_ext * mutable_descriptor_type_lists;
 };
 
-struct mutable_descriptor_type_create_info_valve final
-{
-};
+using mutable_descriptor_type_create_info_valve = mutable_descriptor_type_create_info_ext;
 
 struct physical_device_depth_clip_control_features_ext final
 {
@@ -8359,9 +7968,7 @@ struct memory_barrier2 final
     ktl::api::access_flags2         dst_access_mask = 0;
 };
 
-struct memory_barrier2khr final
-{
-};
+using memory_barrier2khr = memory_barrier2;
 
 struct image_memory_barrier2 final
 {
@@ -8379,9 +7986,7 @@ struct image_memory_barrier2 final
     ktl::api::image_subresource_range subresource_range;
 };
 
-struct image_memory_barrier2khr final
-{
-};
+using image_memory_barrier2khr = image_memory_barrier2;
 
 struct buffer_memory_barrier2 final
 {
@@ -8398,9 +8003,7 @@ struct buffer_memory_barrier2 final
     ktl::dvsize                     size;
 };
 
-struct buffer_memory_barrier2khr final
-{
-};
+using buffer_memory_barrier2khr = buffer_memory_barrier2;
 
 struct memory_barrier_access_flags3khr final
 {
@@ -8423,9 +8026,7 @@ struct dependency_info final
     const ktl::api::image_memory_barrier2 *  image_memory_barriers;
 };
 
-struct dependency_info_khr final
-{
-};
+using dependency_info_khr = dependency_info;
 
 struct semaphore_submit_info final
 {
@@ -8437,9 +8038,7 @@ struct semaphore_submit_info final
     ktl::i32                        device_index;
 };
 
-struct semaphore_submit_info_khr final
-{
-};
+using semaphore_submit_info_khr = semaphore_submit_info;
 
 struct command_buffer_submit_info final
 {
@@ -8449,9 +8048,7 @@ struct command_buffer_submit_info final
     ktl::i32                 device_mask;
 };
 
-struct command_buffer_submit_info_khr final
-{
-};
+using command_buffer_submit_info_khr = command_buffer_submit_info;
 
 struct submit_info2 final
 {
@@ -8466,9 +8063,7 @@ struct submit_info2 final
     const ktl::api::semaphore_submit_info *      signal_semaphore_infos;
 };
 
-struct submit_info2khr final
-{
-};
+using submit_info2khr = submit_info2;
 
 struct queue_family_checkpoint_properties2nv final
 {
@@ -8492,9 +8087,7 @@ struct physical_device_synchronization2features final
     ktl::bool32              synchronization2;
 };
 
-struct physical_device_synchronization2features_khr final
-{
-};
+using physical_device_synchronization2features_khr = physical_device_synchronization2features;
 
 struct physical_device_unified_image_layouts_features_khr final
 {
@@ -8511,9 +8104,7 @@ struct physical_device_host_image_copy_features final
     ktl::bool32              host_image_copy;
 };
 
-struct physical_device_host_image_copy_features_ext final
-{
-};
+using physical_device_host_image_copy_features_ext = physical_device_host_image_copy_features;
 
 struct physical_device_host_image_copy_properties final
 {
@@ -8527,9 +8118,7 @@ struct physical_device_host_image_copy_properties final
     ktl::bool32              identical_memory_type_requirements;
 };
 
-struct physical_device_host_image_copy_properties_ext final
-{
-};
+using physical_device_host_image_copy_properties_ext = physical_device_host_image_copy_properties;
 
 struct memory_to_image_copy final
 {
@@ -8543,9 +8132,7 @@ struct memory_to_image_copy final
     ktl::api::extent3d                 image_extent;
 };
 
-struct memory_to_image_copy_ext final
-{
-};
+using memory_to_image_copy_ext = memory_to_image_copy;
 
 struct image_to_memory_copy final
 {
@@ -8559,9 +8146,7 @@ struct image_to_memory_copy final
     ktl::api::extent3d                 image_extent;
 };
 
-struct image_to_memory_copy_ext final
-{
-};
+using image_to_memory_copy_ext = image_to_memory_copy;
 
 struct copy_memory_to_image_info final
 {
@@ -8574,9 +8159,7 @@ struct copy_memory_to_image_info final
     const ktl::api::memory_to_image_copy * regions;
 };
 
-struct copy_memory_to_image_info_ext final
-{
-};
+using copy_memory_to_image_info_ext = copy_memory_to_image_info;
 
 struct copy_image_to_memory_info final
 {
@@ -8589,9 +8172,7 @@ struct copy_image_to_memory_info final
     const ktl::api::image_to_memory_copy * regions;
 };
 
-struct copy_image_to_memory_info_ext final
-{
-};
+using copy_image_to_memory_info_ext = copy_image_to_memory_info;
 
 struct copy_image_to_image_info final
 {
@@ -8606,9 +8187,7 @@ struct copy_image_to_image_info final
     const ktl::api::image_copy2 *   regions;
 };
 
-struct copy_image_to_image_info_ext final
-{
-};
+using copy_image_to_image_info_ext = copy_image_to_image_info;
 
 struct host_image_layout_transition_info final
 {
@@ -8620,9 +8199,7 @@ struct host_image_layout_transition_info final
     ktl::api::image_subresource_range subresource_range;
 };
 
-struct host_image_layout_transition_info_ext final
-{
-};
+using host_image_layout_transition_info_ext = host_image_layout_transition_info;
 
 struct subresource_host_memcpy_size final
 {
@@ -8631,9 +8208,7 @@ struct subresource_host_memcpy_size final
     ktl::dvsize              size;
 };
 
-struct subresource_host_memcpy_size_ext final
-{
-};
+using subresource_host_memcpy_size_ext = subresource_host_memcpy_size;
 
 struct host_image_copy_device_performance_query final
 {
@@ -8643,9 +8218,7 @@ struct host_image_copy_device_performance_query final
     ktl::bool32              identical_memory_layout;
 };
 
-struct host_image_copy_device_performance_query_ext final
-{
-};
+using host_image_copy_device_performance_query_ext = host_image_copy_device_performance_query;
 
 struct physical_device_vulkan_sc10properties final
 {
@@ -8810,9 +8383,7 @@ struct physical_device_pipeline_protected_access_features final
     ktl::bool32              pipeline_protected_access;
 };
 
-struct physical_device_pipeline_protected_access_features_ext final
-{
-};
+using physical_device_pipeline_protected_access_features_ext = physical_device_pipeline_protected_access_features;
 
 struct queue_family_video_properties_khr final
 {
@@ -10143,9 +9714,7 @@ struct physical_device_shader_integer_dot_product_features final
     ktl::bool32              shader_integer_dot_product;
 };
 
-struct physical_device_shader_integer_dot_product_features_khr final
-{
-};
+using physical_device_shader_integer_dot_product_features_khr = physical_device_shader_integer_dot_product_features;
 
 struct physical_device_shader_integer_dot_product_properties final
 {
@@ -10183,9 +9752,7 @@ struct physical_device_shader_integer_dot_product_properties final
     ktl::bool32              integer_dot_product_accumulating_saturating64bit_mixed_signedness_accelerated;
 };
 
-struct physical_device_shader_integer_dot_product_properties_khr final
-{
-};
+using physical_device_shader_integer_dot_product_properties_khr = physical_device_shader_integer_dot_product_properties;
 
 struct physical_device_drm_properties_ext final
 {
@@ -10468,9 +10035,7 @@ struct format_properties3 final
     ktl::api::format_feature_flags2 buffer_features         = 0;
 };
 
-struct format_properties3khr final
-{
-};
+using format_properties3khr = format_properties3;
 
 struct drm_format_modifier_properties_list2ext final
 {
@@ -10512,9 +10077,7 @@ struct pipeline_rendering_create_info final
     ktl::api::format         stencil_attachment_format;
 };
 
-struct pipeline_rendering_create_info_khr final
-{
-};
+using pipeline_rendering_create_info_khr = pipeline_rendering_create_info;
 
 struct rendering_info final
 {
@@ -10530,9 +10093,7 @@ struct rendering_info final
     const ktl::api::rendering_attachment_info * stencil_attachment = nullptr;
 };
 
-struct rendering_info_khr final
-{
-};
+using rendering_info_khr = rendering_info;
 
 struct rendering_end_info_khr final
 {
@@ -10540,9 +10101,7 @@ struct rendering_end_info_khr final
     const void *             next = nullptr;
 };
 
-struct rendering_end_info_ext final
-{
-};
+using rendering_end_info_ext = rendering_end_info_khr;
 
 struct rendering_attachment_info final
 {
@@ -10558,9 +10117,7 @@ struct rendering_attachment_info final
     ktl::api::clear_value            clear_value;
 };
 
-struct rendering_attachment_info_khr final
-{
-};
+using rendering_attachment_info_khr = rendering_attachment_info;
 
 struct rendering_fragment_shading_rate_attachment_info_khr final
 {
@@ -10586,9 +10143,7 @@ struct physical_device_dynamic_rendering_features final
     ktl::bool32              dynamic_rendering;
 };
 
-struct physical_device_dynamic_rendering_features_khr final
-{
-};
+using physical_device_dynamic_rendering_features_khr = physical_device_dynamic_rendering_features;
 
 struct command_buffer_inheritance_rendering_info final
 {
@@ -10604,9 +10159,7 @@ struct command_buffer_inheritance_rendering_info final
     ktl::api::sample_count_flag_bits rasterization_samples = 0;
 };
 
-struct command_buffer_inheritance_rendering_info_khr final
-{
-};
+using command_buffer_inheritance_rendering_info_khr = command_buffer_inheritance_rendering_info;
 
 struct attachment_sample_count_info_amd final
 {
@@ -10617,9 +10170,7 @@ struct attachment_sample_count_info_amd final
     ktl::api::sample_count_flag_bits         depth_stencil_attachment_samples = 0;
 };
 
-struct attachment_sample_count_info_nv final
-{
-};
+using attachment_sample_count_info_nv = attachment_sample_count_info_amd;
 
 struct multiview_per_view_attributes_info_nvx final
 {
@@ -10653,9 +10204,8 @@ struct physical_device_rasterization_order_attachment_access_features_ext final
     ktl::bool32 rasterization_order_stencil_attachment_access;
 };
 
-struct physical_device_rasterization_order_attachment_access_features_arm final
-{
-};
+using physical_device_rasterization_order_attachment_access_features_arm =
+    physical_device_rasterization_order_attachment_access_features_ext;
 
 struct physical_device_linear_color_attachment_features_nv final
 {
@@ -10821,13 +10371,9 @@ struct image_subresource2 final
     ktl::api::image_subresource image_subresource;
 };
 
-struct image_subresource2khr final
-{
-};
+using image_subresource2khr = image_subresource2;
 
-struct image_subresource2ext final
-{
-};
+using image_subresource2ext = image_subresource2;
 
 struct subresource_layout2 final
 {
@@ -10836,13 +10382,9 @@ struct subresource_layout2 final
     ktl::api::subresource_layout subresource_layout;
 };
 
-struct subresource_layout2khr final
-{
-};
+using subresource_layout2khr = subresource_layout2;
 
-struct subresource_layout2ext final
-{
-};
+using subresource_layout2ext = subresource_layout2;
 
 struct render_pass_creation_control_ext final
 {
@@ -10917,7 +10459,7 @@ struct micromap_version_info_ext final
 {
     ktl::api::structure_type type = ktl::api::structure_type::v_micromap_version_info_ext;
     const void *             next = nullptr;
-    const ktl::u8 *          version_data[None];
+    const ktl::u8 *          version_data;
 };
 
 struct copy_micromap_info_ext final
@@ -11174,9 +10716,7 @@ struct physical_device_pipeline_robustness_features final
     ktl::bool32              pipeline_robustness;
 };
 
-struct physical_device_pipeline_robustness_features_ext final
-{
-};
+using physical_device_pipeline_robustness_features_ext = physical_device_pipeline_robustness_features;
 
 struct pipeline_robustness_create_info final
 {
@@ -11188,9 +10728,7 @@ struct pipeline_robustness_create_info final
     ktl::api::pipeline_robustness_image_behavior  images;
 };
 
-struct pipeline_robustness_create_info_ext final
-{
-};
+using pipeline_robustness_create_info_ext = pipeline_robustness_create_info;
 
 struct physical_device_pipeline_robustness_properties final
 {
@@ -11202,9 +10740,7 @@ struct physical_device_pipeline_robustness_properties final
     ktl::api::pipeline_robustness_image_behavior  default_robustness_images;
 };
 
-struct physical_device_pipeline_robustness_properties_ext final
-{
-};
+using physical_device_pipeline_robustness_properties_ext = physical_device_pipeline_robustness_properties;
 
 struct image_view_sample_weight_create_info_qcom final
 {
@@ -11280,9 +10816,7 @@ struct physical_device_attachment_feedback_loop_layout_features_ext final
     ktl::bool32 attachment_feedback_loop_layout;
 };
 
-struct physical_device_depth_clamp_zero_one_features_ext final
-{
-};
+using physical_device_depth_clamp_zero_one_features_ext = physical_device_depth_clamp_zero_one_features_khr;
 
 struct attachment_feedback_loop_info_ext final
 {
@@ -11410,9 +10944,7 @@ struct device_fault_address_info_khr final
     ktl::dvsize                             address_precision;
 };
 
-struct device_fault_address_info_ext final
-{
-};
+using device_fault_address_info_ext = device_fault_address_info_khr;
 
 struct device_fault_vendor_info_khr final
 {
@@ -11421,9 +10953,7 @@ struct device_fault_vendor_info_khr final
     ktl::u64 vendor_fault_data;
 };
 
-struct device_fault_vendor_info_ext final
-{
-};
+using device_fault_vendor_info_ext = device_fault_vendor_info_khr;
 
 struct device_fault_info_khr final
 {
@@ -11479,9 +11009,7 @@ struct device_fault_vendor_binary_header_version_one_khr final
     ktl::i32                                                api_version;
 };
 
-struct device_fault_vendor_binary_header_version_one_ext final
-{
-};
+using device_fault_vendor_binary_header_version_one_ext = device_fault_vendor_binary_header_version_one_khr;
 
 struct physical_device_fault_features_khr final
 {
@@ -11612,9 +11140,7 @@ struct surface_present_mode_khr final
     ktl::api::present_mode_khr present_mode;
 };
 
-struct surface_present_mode_ext final
-{
-};
+using surface_present_mode_ext = surface_present_mode_khr;
 
 struct surface_present_scaling_capabilities_khr final
 {
@@ -11627,9 +11153,7 @@ struct surface_present_scaling_capabilities_khr final
     ktl::api::extent2d                  max_scaled_image_extent     = 0;
 };
 
-struct surface_present_scaling_capabilities_ext final
-{
-};
+using surface_present_scaling_capabilities_ext = surface_present_scaling_capabilities_khr;
 
 struct surface_present_mode_compatibility_khr final
 {
@@ -11639,9 +11163,7 @@ struct surface_present_mode_compatibility_khr final
     ktl::api::present_mode_khr * present_modes      = nullptr;
 };
 
-struct surface_present_mode_compatibility_ext final
-{
-};
+using surface_present_mode_compatibility_ext = surface_present_mode_compatibility_khr;
 
 struct physical_device_swapchain_maintenance1features_khr final
 {
@@ -11650,9 +11172,7 @@ struct physical_device_swapchain_maintenance1features_khr final
     ktl::bool32              swapchain_maintenance1;
 };
 
-struct physical_device_swapchain_maintenance1features_ext final
-{
-};
+using physical_device_swapchain_maintenance1features_ext = physical_device_swapchain_maintenance1features_khr;
 
 struct swapchain_present_fence_info_khr final
 {
@@ -11662,9 +11182,7 @@ struct swapchain_present_fence_info_khr final
     const ktl::api::fence *  fences;
 };
 
-struct swapchain_present_fence_info_ext final
-{
-};
+using swapchain_present_fence_info_ext = swapchain_present_fence_info_khr;
 
 struct swapchain_present_modes_create_info_khr final
 {
@@ -11674,9 +11192,7 @@ struct swapchain_present_modes_create_info_khr final
     const ktl::api::present_mode_khr * present_modes;
 };
 
-struct swapchain_present_modes_create_info_ext final
-{
-};
+using swapchain_present_modes_create_info_ext = swapchain_present_modes_create_info_khr;
 
 struct swapchain_present_mode_info_khr final
 {
@@ -11686,9 +11202,7 @@ struct swapchain_present_mode_info_khr final
     const ktl::api::present_mode_khr * present_modes;
 };
 
-struct swapchain_present_mode_info_ext final
-{
-};
+using swapchain_present_mode_info_ext = swapchain_present_mode_info_khr;
 
 struct swapchain_present_scaling_create_info_khr final
 {
@@ -11699,9 +11213,7 @@ struct swapchain_present_scaling_create_info_khr final
     ktl::api::present_gravity_flags_khr present_gravity_y = 0;
 };
 
-struct swapchain_present_scaling_create_info_ext final
-{
-};
+using swapchain_present_scaling_create_info_ext = swapchain_present_scaling_create_info_khr;
 
 struct release_swapchain_images_info_khr final
 {
@@ -11712,9 +11224,7 @@ struct release_swapchain_images_info_khr final
     const ktl::i32 *         image_indices;
 };
 
-struct release_swapchain_images_info_ext final
-{
-};
+using release_swapchain_images_info_ext = release_swapchain_images_info_khr;
 
 struct physical_device_depth_bias_control_features_ext final
 {
@@ -11817,9 +11327,7 @@ struct device_image_subresource_info final
     const ktl::api::image_subresource2 * subresource;
 };
 
-struct device_image_subresource_info_khr final
-{
-};
+using device_image_subresource_info_khr = device_image_subresource_info;
 
 struct physical_device_shader_core_properties_arm final
 {
@@ -11864,9 +11372,7 @@ struct memory_map_info final
     ktl::dvsize                size;
 };
 
-struct memory_map_info_khr final
-{
-};
+using memory_map_info_khr = memory_map_info;
 
 struct memory_unmap_info final
 {
@@ -11876,9 +11382,7 @@ struct memory_unmap_info final
     ktl::api::device_memory      memory;
 };
 
-struct memory_unmap_info_khr final
-{
-};
+using memory_unmap_info_khr = memory_unmap_info;
 
 struct physical_device_shader_object_features_ext final
 {
@@ -12023,7 +11527,7 @@ struct physical_device_shader_enqueue_properties_amdx final
     ktl::i32                 max_execution_graph_shader_payload_size;
     ktl::i32                 max_execution_graph_shader_payload_count;
     ktl::i32                 execution_graph_dispatch_address_alignment;
-    ktl::i32                 max_execution_graph_workgroup_count[None];
+    ktl::i32                 max_execution_graph_workgroup_count[3];
     ktl::i32                 max_execution_graph_workgroups;
 };
 
@@ -12141,9 +11645,7 @@ struct tile_memory_requirements_qcom final
     ktl::dvsize              alignment;
 };
 
-struct bind_memory_status_khr final
-{
-};
+using bind_memory_status_khr = bind_memory_status;
 
 struct bind_descriptor_sets_info final
 {
@@ -12158,9 +11660,7 @@ struct bind_descriptor_sets_info final
     const ktl::i32 *                 dynamic_offsets;
 };
 
-struct bind_descriptor_sets_info_khr final
-{
-};
+using bind_descriptor_sets_info_khr = bind_descriptor_sets_info;
 
 struct push_constants_info final
 {
@@ -12173,9 +11673,7 @@ struct push_constants_info final
     const void *                 values;
 };
 
-struct push_constants_info_khr final
-{
-};
+using push_constants_info_khr = push_constants_info;
 
 struct push_descriptor_set_info final
 {
@@ -12188,9 +11686,7 @@ struct push_descriptor_set_info final
     const ktl::api::write_descriptor_set * descriptor_writes;
 };
 
-struct push_descriptor_set_info_khr final
-{
-};
+using push_descriptor_set_info_khr = push_descriptor_set_info;
 
 struct push_descriptor_set_with_template_info final
 {
@@ -12202,9 +11698,7 @@ struct push_descriptor_set_with_template_info final
     const void *                         data;
 };
 
-struct push_descriptor_set_with_template_info_khr final
-{
-};
+using push_descriptor_set_with_template_info_khr = push_descriptor_set_with_template_info;
 
 struct set_descriptor_buffer_offsets_info_ext final
 {
@@ -12527,9 +12021,7 @@ struct physical_device_shader_subgroup_rotate_features final
     ktl::bool32              shader_subgroup_rotate_clustered;
 };
 
-struct physical_device_shader_subgroup_rotate_features_khr final
-{
-};
+using physical_device_shader_subgroup_rotate_features_khr = physical_device_shader_subgroup_rotate_features;
 
 struct physical_device_shader_expect_assume_features final
 {
@@ -12538,9 +12030,7 @@ struct physical_device_shader_expect_assume_features final
     ktl::bool32              shader_expect_assume;
 };
 
-struct physical_device_shader_expect_assume_features_khr final
-{
-};
+using physical_device_shader_expect_assume_features_khr = physical_device_shader_expect_assume_features;
 
 struct physical_device_shader_float_controls2features final
 {
@@ -12549,9 +12039,7 @@ struct physical_device_shader_float_controls2features final
     ktl::bool32              shader_float_controls2;
 };
 
-struct physical_device_shader_float_controls2features_khr final
-{
-};
+using physical_device_shader_float_controls2features_khr = physical_device_shader_float_controls2features;
 
 struct physical_device_dynamic_rendering_local_read_features final
 {
@@ -12560,9 +12048,7 @@ struct physical_device_dynamic_rendering_local_read_features final
     ktl::bool32              dynamic_rendering_local_read;
 };
 
-struct physical_device_dynamic_rendering_local_read_features_khr final
-{
-};
+using physical_device_dynamic_rendering_local_read_features_khr = physical_device_dynamic_rendering_local_read_features;
 
 struct rendering_attachment_location_info final
 {
@@ -12572,9 +12058,7 @@ struct rendering_attachment_location_info final
     const ktl::i32 *         color_attachment_locations;
 };
 
-struct rendering_attachment_location_info_khr final
-{
-};
+using rendering_attachment_location_info_khr = rendering_attachment_location_info;
 
 struct rendering_input_attachment_index_info final
 {
@@ -12586,9 +12070,7 @@ struct rendering_input_attachment_index_info final
     const ktl::i32 *         stencil_input_attachment_index = nullptr;
 };
 
-struct rendering_input_attachment_index_info_khr final
-{
-};
+using rendering_input_attachment_index_info_khr = rendering_input_attachment_index_info;
 
 struct physical_device_shader_quad_control_features_khr final
 {
@@ -12680,9 +12162,8 @@ struct physical_device_shader_replicated_composites_features_ext final
     ktl::bool32 shader_replicated_composites;
 };
 
-struct physical_device_present_mode_fifo_latest_ready_features_ext final
-{
-};
+using physical_device_present_mode_fifo_latest_ready_features_ext =
+    physical_device_present_mode_fifo_latest_ready_features_khr;
 
 struct physical_device_present_mode_fifo_latest_ready_features_khr final
 {
@@ -13909,9 +13390,7 @@ struct device_address_range_khr final
     ktl::dvsize size;
 };
 
-struct device_address_range_ext final
-{
-};
+using device_address_range_ext = device_address_range_khr;
 
 struct device_memory_copy_khr final
 {

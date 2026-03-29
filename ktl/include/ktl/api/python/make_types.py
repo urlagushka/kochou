@@ -10,7 +10,7 @@ def opaque_name_rule(src: str) -> str | None:
 def pointer_name_rule(src: str) -> str | None:
     if src is None:
         return None
-    return f"ptr_{src}"
+    return f"{src}"
 
 def extract_handle_name_impl(handle) -> str | None:
     name = handle.find("name")
@@ -35,7 +35,7 @@ def extract_handle_impl(handle, raw_name) -> VkHandle:
     pointer_str = pointer_name_rule(raw_name)
     parent_str  = extract_parent_impl(handle)
     object_str  = extract_object_impl(handle)
-    return VkHandle(raw_name, opaque_str, pointer_str, parent_str, object_str)
+    return VkHandle(raw_name, opaque_str, pointer_str, parent_str, object_str, None)
 
 def extract_handles(root) -> list:
     handles = []
@@ -44,9 +44,9 @@ def extract_handles(root) -> list:
     for src in types.findall("type[@category='handle']"):
         alias = make_cpp_name(src.get("alias"))
         if alias:
-            found = next((h for h in handles if h.raw_name_str == alias), None)
-            handle = replace(found, raw_name_str=make_cpp_name(src.get("name")))
-            handles += [handle]
+            raw_name = make_cpp_name(src.get("name"))
+            print(raw_name)
+            handles += [VkHandle(raw_name, None, None, None, None, alias)]
         else:
             raw_name = extract_handle_name_impl(src)
             handle = extract_handle_impl(src, raw_name)

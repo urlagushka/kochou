@@ -1,5 +1,5 @@
 category="funcpointer"
-category="struct"
+category="struct" | structextends
 category="union"
 <feature
 <extension

@@ -2,39 +2,6 @@ from vk_types import VkStruct, VkStructField
 from name_rules import make_cpp_name, make_field_name, make_type, make_constant
 import xml.etree.ElementTree as ET
 
-def opaque_name_rule(src: str) -> str | None:
-    if src is None:
-        return None
-    return f"opaque_{src}"
-
-
-def pointer_name_rule(src: str) -> str | None:
-    if src is None:
-        return None
-    return f"ptr_{src}"
-
-
-def extract_handle_name_impl(handle) -> str | None:
-    name = handle.find("name")
-    if name is not None and name.text:
-        return make_cpp_name(name.text.strip())
-    return None
-
-
-def extract_parent_impl(handle) -> str:
-    parent = handle.get("parent")
-    if parent:
-        return opaque_name_rule(make_cpp_name(parent))
-    return "void"
-
-
-def extract_object_impl(handle) -> str | None:
-    object = handle.get("objtypeenum")
-    if object:
-        return make_field_name(object, "object_type")
-    return None
-
-
 def extract_struct_field_impl(field) -> VkStructField:
     type_str = field.find("type").text.strip()
     type_res = ""
@@ -52,7 +19,20 @@ def extract_struct_field_impl(field) -> VkStructField:
         if elem.tag.endswith('}enum') or elem.tag == 'enum':
             static_size = elem.text.strip()
     if "[" in raw_field and "]" in raw_field:
-        name_str = f"{name_str}[{make_constant(static_size)}]"
+        exit_cond = False
+        size = make_constant(static_size)
+        start = raw_field.find('[')
+        comment_start = raw_field.find("comment")
+        if size is None:
+            end = raw_field.find(']')
+            size = raw_field[start + 1:end]
+            if not size.isdigit():
+                exit_cond = True
+
+        if start > comment_start and comment_start != -1 or exit_cond:
+            pass
+        else:
+            name_str = f"{name_str}[{size}]"
 
     is_optional = field.get("optional") == "true"
     is_const = "const" in raw_field
@@ -71,21 +51,9 @@ def extract_struct_impl(struct) -> VkStruct:
 
     fields = []
     for field in struct.findall("member"):
-        ff = extract_struct_field_impl(field)
-        fields += [ff]
-        tt = ""
-        if ff.is_const:
-            tt += "const "
-        tt += ff.type_str
-        if ff.is_pointer:
-            tt += " * "
-        else:
-            tt += " "
-        tt += ff.name_str
-        if ff.is_optional:
-            tt += " = nullptr;" if ff.is_pointer else " = 0;"
+        fields += [extract_struct_field_impl(field)]
 
-    return VkStruct(name_str, fields)
+    return VkStruct(name_str, fields, None)
 
 
 def extract_structs(root) -> list:
@@ -93,6 +61,11 @@ def extract_structs(root) -> list:
 
     types = root.find("types")
     for src in types.findall("type[@category='struct']"):
-        structs += [extract_struct_impl(src)]
+        alias = make_cpp_name(src.get("alias"))
+        if alias:
+            name_str = make_cpp_name(src.get("name"))
+            structs += [VkStruct(name_str, [], alias)]
+        else:
+            structs += [extract_struct_impl(src)]
 
     return structs

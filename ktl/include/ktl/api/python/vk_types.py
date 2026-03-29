@@ -1,5 +1,33 @@
 from dataclasses import dataclass
 
+
+"""
+struct extension final
+{
+    ktl::api::extension_name                  name;
+    ktl::api::vulkan_version                  spec_version;
+    ktl::api::vulkan_version                  promoted_to;
+    ktl::flat_set< ktl::api::feature >        features;
+    ktl::flat_set< ktl::api::extension_name > deps;
+};
+"""
+
+
+@dataclass
+class VkEntension:
+    name_str: str
+    spec_version_str: str
+    promoted_to_str: str
+    features_list: list
+    extension_deps: list
+
+
+@dataclass
+class VkBitMask:
+    name_str: str
+    type_str: str
+
+
 @dataclass
 class VkHandle:
     raw_name_str: str
@@ -7,6 +35,7 @@ class VkHandle:
     pointer_str:  str
     parent_str:   str
     object_str:   str
+    alias: str | None
 
 
 @dataclass
@@ -23,6 +52,7 @@ class VkStructField:
 class VkStruct:
     name_str: str
     fields: list
+    alias: str | None
 
 
 @dataclass

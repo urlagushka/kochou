@@ -1,6 +1,7 @@
 from utils import first_diff_index, c_name_to_cpp
 from type_cast import cast_type
 
+
 def make_cpp_name(src: str) -> str | None:
     if src is None:
         return None
@@ -44,6 +45,7 @@ def make_constant(src: str) -> str | None:
     if src is None or not src.startswith("VK_"):
         return None
     return "KTL_API" + src[2:]
+
 
 def make_handle(src: str) -> str | None:
     pass

@@ -25,6 +25,12 @@ struct ptr_meta final
     };
 };
 
+template < typename T >
+struct struct_meta final
+{
+    using parent_type_array = std::tuple<>;
+};
+
 struct extension_name final : ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE >
 {
     using ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE >::fixed_string;
@@ -59,6 +65,10 @@ struct extension final
     ktl::flat_set< ktl::api::feature >        features;
     ktl::flat_set< ktl::api::extension_name > deps;
 };
+
+// never use
+struct anative_window;
+struct ahardware_buffer;
 } // namespace ktl::api
 
 #endif

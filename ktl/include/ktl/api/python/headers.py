@@ -68,6 +68,10 @@ def make_handles_header(filename: str, handles: list) -> None:
         )
 
         for handle in handles:
+            if handle.alias:
+                f.write(f"using {handle.raw_name_str} = {handle.alias};\n\n")
+                continue
+
             f.write(
                 f"struct {handle.opaque_str};\n"
                 f"using {handle.pointer_str} = {handle.opaque_str} *;\n"
@@ -94,12 +98,18 @@ def make_structs_header(filename: str, structs: list) -> None:
         f.write(
             "#ifndef KTL_API_STRUCTS_HPP\n"
             "#define KTL_API_STRUCTS_HPP\n\n"
+            "#include <ktl/api/bitmasks.hpp>\n"
             "#include <ktl/api/enums.hpp>\n"
+            "#include <ktl/api/handles.hpp>\n"
             "#include <ktl/api/type.hpp>\n\n"
             "namespace ktl::api\n{\n"
         )
 
         for struct in structs:
+            if struct.alias:
+                f.write(f"using {struct.name_str} = {struct.alias};\n\n")
+                continue
+
             f.write(
                 f"struct {struct.name_str} final\n"
                  "{\n"
@@ -120,6 +130,24 @@ def make_structs_header(filename: str, structs: list) -> None:
 
         f.write(
             "}\n\n"
+            "#endif\n"
+        )
+
+
+def make_bitmasks_header(filename: str, bitmasks: list) -> None:
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write(
+            "#ifndef KTL_API_BITMASKS_HPP\n"
+            "#define KTL_API_BITMASKS_HPP\n\n"
+            "#include <ktl/api/type.hpp>\n\n"
+            "namespace ktl::api\n{\n"
+        )
+
+        for bitmask in bitmasks:
+            f.write(f"using {bitmask.name_str} = {bitmask.type_str};\n")
+
+        f.write(
+            "\n}\n\n"
             "#endif\n"
         )
 
