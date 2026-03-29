@@ -18,7 +18,7 @@ def c_name_to_cpp(name: str) -> str:
 
     result = []
     for i, c in enumerate(name):
-        if c.isupper() and i > 0 and not name[i-1].isupper():
+        if c.isupper() and i > 0 and not name[i-1].isupper() and not name[i-1].isdigit():
             result.append('_')
         result.append(c.lower())
     return ''.join(result)

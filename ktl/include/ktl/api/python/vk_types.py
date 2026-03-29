@@ -10,6 +10,22 @@ class VkHandle:
 
 
 @dataclass
+class VkStructField:
+    type_str: str
+    name_str: str
+    is_optional: bool
+    is_const: bool
+    is_pointer: bool
+    default_value: str
+
+
+@dataclass
+class VkStruct:
+    name_str: str
+    fields: list
+
+
+@dataclass
 class VkConstant:
     name: str
     type: str

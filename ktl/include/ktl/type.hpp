@@ -16,6 +16,13 @@ using u16 = std::uint16_t;
 using u32 = std::uint32_t;
 using u64 = std::uint64_t;
 
+using bool32 = std::uint32_t;
+using flag32 = std::uint32_t;
+using flag64 = std::uint64_t;
+using dvsize = std::uint64_t;
+using dvaddr = std::uint64_t;
+using spmask = std::uint32_t;
+
 using usize = std::size_t;
 using isize = long long;
 } // namespace ktl

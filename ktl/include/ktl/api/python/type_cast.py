@@ -29,9 +29,29 @@ def cast_type(_type : str) -> str | None:
     if _type == "64":
         return "ktl::u64"
 
+    if _type == "size_t":
+        return "ktl::usize"
+
+    if _type == "void":
+        return "void"
+    if _type == "char":
+        return "char"
     if _type == "float":
         return "float"
     if _type == "double":
         return "double"
+
+    if _type == "VkSampleMask":
+        return "ktl::spmask"
+    if _type == "VkBool32":
+        return "ktl::bool32"
+    if _type == "VkFlags":
+        return "ktl::flag32"
+    if _type == "VkFlags64":
+        return "ktl::flag64"
+    if _type == "VkDeviceSize":
+        return "ktl::dvsize"
+    if _type == "VkDeviceAddress":
+        return "ktl::dvaddr"
 
     return None

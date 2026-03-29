@@ -2,8 +2,10 @@ from utils import first_diff_index, c_name_to_cpp
 from type_cast import cast_type
 
 def make_cpp_name(src: str) -> str | None:
-    if src is None or not src.startswith("Vk"):
+    if src is None:
         return None
+    if not src.startswith("Vk"):
+        return c_name_to_cpp(src)
     return c_name_to_cpp(src[2:])
 
 
