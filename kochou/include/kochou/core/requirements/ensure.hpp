@@ -17,7 +17,7 @@ class ensure
 protected:
     ensure(std::source_location _ctx = std::source_location::current()) noexcept
     {
-        auto rc = T::apply(requirement_type::ensure);
+        // auto rc = T::apply(requirement_type::ensure);
         // static_assert(rc == ktl::errc::success);
     }
 };

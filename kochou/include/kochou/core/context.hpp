@@ -28,13 +28,6 @@ class context final
 public:
     ~context() = default;
 
-    static context &
-    get() noexcept
-    {
-        static context instance;
-        return instance;
-    }
-
     template < vulkan_struct_type FEATURE_TYPE >
     ktl::errc
     apply_feature(FEATURE_TYPE _feature)

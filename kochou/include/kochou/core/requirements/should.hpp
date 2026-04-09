@@ -13,7 +13,7 @@ class should
 protected:
     should() noexcept
     {
-        ktl::errc rc = T::apply(requirement_type::should);
+        // ktl::errc rc = T::apply(requirement_type::should);
         // static_assert(rc == ktl::errc::success);
     }
 };

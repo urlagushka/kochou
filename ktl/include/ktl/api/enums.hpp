@@ -1,7 +1,7 @@
 #ifndef KTL_API_ENUMS_HPP
 #define KTL_API_ENUMS_HPP
 
-#include <ktl/api/type.hpp>
+#include <ktl/type.hpp>
 
 namespace ktl::api
 {

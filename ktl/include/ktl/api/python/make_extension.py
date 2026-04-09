@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 from dataclasses import replace
 
 
-def make_structure_type_from_extension():
+def make_structure_type_from_extension(base: int, extension_number: int, offset: int):
     return base + (extension_number - 1) * 1000 + offset
 
 

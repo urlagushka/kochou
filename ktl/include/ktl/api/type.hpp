@@ -3,14 +3,13 @@
 
 #include <cstdint>
 
+#include <ktl/api/constants.hpp>
+#include <ktl/api/enums.hpp>
 #include <ktl/fixed_string.hpp>
 #include <ktl/flat_set.hpp>
 #include <ktl/type.hpp>
 
 #include "constants.hpp"
-
-#define KTL_API_MAX_FEATURE_NAME_SIZE 1024
-#define KTL_API_MAX_LAYER_NAME_SIZE 1024
 
 namespace ktl::api
 {
@@ -28,7 +27,17 @@ struct ptr_meta final
 template < typename T >
 struct struct_meta final
 {
-    using parent_type_array = std::tuple<>;
+    // valid vulkan chain
+    // vulkan chain - linear graph of deps
+    /*
+        kochou::core::ensure< kochou::core::version< ktl::u32 > >
+        kochou::core::ensure< kochou::core::extension< ktl::fixed_string > >
+        kochou::core::ensure< kochou::core::feature< ktl::api::feature_struct_typename, feature_struct_impl > >
+        kochou::core::should< kochou::core::feature< ktl::api::feature_struct_typename, feature_struct_impl > >
+        kochou::core::should< kochou::core::layer< ktl::fixed_string > >
+    */
+    static constexpr ktl::usize                                next_size = 0;
+    static constexpr ktl::flat_set< ktl::api::structure_type > next_data = {};
 };
 
 struct extension_name final : ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE >

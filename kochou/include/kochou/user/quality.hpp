@@ -1,0 +1,4 @@
+#ifndef KOCHOU_USER_QUALITY_HPP
+#define KOCHOU_USER_QUALITY_HPP
+
+#endif

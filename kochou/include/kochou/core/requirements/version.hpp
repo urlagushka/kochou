@@ -24,7 +24,7 @@ template < ktl::api::vulkan_version VERSION >
 ktl::errc
 kochou::core::version< VERSION >::apply(requirement_type _type) noexcept
 {
-    return context::get().apply_version(VERSION);
+    // return context::get().apply_version(VERSION);
 }
 
 template < ktl::api::vulkan_version VERSION >
