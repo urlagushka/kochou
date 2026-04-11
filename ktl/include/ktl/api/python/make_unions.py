@@ -1,9 +1,11 @@
-from vk_types import VkStruct, VkStructField
-from name_rules import make_cpp_name, make_field_name, make_type, make_constant
-import xml.etree.ElementTree as ET
+from vk_types import VkUnion, VkUnionField
+from name_rules import make_cpp_name, make_type, make_field_name, make_constant
 from utils import is_vulkan_video
+import xml.etree.ElementTree as ET
+from dataclasses import replace
 
-def extract_struct_field_impl(field) -> VkStructField:
+
+def extract_union_field_impl(field) -> VkUnionField:
     type_str = field.find("type").text.strip()
     type_res = ""
     if make_type(type_str):
@@ -35,43 +37,43 @@ def extract_struct_field_impl(field) -> VkStructField:
         else:
             name_str = f"{name_str}[{size}]"
 
-    is_optional = field.get("optional") == "true"
-    is_const = "const" in raw_field
-    is_pointer = "*" in raw_field
-    default_value = field.get("values")
-    if default_value:
-        default_value = f"ktl::api::{type_str}::{make_field_name(default_value, type_str)}"
-    if is_optional:
-        default_value = "{}"
+    if "*" in raw_field:
+        type_res += "*"
 
-    return VkStructField(type_res, name_str, is_optional, is_const, is_pointer, default_value)
+    return VkUnionField(type_res, name_str)
 
 
-def extract_struct_impl(struct) -> VkStruct | None:
+def extract_union_impl(struct) -> VkUnion | None:
     name = make_cpp_name(struct.get("name"))
     if is_vulkan_video(name):
         return None
 
     fields = []
     for field in struct.findall("member"):
-        fields += [extract_struct_field_impl(field)]
+        fields += [extract_union_field_impl(field)]
 
-    return VkStruct(name, fields, None)
+    return VkUnion(name, fields)
 
 
-def extract_structs(root) -> list:
-    structs = []
+def extract_unions(root) -> list:
+    unions = []
 
     types = root.find("types")
-    for src in types.findall("type[@category='struct']"):
-        alias = make_cpp_name(src.get("alias"))
-        if alias:
-            name = make_cpp_name(src.get("name"))
-            if not is_vulkan_video(name):
-                structs += [VkStruct(name, [], alias)]
-        else:
-            result = extract_struct_impl(src)
-            if result:
-                structs += [result]
+    for union in types.findall("type[@category='union']"):
+        result = extract_union_impl(union)
+        if result:
+            unions += [result]
 
-    return structs
+    return unions
+
+
+"""
+struct extension final
+{
+    ktl::api::extension_name                  name;
+    ktl::api::vulkan_version                  spec_version;
+    ktl::api::vulkan_version                  promoted_to;
+    ktl::flat_set< ktl::api::feature >        features;
+    ktl::flat_set< ktl::api::extension_name > deps;
+};
+"""

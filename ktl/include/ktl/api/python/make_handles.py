@@ -1,6 +1,6 @@
 from vk_types import VkHandle
 from name_rules import make_cpp_name, make_field_name
-from dataclasses import replace
+from utils import is_vulkan_video
 
 def opaque_name_rule(src: str) -> str | None:
     if src is None:
@@ -45,11 +45,12 @@ def extract_handles(root) -> list:
         alias = make_cpp_name(src.get("alias"))
         if alias:
             raw_name = make_cpp_name(src.get("name"))
-            print(raw_name)
-            handles += [VkHandle(raw_name, None, None, None, None, alias)]
+            if not is_vulkan_video(raw_name):
+                handles += [VkHandle(raw_name, None, None, None, None, alias)]
         else:
             raw_name = extract_handle_name_impl(src)
-            handle = extract_handle_impl(src, raw_name)
-            handles += [handle]
+            if not is_vulkan_video(raw_name):
+                handle = extract_handle_impl(src, raw_name)
+                handles += [handle]
 
     return handles

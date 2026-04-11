@@ -111,6 +111,7 @@ main()
 
         ptr_instance     instance = nullptr;
         ktl::api::result rc       = vk_create_instance(&instance_create_info, &instance);
+
         std::cout << (ktl::i32)rc << std::endl;
     }
 

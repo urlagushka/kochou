@@ -1,15 +1,9 @@
 #ifndef KTL_API_TYPE_HPP
 #define KTL_API_TYPE_HPP
 
-#include <cstdint>
-
-#include <ktl/api/constants.hpp>
-#include <ktl/api/enums.hpp>
 #include <ktl/fixed_string.hpp>
 #include <ktl/flat_set.hpp>
 #include <ktl/type.hpp>
-
-#include "constants.hpp"
 
 namespace ktl::api
 {
@@ -18,7 +12,7 @@ struct ptr_meta final
 {
     using parent = T::parent;
     using type   = T::type;
-    enum : std::underlying_type_t< ktl::api::object_type >
+    enum : std::underlying_type_t< ktl::u32 >
     {
         object = 0
     };

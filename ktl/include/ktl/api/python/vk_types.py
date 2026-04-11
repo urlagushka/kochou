@@ -12,6 +12,17 @@ struct extension final
 };
 """
 
+@dataclass
+class VkUnionField:
+    type_str: str
+    name_str: str
+
+
+@dataclass
+class VkUnion:
+    name_str: str
+    fields: list
+
 
 @dataclass
 class VkEntension:
@@ -66,13 +77,16 @@ class VkConstant:
 class VkEnumField:
     name: str
     value: str
+    is_alias: bool
     is_deprecated: bool
 
-    def __init__(self, name: str, value: str) -> None:
-        self.name = name
-        self.value = value
-        self.alias = ""
-        self.is_deprecated = False
+    def __hash__(self) -> int:
+        return hash(self.name)
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, VkEnumField):
+            return True
+        return self.name == other.name
 
 
 @dataclass
@@ -80,8 +94,4 @@ class VkEnum:
     name: str
     fields: dict
     underling_type: str
-
-    def __init__(self, name: str, fields: dict, underling_type: str) -> None:
-        self.name = name
-        self.fields = fields
-        self.underling_type = underling_type
+    alias : str | None

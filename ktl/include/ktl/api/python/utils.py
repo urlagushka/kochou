@@ -22,3 +22,6 @@ def c_name_to_cpp(name: str) -> str:
             result.append('_')
         result.append(c.lower())
     return ''.join(result)
+
+def is_vulkan_video(name: str) -> bool:
+    return "video" in name.lower() and "video_queue" not in name.lower()

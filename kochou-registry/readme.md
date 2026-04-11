@@ -31,7 +31,10 @@ spec.json
         "minor": 0,
         "patch": 0
     },
-    "deps": [0, 1, 2]
+    "deps": [0, 1, 2],
+    "author": "",
+    "mail": "",
+    "link": ""
 }
 ```
 

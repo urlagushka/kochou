@@ -1,5 +1,5 @@
 from utils import first_diff_index, c_name_to_cpp
-from type_cast import cast_type
+from type_cast import cast_type, DEFAULT_NEGATIVE_TYPE, DEFAULT_POSITIVE_TYPE
 
 
 def make_cpp_name(src: str) -> str | None:
@@ -21,8 +21,10 @@ def make_field_name(src: str, cmp: str) -> str | None:
     return f"v_{tmp}"
 
 
-def make_underling_type(_src: str) -> str:
-    return cast_type(_src)
+def make_underling_type(_src: str, _direction: bool) -> str | None:
+    if not _src:
+        return DEFAULT_POSITIVE_TYPE if _direction else DEFAULT_NEGATIVE_TYPE
+    return cast_type(_src) if _direction else cast_type(f"-{_src}")
 
 
 def make_type(_src: str) -> str | None:
