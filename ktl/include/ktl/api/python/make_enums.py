@@ -1,5 +1,5 @@
-from name_rules import make_field_name, make_underling_type, make_bitpos, make_cpp_name
 from vk_types import VkEnum, VkEnumField
+from name_rules import *
 from utils import is_vulkan_video
 
 """

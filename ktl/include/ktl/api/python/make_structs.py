@@ -1,7 +1,8 @@
 from vk_types import VkStruct, VkStructField
-from name_rules import make_cpp_name, make_field_name, make_type, make_constant
-import xml.etree.ElementTree as ET
+from name_rules import *
 from utils import is_vulkan_video
+import xml.etree.ElementTree as ET
+
 
 def extract_struct_field_impl(field) -> VkStructField:
     type_str = field.find("type").text.strip()

@@ -23,5 +23,5 @@ def c_name_to_cpp(name: str) -> str:
         result.append(c.lower())
     return ''.join(result)
 
-def is_vulkan_video(name: str) -> bool:
+def is_vulkan_video(name: str) -> bool: # vulkan-video is not supported now
     return "video" in name.lower() and "video_queue" not in name.lower()

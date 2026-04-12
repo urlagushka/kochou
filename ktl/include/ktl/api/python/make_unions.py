@@ -1,8 +1,7 @@
 from vk_types import VkUnion, VkUnionField
-from name_rules import make_cpp_name, make_type, make_field_name, make_constant
+from name_rules import *
 from utils import is_vulkan_video
 import xml.etree.ElementTree as ET
-from dataclasses import replace
 
 
 def extract_union_field_impl(field) -> VkUnionField:

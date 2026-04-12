@@ -1,6 +1,5 @@
 from vk_types import VkEnumField
-from name_rules import make_cpp_name, make_type, make_field_name, make_bitpos
-import xml.etree.ElementTree as ET
+from name_rules import *
 from utils import is_vulkan_video
 
 

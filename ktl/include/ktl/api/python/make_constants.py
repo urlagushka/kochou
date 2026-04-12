@@ -1,5 +1,5 @@
-from name_rules import make_constant, make_type
 from vk_types import VkConstant
+from name_rules import *
 
 
 def extract_constants_impl(constants) -> list:

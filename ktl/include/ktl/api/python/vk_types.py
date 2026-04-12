@@ -1,16 +1,41 @@
 from dataclasses import dataclass
 
 
-"""
-struct extension final
-{
-    ktl::api::extension_name                  name;
-    ktl::api::vulkan_version                  spec_version;
-    ktl::api::vulkan_version                  promoted_to;
-    ktl::flat_set< ktl::api::feature >        features;
-    ktl::flat_set< ktl::api::extension_name > deps;
-};
-"""
+@dataclass
+class VkFormatComponent:
+    bits: str
+    has_plane: str
+    plane_index: str
+    is_present: str
+
+
+@dataclass
+class VkFormatPlane:
+    width_divisor: str
+    height_divisor: str
+    compatible: str
+
+
+@dataclass
+class VkFormat:
+    name: str
+    block_size: str
+    texels_per_block: str
+    packed: str
+    chroma: str
+    block_width: str
+    block_height: str
+    block_depth: str
+    is_3d: str
+    is_compressed: str
+
+    r: VkFormatComponent
+    g: VkFormatComponent
+    b: VkFormatComponent
+    a: VkFormatComponent
+    planes_amount: str
+    planes: list
+
 
 @dataclass
 class VkUnionField:

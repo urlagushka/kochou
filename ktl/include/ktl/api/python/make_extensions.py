@@ -1,6 +1,5 @@
 from vk_types import VkEnumField
-from name_rules import make_cpp_name, make_field_name, make_bitpos
-import xml.etree.ElementTree as ET
+from name_rules import *
 from utils import is_vulkan_video
 
 def make_value_from_extension(extension_number: str, offset: str) -> str:
@@ -14,6 +13,7 @@ def extract_extensions(root, enums) -> list:
         name_str = extension.get("name")
         if is_vulkan_video(name_str):
             continue
+
         number_str = extension.get("number")
         type_str = extension.get("type")
 

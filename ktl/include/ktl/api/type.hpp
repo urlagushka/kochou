@@ -18,6 +18,52 @@ struct ptr_meta final
     };
 };
 
+/*
+<format name="VK_FORMAT_G14X2_B14X2R14X2_2PLANE_422_UNORM_3PACK16_ARM" class="14-bit 2-plane 422" blockSize="6"
+texelsPerBlock="1" packed="16" chroma="422">
+    <component name="G" bits="14" numericFormat="UNORM" planeIndex="0"/>
+    <component name="B" bits="14" numericFormat="UNORM" planeIndex="1"/>
+    <component name="R" bits="14" numericFormat="UNORM" planeIndex="1"/>
+    <plane index="0" widthDivisor="1" heightDivisor="1" compatible="VK_FORMAT_R14X2_UNORM_PACK16_ARM"/>
+    <plane index="1" widthDivisor="2" heightDivisor="1" compatible="VK_FORMAT_R14X2G14X2_UNORM_2PACK16_ARM"/>
+</format>
+*/
+
+template < ktl::api::format FORMAT >
+struct format_meta final
+{
+    struct component final
+    {
+        static constexpr ktl::u32 bits        = {};
+        static constexpr ktl::u32 plane_index = {};
+        static constexpr bool     has_plane   = {};
+        static constexpr bool     is_present  = {};
+    };
+    struct plane final
+    {
+        static constexpr ktl::u32         width_divisor  = {};
+        static constexpr ktl::u32         height_divisor = {};
+        static constexpr ktl::api::format compatible     = {};
+    };
+
+    static constexpr ktl::u32 block_size       = {};
+    static constexpr ktl::u32 texels_per_block = {};
+    static constexpr ktl::u32 packed           = {};
+    static constexpr ktl::u32 chroma           = {};
+    static constexpr ktl::u32 block_width      = {};
+    static constexpr ktl::u32 block_height     = {};
+    static constexpr ktl::u32 block_depth      = {};
+    static constexpr bool     is_3d            = {};
+    static constexpr bool     is_compressed    = {};
+
+    static constexpr component              r             = {};
+    static constexpr component              g             = {};
+    static constexpr component              b             = {};
+    static constexpr component              a             = {};
+    static constexpr ktl::u32               planes_amount = {};
+    static constexpr std::array< plane, 3 > planes        = {};
+};
+
 template < typename T >
 struct struct_meta final
 {

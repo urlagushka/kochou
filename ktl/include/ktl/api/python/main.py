@@ -7,6 +7,7 @@ from make_bitmask import extract_bitmasks
 from make_extensions import extract_extensions
 from make_features import extract_features
 from make_unions import extract_unions
+from make_formats import extract_formats
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -32,6 +33,7 @@ def main(argc: int, argv: list):
     unions        = extract_unions(VULKAN_ROOT)
     features      = extract_features(VULKAN_ROOT, enums)
     extensions    = extract_extensions(VULKAN_ROOT, enums)
+    formats       = extract_formats(VULKAN_ROOT)
     # functions = extract_functions(VULKAN_ROOT, structs)
 
     with open(HEADER_FILENAME, "w", encoding="utf-8") as file:
@@ -153,6 +155,7 @@ def main(argc: int, argv: list):
         header.fill_handles(file, handles)
         header.fill_unions(file, unions)
         header.fill_structs(file, structs)
+        header.fill_formats(file, formats)
 
         file.write(
             "}\n"

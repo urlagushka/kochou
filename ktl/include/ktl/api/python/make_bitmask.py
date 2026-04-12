@@ -1,6 +1,5 @@
 from vk_types import VkBitMask
-from name_rules import make_cpp_name, make_type
-import xml.etree.ElementTree as ET
+from name_rules import *
 from dataclasses import replace
 
 

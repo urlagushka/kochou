@@ -1,5 +1,5 @@
 from vk_types import VkHandle
-from name_rules import make_cpp_name, make_field_name
+from name_rules import *
 from utils import is_vulkan_video
 
 def opaque_name_rule(src: str) -> str | None:
