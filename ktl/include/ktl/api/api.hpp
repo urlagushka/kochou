@@ -5917,6 +5917,17 @@ using present_gravity_flag_bits_ext                 = present_gravity_flag_bits_
 using memory_unmap_flag_bits_khr                    = memory_unmap_flag_bits;
 using driver_id_khr                                 = driver_id;
 
+template < typename T >
+struct ptr_meta final
+{
+    using parent = T::parent;
+    using type   = T::type;
+    enum : std::underlying_type_t< ktl::api::object_type >
+    {
+        object = 0
+    };
+};
+
 struct opaque_instance;
 using instance = opaque_instance *;
 template <>

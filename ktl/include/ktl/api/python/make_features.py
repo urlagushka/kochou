@@ -26,6 +26,7 @@ def extract_features(root, enums) -> list:
                     offset = enum.get("offset")
                     number = enum.get("extnumber")
                     value = enum.get("value")
+                    direction = enum.get("dir")
                     bitpos = enum.get("bitpos")
                     alias = make_field_name(enum.get("alias"), target.name)
                     deprecated = bool(enum.get("deprecated"))
@@ -34,6 +35,8 @@ def extract_features(root, enums) -> list:
                         field_value = make_value_from_extension(number, offset)
                         target.fields += [VkEnumField(field_name, field_value, False, deprecated)]
                     if value:
+                        if direction:
+                            value =f"-{value}"
                         field_name = make_field_name(enum.get("name"), target.name)
                         target.fields += [VkEnumField(field_name, value, False, deprecated)]
                     if bitpos:

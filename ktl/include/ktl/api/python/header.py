@@ -34,6 +34,20 @@ def fill_aliased_enums(file, enums: list) -> None:
 
 
 def fill_handles(file, handles: list) -> None:
+    file.write(
+        "template < typename T >\n"
+        "struct ptr_meta final\n"
+        "{\n"
+        "using parent = T::parent;\n"
+        "using type   = T::type;\n"
+        "enum : std::underlying_type_t< ktl::api::object_type >\n"
+        "{\n"
+        "object = 0\n"
+        "};\n"
+        "};\n"
+        "\n"
+    )
+
     for handle in handles:
         if handle.alias:
             file.write(f"using {handle.raw_name_str} = {handle.alias};\n\n")
@@ -46,7 +60,7 @@ def fill_handles(file, handles: list) -> None:
             f"struct ptr_meta< {handle.pointer_str} > final\n"
             "{\n"
             f"using parent = {handle.parent_str};\n"
-            f"using type   = {handle.opaque_str};\n"
+            f"using type = {handle.opaque_str};\n"
             "enum : std::underlying_type_t< ktl::api::object_type >\n"
             "{\n"
             f"object = static_cast< std::underlying_type_t< ktl::api::object_type > >(ktl::api::object_type::{handle.object_str})\n"
@@ -96,42 +110,6 @@ def fill_unions(file, unions: list) -> None:
         file.write("};\n\n")
 
 
-"""
-template < ktl::api::format FORMAT >
-struct format_meta
-{
-    struct component final
-    {
-        static constexpr ktl::u32 bits        = {};
-        static constexpr ktl::u32 plane_index = {};
-        static constexpr bool     has_plane   = {};
-        static constexpr bool     is_present  = {};
-    };
-    struct plane final
-    {
-        static constexpr ktl::u32         width_divisor  = {};
-        static constexpr ktl::u32         height_divisor = {};
-        static constexpr ktl::api::format compatible     = {};
-    };
-
-    static constexpr ktl::u32 block_size       = {};
-    static constexpr ktl::u32 texels_per_block = {};
-    static constexpr ktl::u32 packed           = {};
-    static constexpr ktl::u32 chroma           = {};
-    static constexpr ktl::u32 block_width      = {};
-    static constexpr ktl::u32 block_height     = {};
-    static constexpr ktl::u32 block_depth      = {};
-    static constexpr bool     is_3d            = {};
-    static constexpr bool     is_compressed    = {};
-
-    static constexpr component              r             = {};
-    static constexpr component              g             = {};
-    static constexpr component              b             = {};
-    static constexpr component              a             = {};
-    static constexpr ktl::u32               planes_amount = {};
-    static constexpr std::array< plane, 3 > planes        = {};
-};
-"""
 def fill_formats(file, formats: list) -> None:
     file.write(
         "template < ktl::api::format FORMAT >\n"

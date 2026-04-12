@@ -2,8 +2,11 @@ category="funcpointer"
 
 <feature
 <extension
-<spirvextensions
-<spirvcapabilities
+
+* spirvextensions
+* spirvcapabilities
+* videocodecs
+* sync
 
 ## PNF
 ```cpp
