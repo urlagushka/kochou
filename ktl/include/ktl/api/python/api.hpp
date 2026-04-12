@@ -19406,8 +19406,9 @@ struct data_graph_pipeline_optical_flow_dispatch_info_arm final
     ktl::api::data_graph_optical_flow_execute_flags_arm flags                 = {};
     ktl::i32                                            mean_flow_l1norm_hint = {};
 };
+
 template < ktl::api::format FORMAT >
-struct format_meta final
+struct format_meta
 {
     struct component final
     {
@@ -19453,9 +19454,9 @@ struct format_meta< ktl::api::format::v_undefined >
     };
     struct plane final
     {
-        ktl::u32         width_divisor;
-        ktl::u32         height_divisor;
-        ktl::api::format compatible;
+        ktl::u32         width_divisor  = {};
+        ktl::u32         height_divisor = {};
+        ktl::api::format compatible     = {};
     };
 
     static constexpr ktl::u32 block_size       = {};

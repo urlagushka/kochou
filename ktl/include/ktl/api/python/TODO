@@ -2,7 +2,6 @@ category="funcpointer"
 
 <feature
 <extension
-<formats>
 <spirvextensions
 <spirvcapabilities
 
@@ -14,8 +13,3 @@ namespace ktl::api
                                                     opaque_instance **);
 }
 ```
-
-api.hpp
-
-
-

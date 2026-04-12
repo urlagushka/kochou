@@ -29,41 +29,6 @@ texelsPerBlock="1" packed="16" chroma="422">
 </format>
 */
 
-template < ktl::api::format FORMAT >
-struct format_meta final
-{
-    struct component final
-    {
-        static constexpr ktl::u32 bits        = {};
-        static constexpr ktl::u32 plane_index = {};
-        static constexpr bool     has_plane   = {};
-        static constexpr bool     is_present  = {};
-    };
-    struct plane final
-    {
-        static constexpr ktl::u32         width_divisor  = {};
-        static constexpr ktl::u32         height_divisor = {};
-        static constexpr ktl::api::format compatible     = {};
-    };
-
-    static constexpr ktl::u32 block_size       = {};
-    static constexpr ktl::u32 texels_per_block = {};
-    static constexpr ktl::u32 packed           = {};
-    static constexpr ktl::u32 chroma           = {};
-    static constexpr ktl::u32 block_width      = {};
-    static constexpr ktl::u32 block_height     = {};
-    static constexpr ktl::u32 block_depth      = {};
-    static constexpr bool     is_3d            = {};
-    static constexpr bool     is_compressed    = {};
-
-    static constexpr component              r             = {};
-    static constexpr component              g             = {};
-    static constexpr component              b             = {};
-    static constexpr component              a             = {};
-    static constexpr ktl::u32               planes_amount = {};
-    static constexpr std::array< plane, 3 > planes        = {};
-};
-
 template < typename T >
 struct struct_meta final
 {
