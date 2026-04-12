@@ -8,28 +8,6 @@
 namespace ktl::api
 {
 template < typename T >
-struct ptr_meta final
-{
-    using parent = T::parent;
-    using type   = T::type;
-    enum : std::underlying_type_t< ktl::u32 >
-    {
-        object = 0
-    };
-};
-
-/*
-<format name="VK_FORMAT_G14X2_B14X2R14X2_2PLANE_422_UNORM_3PACK16_ARM" class="14-bit 2-plane 422" blockSize="6"
-texelsPerBlock="1" packed="16" chroma="422">
-    <component name="G" bits="14" numericFormat="UNORM" planeIndex="0"/>
-    <component name="B" bits="14" numericFormat="UNORM" planeIndex="1"/>
-    <component name="R" bits="14" numericFormat="UNORM" planeIndex="1"/>
-    <plane index="0" widthDivisor="1" heightDivisor="1" compatible="VK_FORMAT_R14X2_UNORM_PACK16_ARM"/>
-    <plane index="1" widthDivisor="2" heightDivisor="1" compatible="VK_FORMAT_R14X2G14X2_UNORM_2PACK16_ARM"/>
-</format>
-*/
-
-template < typename T >
 struct struct_meta final
 {
     // valid vulkan chain
@@ -79,10 +57,6 @@ struct extension final
     ktl::flat_set< ktl::api::feature >        features;
     ktl::flat_set< ktl::api::extension_name > deps;
 };
-
-// never use
-struct anative_window;
-struct ahardware_buffer;
 } // namespace ktl::api
 
 #endif
