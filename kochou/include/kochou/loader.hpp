@@ -1,5 +1,5 @@
-#ifndef KOCHOU_CORE_LOADER_HPP
-#define KOCHOU_CORE_LOADER_HPP
+#ifndef KOCHOU_LOADER_HPP
+#define KOCHOU_LOADER_HPP
 
 #include <iostream>
 #include <mutex>

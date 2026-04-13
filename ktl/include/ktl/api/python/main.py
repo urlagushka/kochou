@@ -8,6 +8,7 @@ from make_extensions import extract_extensions
 from make_features import extract_features
 from make_unions import extract_unions
 from make_formats import extract_formats
+from make_functions import extract_functions
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -34,6 +35,7 @@ def main(argc: int, argv: list):
     features      = extract_features(VULKAN_ROOT, enums)
     extensions    = extract_extensions(VULKAN_ROOT, enums)
     formats       = extract_formats(VULKAN_ROOT)
+    functions     = extract_functions(VULKAN_ROOT)
     # functions = extract_functions(VULKAN_ROOT, structs)
 
     with open(HEADER_FILENAME, "w", encoding="utf-8") as file:

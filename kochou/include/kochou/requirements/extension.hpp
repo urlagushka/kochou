@@ -1,5 +1,5 @@
-#ifndef KOCHOU_CORE_REQUIREMENTS_EXTENSION_HPP
-#define KOCHOU_CORE_REQUIREMENTS_EXTENSION_HPP
+#ifndef KOCHOU_REQUIREMENTS_EXTENSION_HPP
+#define KOCHOU_REQUIREMENTS_EXTENSION_HPP
 
 #include <set>
 #include <string_view>
@@ -9,14 +9,14 @@
 #include <ktl/mask.hpp>
 #include <ktl/result.hpp>
 
-#include <kochou/core/context.hpp>
-#include <kochou/core/requirements/ensure.hpp>
-#include <kochou/core/requirements/feature.hpp>
-#include <kochou/core/requirements/type.hpp>
-#include <kochou/core/requirements/version.hpp>
-#include <kochou/core/vulkan_chain.hpp>
+#include <kochou/context.hpp>
+#include <kochou/requirements/ensure.hpp>
+#include <kochou/requirements/feature.hpp>
+#include <kochou/requirements/type.hpp>
+#include <kochou/requirements/version.hpp>
+#include <kochou/vulkan_chain.hpp>
 
-namespace kochou::core
+namespace kochou
 {
 template < ktl::api::extension_name NAME, vulkan_struct_type FEATURE_TYPE = vulkan_struct_base,
            FEATURE_TYPE FEATURE = FEATURE_TYPE{} >
@@ -40,7 +40,7 @@ struct extension final
     static constexpr bool
     is_deprecated() noexcept;
 };
-} // namespace kochou::core
+} // namespace kochou
 
 template < ktl::api::extension_name NAME, kochou::core::vulkan_struct_type FEATURE_TYPE, FEATURE_TYPE FEATURE >
 ktl::errc

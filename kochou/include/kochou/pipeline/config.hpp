@@ -7,7 +7,7 @@
 #include <ktl/flat_map.hpp>
 #include <ktl/type.hpp>
 
-namespace kochou::core
+namespace kochou
 {
 struct pipeline_tag;
 struct pipeline_requirement;
@@ -22,7 +22,7 @@ using pipeline_hash = ktl::u64;
    value: path to bin file
 */
 ktl::flat_map< pipeline_hash, std::filesystem::path > pupupu;
-} // namespace kochou::core
+} // namespace kochou
 
 /*
 что собственно происходит

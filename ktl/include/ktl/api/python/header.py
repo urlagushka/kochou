@@ -10,10 +10,7 @@ def fill_constants(file, constants: list, addf: str) -> None:
 
 def fill_enums(file, enums: list) -> None:    
     for enum in enums:
-        file.write(
-            f"enum class {enum.name} : {enum.underling_type}\n"
-            "{\n"
-        )
+        file.write(f"enum class {enum.name} : {enum.underling_type}\n" "{\n")
 
         valid_fields = list(dict.fromkeys(sorted(enum.fields, key=lambda f: f.is_alias)))
         for field in valid_fields:
@@ -50,20 +47,20 @@ def fill_handles(file, handles: list) -> None:
 
     for handle in handles:
         if handle.alias:
-            file.write(f"using {handle.raw_name_str} = {handle.alias};\n\n")
+            file.write(f"using {handle.name} = {handle.alias};\n\n")
             continue
 
         file.write(
-            f"struct {handle.opaque_str};\n"
-            f"using {handle.pointer_str} = {handle.opaque_str} *;\n"
+            f"struct {handle.opaque};\n"
+            f"using {handle.pointer} = {handle.opaque} *;\n"
             "template <>\n"
-            f"struct ptr_meta< {handle.pointer_str} > final\n"
+            f"struct ptr_meta< {handle.pointer} > final\n"
             "{\n"
-            f"using parent = {handle.parent_str};\n"
-            f"using type = {handle.opaque_str};\n"
+            f"using parent = {handle.parent};\n"
+            f"using type = {handle.opaque};\n"
             "enum : std::underlying_type_t< ktl::api::object_type >\n"
             "{\n"
-            f"object = static_cast< std::underlying_type_t< ktl::api::object_type > >(ktl::api::object_type::{handle.object_str})\n"
+            f"object = static_cast< std::underlying_type_t< ktl::api::object_type > >(ktl::api::object_type::{handle.object})\n"
             "};\n"
             "};\n\n"
         )
@@ -72,21 +69,18 @@ def fill_handles(file, handles: list) -> None:
 def fill_structs(file, structs: list) -> None:
     for struct in structs:
         if struct.alias:
-            file.write(f"using {struct.name_str} = {struct.alias};\n\n")
+            file.write(f"using {struct.name} = {struct.alias};\n\n")
             continue
 
-        file.write(
-            f"struct {struct.name_str} final\n"
-            "{\n"
-        )
+        file.write(f"struct {struct.name} final\n" "{\n")
         for field in struct.fields:
             act = ""
             if field.is_const:
                 act += "const "
-            act += f"{field.type_str} "
+            act += f"{field.tppe} "
             if field.is_pointer:
                 act += "* "
-            act += field.name_str
+            act += field.name
 
             if field.default_value:
                 act += f" = {field.default_value}"
@@ -96,17 +90,14 @@ def fill_structs(file, structs: list) -> None:
 
 def fill_bitmasks(file, bitmasks: list) -> None:
     for bitmask in bitmasks:
-        file.write(f"using {bitmask.name_str} = {bitmask.type_str};\n")
+        file.write(f"using {bitmask.name} = {bitmask.tppe};\n")
 
 
 def fill_unions(file, unions: list) -> None:
     for union in unions:
-        file.write(
-            f"union {union.name_str}\n"
-             "{\n"
-        )
+        file.write(f"union {union.name}\n" "{\n")
         for field in union.fields:
-            file.write(f"    {field.type_str} {field.name_str};\n")
+            file.write(f"{field.tppe} {field.name};\n")
         file.write("};\n\n")
 
 

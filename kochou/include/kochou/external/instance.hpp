@@ -36,7 +36,7 @@ kochou::corec::context::build_instance(std::string_view app_name, vk_api_version
 
     */
 
-namespace kochou::core
+namespace kochou
 {
 class instance final : public external< hold::shared, instance >
 {
@@ -52,6 +52,6 @@ public:
 private:
     // vk::raii::Instance instance_;
 };
-} // namespace kochou::core
+} // namespace kochou
 
 #endif

@@ -3,7 +3,7 @@
 
 // #include <vulkan/vulkan_raii.hpp>
 
-namespace kochou::core
+namespace kochou
 {
 class device final
 {
@@ -15,6 +15,6 @@ private:
     // vk::raii::Queue __computes;
     // vk::raii::Queue __transfer;
 };
-} // namespace kochou::core
+} // namespace kochou
 
 #endif

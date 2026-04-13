@@ -3,20 +3,20 @@
 
 #include <ktl/mask.hpp>
 
-#include <kochou/core/masks/gpu.hpp>
+#include <kochou/masks/gpu.hpp>
 
 #include "version.hpp"
 
 #include <vulkan/vulkan_raii.hpp>
 
-namespace kochou::core
+namespace kochou
 {
 struct device final
 {
     std::string name;
-    gpu_type type;
-    gpu_vendor vendor;
-    vk_version api;
+    gpu_type    type;
+    gpu_vendor  vendor;
+    vk_version  api;
 };
 
 inline static std::vector< gpu_device > // can't be constexpr
@@ -34,25 +34,25 @@ enumerate_gpu(vk::raii::Instance & instance)
         const auto extensions = device.enumerateDeviceExtensionProperties();
         const auto properties = device.getProperties();
 
-        const std::string name = properties.deviceName;
-        const vendor_type vendor = static_cast< const vendor_type >(properties.vendorID);
-        const vk_api_version api = static_cast< const vk_api_version >(properties.apiVersion & ~(uint32_t)0xFFF);
-        const gpu_mask gpu = static_cast< const gpu_mask >(1 << static_cast< uint32_t >(properties.deviceType));
+        const std::string    name   = properties.deviceName;
+        const vendor_type    vendor = static_cast< const vendor_type >(properties.vendorID);
+        const vk_api_version api    = static_cast< const vk_api_version >(properties.apiVersion & ~(uint32_t)0xFFF);
+        const gpu_mask       gpu = static_cast< const gpu_mask >(1 << static_cast< uint32_t >(properties.deviceType));
 
         resolve.push_back({std::move(device), std::move(name), vendor, api, gpu, ext});
     }
 
     return resolve;
 }
-} // namespace kochou::core
+} // namespace kochou
 
 namespace kochou::api
 {
 struct gpu_requirements // gpu_req
 {
     const vk_api_version api;
-    const gpu_mask gpu;
-    const ext_mask ext;
+    const gpu_mask       gpu;
+    const ext_mask       ext;
 };
 
 template < gpu_requirements gpu_req >

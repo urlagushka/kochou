@@ -8,7 +8,7 @@
 #include <ktl/memory.hpp>
 #include <ktl/result.hpp>
 
-namespace kochou::core
+namespace kochou
 {
 enum class hold
 {
@@ -78,6 +78,6 @@ struct external< hold::shared, T >
         return result.take_value();
     }
 };
-} // namespace kochou::core
+} // namespace kochou
 
 #endif

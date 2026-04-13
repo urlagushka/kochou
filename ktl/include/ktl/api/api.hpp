@@ -6650,132 +6650,132 @@ object = static_cast< std::underlying_type_t< ktl::api::object_type > >(ktl::api
 
 union clear_color_value
 {
-    float float32[4];
-    ktl::i32 int32[4];
-    ktl::i32 uint32[4];
+float float32[4];
+ktl::i32 int32[4];
+ktl::i32 uint32[4];
 };
 
 union clear_value
 {
-    ktl::api::clear_color_value color;
-    ktl::api::clear_depth_stencil_value depth_stencil;
+ktl::api::clear_color_value color;
+ktl::api::clear_depth_stencil_value depth_stencil;
 };
 
 union cluster_acceleration_structure_op_input_nv
 {
-    ktl::api::cluster_acceleration_structure_clusters_bottom_level_input_nv* clusters_bottom_level;
-    ktl::api::cluster_acceleration_structure_triangle_cluster_input_nv* triangle_clusters;
-    ktl::api::cluster_acceleration_structure_move_objects_input_nv* move_objects;
+ktl::api::cluster_acceleration_structure_clusters_bottom_level_input_nv* clusters_bottom_level;
+ktl::api::cluster_acceleration_structure_triangle_cluster_input_nv* triangle_clusters;
+ktl::api::cluster_acceleration_structure_move_objects_input_nv* move_objects;
 };
 
 union performance_counter_result_khr
 {
-    ktl::i32 int32;
-    ktl::i64 int64;
-    ktl::i32 uint32;
-    ktl::u64 uint64;
-    float float32;
-    double float64;
+ktl::i32 int32;
+ktl::i64 int64;
+ktl::i32 uint32;
+ktl::u64 uint64;
+float float32;
+double float64;
 };
 
 union performance_value_data_intel
 {
-    ktl::i32 value32;
-    ktl::u64 value64;
-    float value_float;
-    ktl::bool32 value_bool;
-    char* value_string;
+ktl::i32 value32;
+ktl::u64 value64;
+float value_float;
+ktl::bool32 value_bool;
+char* value_string;
 };
 
 union pipeline_executable_statistic_value_khr
 {
-    ktl::bool32 b32;
-    ktl::i64 i64;
-    ktl::u64 u64;
-    double f64;
+ktl::bool32 b32;
+ktl::i64 i64;
+ktl::u64 u64;
+double f64;
 };
 
 union device_or_host_address_khr
 {
-    ktl::dvaddr device_address;
-    void* host_address;
+ktl::dvaddr device_address;
+void* host_address;
 };
 
 union device_or_host_address_const_khr
 {
-    ktl::dvaddr device_address;
-    void* host_address;
+ktl::dvaddr device_address;
+void* host_address;
 };
 
 union device_or_host_address_const_amdx
 {
-    ktl::dvaddr device_address;
-    void* host_address;
+ktl::dvaddr device_address;
+void* host_address;
 };
 
 union acceleration_structure_geometry_data_khr
 {
-    ktl::api::acceleration_structure_geometry_triangles_data_khr triangles;
-    ktl::api::acceleration_structure_geometry_aabbs_data_khr aabbs;
-    ktl::api::acceleration_structure_geometry_instances_data_khr instances;
+ktl::api::acceleration_structure_geometry_triangles_data_khr triangles;
+ktl::api::acceleration_structure_geometry_aabbs_data_khr aabbs;
+ktl::api::acceleration_structure_geometry_instances_data_khr instances;
 };
 
 union indirect_execution_set_info_ext
 {
-    ktl::api::indirect_execution_set_pipeline_info_ext* pipeline_info;
-    ktl::api::indirect_execution_set_shader_info_ext* shader_info;
+ktl::api::indirect_execution_set_pipeline_info_ext* pipeline_info;
+ktl::api::indirect_execution_set_shader_info_ext* shader_info;
 };
 
 union indirect_commands_token_data_ext
 {
-    ktl::api::indirect_commands_push_constant_token_ext* push_constant;
-    ktl::api::indirect_commands_vertex_buffer_token_ext* vertex_buffer;
-    ktl::api::indirect_commands_index_buffer_token_ext* index_buffer;
-    ktl::api::indirect_commands_execution_set_token_ext* execution_set;
+ktl::api::indirect_commands_push_constant_token_ext* push_constant;
+ktl::api::indirect_commands_vertex_buffer_token_ext* vertex_buffer;
+ktl::api::indirect_commands_index_buffer_token_ext* index_buffer;
+ktl::api::indirect_commands_execution_set_token_ext* execution_set;
 };
 
 union descriptor_data_ext
 {
-    ktl::api::sampler* sampler;
-    ktl::api::descriptor_image_info* combined_image_sampler;
-    ktl::api::descriptor_image_info* input_attachment_image;
-    ktl::api::descriptor_image_info* sampled_image;
-    ktl::api::descriptor_image_info* storage_image;
-    ktl::api::descriptor_address_info_ext* uniform_texel_buffer;
-    ktl::api::descriptor_address_info_ext* storage_texel_buffer;
-    ktl::api::descriptor_address_info_ext* uniform_buffer;
-    ktl::api::descriptor_address_info_ext* storage_buffer;
-    ktl::dvaddr acceleration_structure;
+ktl::api::sampler* sampler;
+ktl::api::descriptor_image_info* combined_image_sampler;
+ktl::api::descriptor_image_info* input_attachment_image;
+ktl::api::descriptor_image_info* sampled_image;
+ktl::api::descriptor_image_info* storage_image;
+ktl::api::descriptor_address_info_ext* uniform_texel_buffer;
+ktl::api::descriptor_address_info_ext* storage_texel_buffer;
+ktl::api::descriptor_address_info_ext* uniform_buffer;
+ktl::api::descriptor_address_info_ext* storage_buffer;
+ktl::dvaddr acceleration_structure;
 };
 
 union acceleration_structure_motion_instance_data_nv
 {
-    ktl::api::acceleration_structure_instance_khr static_instance;
-    ktl::api::acceleration_structure_matrix_motion_instance_nv matrix_motion_instance;
-    ktl::api::acceleration_structure_srtmotion_instance_nv srt_motion_instance;
+ktl::api::acceleration_structure_instance_khr static_instance;
+ktl::api::acceleration_structure_matrix_motion_instance_nv matrix_motion_instance;
+ktl::api::acceleration_structure_srtmotion_instance_nv srt_motion_instance;
 };
 
 union resource_descriptor_data_ext
 {
-    ktl::api::image_descriptor_info_ext* image;
-    ktl::api::texel_buffer_descriptor_info_ext* texel_buffer;
-    ktl::api::device_address_range_ext* address_range;
-    ktl::api::tensor_view_create_info_arm* tensor_arm;
+ktl::api::image_descriptor_info_ext* image;
+ktl::api::texel_buffer_descriptor_info_ext* texel_buffer;
+ktl::api::device_address_range_ext* address_range;
+ktl::api::tensor_view_create_info_arm* tensor_arm;
 };
 
 union descriptor_mapping_source_data_ext
 {
-    ktl::api::descriptor_mapping_source_constant_offset_ext constant_offset;
-    ktl::api::descriptor_mapping_source_push_index_ext push_index;
-    ktl::api::descriptor_mapping_source_indirect_index_ext indirect_index;
-    ktl::api::descriptor_mapping_source_indirect_index_array_ext indirect_index_array;
-    ktl::api::descriptor_mapping_source_heap_data_ext heap_data;
-    ktl::i32 push_data_offset;
-    ktl::i32 push_address_offset;
-    ktl::api::descriptor_mapping_source_indirect_address_ext indirect_address;
-    ktl::api::descriptor_mapping_source_shader_record_index_ext shader_record_index;
-    ktl::i32 shader_record_data_offset;
-    ktl::i32 shader_record_address_offset;
+ktl::api::descriptor_mapping_source_constant_offset_ext constant_offset;
+ktl::api::descriptor_mapping_source_push_index_ext push_index;
+ktl::api::descriptor_mapping_source_indirect_index_ext indirect_index;
+ktl::api::descriptor_mapping_source_indirect_index_array_ext indirect_index_array;
+ktl::api::descriptor_mapping_source_heap_data_ext heap_data;
+ktl::i32 push_data_offset;
+ktl::i32 push_address_offset;
+ktl::api::descriptor_mapping_source_indirect_address_ext indirect_address;
+ktl::api::descriptor_mapping_source_shader_record_index_ext shader_record_index;
+ktl::i32 shader_record_data_offset;
+ktl::i32 shader_record_address_offset;
 };
 
 struct base_out_structure final

@@ -1,21 +1,20 @@
 #ifndef KOCHOU_KOCHOU_HPP
 #define KOCHOU_KOCHOU_HPP
 
-#include "core/context.hpp"
-#include "core/ensure/ensure.hpp"
-#include "core/ensure/extension.hpp"
-#include "core/ensure/feature.hpp"
-#include "core/ensure/layer.hpp"
-#include "core/ensure/version.hpp"
-#include "core/external/device.hpp"
-#include "core/external/external.hpp"
-#include "core/external/instance.hpp"
-#include "core/external/physical_device.hpp"
-#include "core/external/queue.hpp"
-#include "core/masks/extension.hpp"
-#include "core/masks/version.hpp"
-#include "core/system.hpp"
-#include "core/type_ostream.hpp"
+#include "context.hpp"
+#include "external/device.hpp"
+#include "external/external.hpp"
+#include "external/instance.hpp"
+#include "external/physical_device.hpp"
+#include "external/queue.hpp"
 #include "log.hpp"
-
+#include "masks/extension.hpp"
+#include "masks/version.hpp"
+#include "requirements/ensure.hpp"
+#include "requirements/extension.hpp"
+#include "requirements/feature.hpp"
+#include "requirements/layer.hpp"
+#include "requirements/version.hpp"
+#include "system.hpp"
+s
 #endif

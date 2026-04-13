@@ -2,6 +2,21 @@ from dataclasses import dataclass
 
 
 @dataclass
+class VkFunctionField:
+    tppe: str
+    name: str
+
+
+@dataclass
+class VkFunction:
+    pnf: str
+    name: str
+    tppe: str
+    fields: list
+    alias: str | None
+
+
+@dataclass
 class VkFormatComponent:
     bits: str
     has_plane: str
@@ -39,45 +54,46 @@ class VkFormat:
 
 @dataclass
 class VkUnionField:
-    type_str: str
-    name_str: str
+    tppe: str
+    name: str
 
 
 @dataclass
 class VkUnion:
-    name_str: str
+    name: str
     fields: list
 
 
 @dataclass
 class VkEntension:
-    name_str: str
-    spec_version_str: str
-    promoted_to_str: str
-    features_list: list
-    extension_deps: list
+    name: str
+    spec_version: str
+    promoted_to: str
+    features: list
+    extension: list
+    functions: list
 
 
 @dataclass
 class VkBitMask:
-    name_str: str
-    type_str: str
+    name: str
+    tppe: str
 
 
 @dataclass
 class VkHandle:
-    raw_name_str: str
-    opaque_str:   str
-    pointer_str:  str
-    parent_str:   str
-    object_str:   str
+    name: str
+    opaque:   str
+    pointer:  str
+    parent:   str
+    object:   str
     alias: str | None
 
 
 @dataclass
 class VkStructField:
-    type_str: str
-    name_str: str
+    tppe: str
+    name: str
     is_optional: bool
     is_const: bool
     is_pointer: bool
@@ -86,7 +102,7 @@ class VkStructField:
 
 @dataclass
 class VkStruct:
-    name_str: str
+    name: str
     fields: list
     alias: str | None
 
@@ -94,7 +110,7 @@ class VkStruct:
 @dataclass
 class VkConstant:
     name: str
-    type: str
+    tppe: str
     value: str
 
 

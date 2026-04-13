@@ -21,4 +21,4 @@ def extract_constants(root) -> list:
         if src_type == "constants":
             constants += [*extract_constants_impl(src)]
     constants.sort(key=lambda c: len(c.name), reverse=True)
-    return sorted(constants, key=lambda c: c.type)
+    return sorted(constants, key=lambda c: c.tppe)
