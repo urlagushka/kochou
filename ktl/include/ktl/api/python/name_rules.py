@@ -5,9 +5,11 @@ from type_cast import cast_type, DEFAULT_NEGATIVE_TYPE, DEFAULT_POSITIVE_TYPE
 def make_cpp_name(src: str) -> str | None:
     if src is None:
         return None
-    if not src.startswith("Vk") or not src.startswith("vk"):
-        return c_name_to_cpp(src)
-    return c_name_to_cpp(src[2:])
+    if src.startswith("Vk") or src.startswith("vk"):
+        return c_name_to_cpp(src[2:])
+    if src.startswith("PFN_"):
+        return c_name_to_cpp(src[6:])
+    return c_name_to_cpp(src)
 
 
 def make_field_name(src: str, cmp: str) -> str | None:

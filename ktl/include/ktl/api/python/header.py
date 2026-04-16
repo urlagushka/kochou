@@ -1,7 +1,3 @@
-def make_enum_cast_header_impl(enum) -> str:
-    return f"    "
-
-
 def fill_constants(file, constants: list, addf: str) -> None:
     for constant in constants:
         file.write(f"#define {constant.name} {constant.value}\n")
@@ -88,9 +84,10 @@ def fill_structs(file, structs: list) -> None:
         file.write("};\n\n")
 
 
-def fill_bitmasks(file, bitmasks: list) -> None:
+def fill_bitmasks(file, bitmasks: list, addf: str) -> None:
     for bitmask in bitmasks:
         file.write(f"using {bitmask.name} = {bitmask.tppe};\n")
+    file.write(addf)
 
 
 def fill_unions(file, unions: list) -> None:
@@ -238,12 +235,12 @@ def fill_formats(file, formats: list) -> None:
         )
 
 
-def fill_functions(file, functions: list) -> None:
+def fill_pointers(file, functions: list, addf: str) -> None:
     for function in functions:
         if function.alias:
-            file.write(f"using {function.pnf} = {function.alias};\n")
+            file.write(f"using {function.pfn} = {function.alias};\n")
             continue
-        file.write(f"using {function.pnf} = {function.tppe}(*)(")
+        file.write(f"using {function.pfn} = {function.tppe}(*)(")
         fields_str = ""
         for field in function.fields:
             if field.is_const:
@@ -256,6 +253,67 @@ def fill_functions(file, functions: list) -> None:
         fields_str = fields_str[:-2]
         file.write(fields_str)
         file.write(");\n")
+
+    file.write(addf)
+
+
+def fill_commands(file, functions: list) -> None:
+    for function in functions:
+        if function.alias:
+            file.write(f"using {function.pfn} = {function.alias};\n")
+            continue
+        file.write(f"using {function.pfn} = {function.tppe}(*)(")
+        fields_str = ""
+        for field in function.fields:
+            if field.is_const:
+                fields_str += "const "
+            fields_str += f"{field.tppe} "
+            if field.is_pointer:
+                fields_str += "* "
+            fields_str += field.name
+            fields_str += ", "
+        fields_str = fields_str[:-2]
+        file.write(fields_str)
+        file.write(");\n")
+
+    file.write("\n")
+    for i in range(len(functions)):
+        function = functions[i]
+        if function.alias:
+            # TODO
+            continue
+
+        file.write(f"{function.tppe} {function.pfn[4:]}(")
+        fields_str = ""
+        for field in function.fields:
+            if field.is_const:
+                fields_str += "const "
+            fields_str += f"{field.tppe} "
+            if field.is_pointer:
+                fields_str += "* "
+            fields_str += field.name
+            fields_str += ", "
+        fields_str = fields_str[:-2]
+        file.write(fields_str)
+        file.write(")\n{\n")
+
+        file.write(
+            f"ktl::loader::proc_type ptr = &ptable[{i}];\n"
+            "if (ptr == ktl::loader::proc_null) [[unlikely]]\n"
+            "{\n"
+            "std::abort();\n"
+            "}\n"
+
+            f"return (({function.pfn})ptr)("
+        )
+        fields_str = ""
+        for field in function.fields:
+            fields_str += field.name.split('[')[0]
+            fields_str += ", "
+        fields_str = fields_str[:-2]
+        file.write(fields_str)
+        file.write(");\n")
+        file.write("}\n\n")
 
 
 def make_extension_deps_header() -> None:

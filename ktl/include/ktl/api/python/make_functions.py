@@ -45,9 +45,9 @@ def extract_command_field_impl(field) -> VkFunctionField:
 def extract_command_impl(command) -> VkFunction | None:
     alias_name = make_cpp_name(command.get("name"))
     raw_alias = command.get("alias")
-    pnf_alias = make_cpp_name(raw_alias)
+    pfn_alias = make_cpp_name(raw_alias)
     if alias_name and raw_alias:
-        return VkFunction(f"pnf_{alias_name}", raw_alias, None, None, f"pnf_{pnf_alias}")
+        return VkFunction(f"pfn_{alias_name}", raw_alias, None, None, f"pfn_{pfn_alias}")
 
     proto = command.find("proto")
     tppe = make_type(proto.find("type").text.strip())
@@ -58,12 +58,33 @@ def extract_command_impl(command) -> VkFunction | None:
     fields = []
     for field in command.findall("param"):
         fields += [extract_command_field_impl(field)]
+    fields = list(dict.fromkeys(fields))
+    return VkFunction(f"pfn_{make_cpp_name(name)}", name, tppe, fields, None)
 
-    return VkFunction(f"pnf_{make_cpp_name(name)}", name, tppe, fields, None)
 
+def extract_pointer_impl(command) -> VkFunction | None:
+    proto = command.find("proto")
+    tppe = make_type(proto.find("type").text.strip())
+    name = proto.find("name").text.strip()
+    if is_vulkan_video(name):
+        return None
+
+    fields = []
+    for field in command.findall("param"):
+        fields += [extract_command_field_impl(field)]
+    fields = list(dict.fromkeys(fields))
+    return VkFunction(f"pfn_{make_cpp_name(name)}", name, tppe, fields, None)
 
 def extract_pointers(root) -> list:
-    return []
+    functions = []
+
+    types = root.find("types")
+    for pointer in types.findall("type[@category='funcpointer']"):
+        tmp = extract_pointer_impl(pointer)
+        if tmp:
+            functions += [tmp]
+    
+    return functions
 
 
 def extract_commands(root) -> list:
@@ -71,10 +92,8 @@ def extract_commands(root) -> list:
 
     commands = root.find("commands")
     for command in commands.findall("command"):
-        functions += [extract_command_impl(command)]
+        tmp = extract_command_impl(command)
+        if tmp:
+            functions += [tmp]
 
     return functions
-
-
-def extract_functions(root) -> list:
-    return extract_pointers(root) + extract_commands(root)

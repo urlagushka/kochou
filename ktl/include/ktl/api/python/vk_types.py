@@ -8,10 +8,18 @@ class VkFunctionField:
     is_const: bool
     is_pointer: bool
 
+    def __hash__(self) -> int:
+        return hash(self.name)
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, VkEnumField):
+            return True
+        return self.name == other.name
+
 
 @dataclass
 class VkFunction:
-    pnf: str
+    pfn: str
     name: str
     tppe: str
     fields: list

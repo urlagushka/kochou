@@ -8,7 +8,7 @@ from make_extensions import extract_extensions
 from make_features import extract_features
 from make_unions import extract_unions
 from make_formats import extract_formats
-from make_functions import extract_functions
+from make_functions import extract_commands, extract_pointers
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -35,8 +35,8 @@ def main(argc: int, argv: list):
     features      = extract_features(VULKAN_ROOT, enums)
     extensions    = extract_extensions(VULKAN_ROOT, enums)
     formats       = extract_formats(VULKAN_ROOT)
-    functions     = extract_functions(VULKAN_ROOT)
-    # functions = extract_functions(VULKAN_ROOT, structs)
+    commands      = extract_commands(VULKAN_ROOT)
+    pointers      = extract_pointers(VULKAN_ROOT)   
 
     with open(HEADER_FILENAME, "w", encoding="utf-8") as file:
         file.write(
@@ -45,6 +45,7 @@ def main(argc: int, argv: list):
             "\n"
             "#include <ktl/type.hpp>\n"
             "#include <ktl/api/type.hpp>\n"
+            "#include <ktl/api/loader.hpp>\n"
             "\n"
 
             "#ifndef KTL_USE_PLATFORM_WIN32\n"
@@ -143,28 +144,29 @@ def main(argc: int, argv: list):
             "using AHardwareBuffer = int;\n"
             "#else\n"
             "#error unsupported // TODO\n"
-            "#endif\n"
-            "\n"
-
-            "namespace ktl::api\n"
-            "{\n"
+            "#endif\n\n"
         )
 
         header.fill_constants(file, constants, "\n")
-        header.fill_bitmasks(file, bitmasks)
+        file.write(
+            "namespace ktl::api\n"
+            "{\n"
+            f"constexpr ktl::u32 pfn_table_size = {len(commands)};\n"
+            "using pfn_table = std::array< void *, pfn_table_size >;\n"
+            "thread_local pfn_table * ptable = nullptr;\n\n"
+            "using remote_address_nv = void *;\n"
+        )
+        header.fill_bitmasks(file, bitmasks, "\n")
         header.fill_enums(file, enums)
         header.fill_aliased_enums(file, aliased_enums)
         header.fill_handles(file, handles)
         header.fill_unions(file, unions)
+        header.fill_pointers(file, pointers, "\n")
         header.fill_structs(file, structs)
         header.fill_formats(file, formats)
-        header.fill_functions(file, functions)
+        header.fill_commands(file, commands)
+        file.write("}\n" "\n" "#endif\n")
 
-        file.write(
-            "}\n"
-            "\n"
-            "#endif\n"
-        )
 
 if __name__ == "__main__":
     argc = len(sys.argv)

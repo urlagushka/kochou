@@ -1,8 +1,5 @@
-#ifndef KOCHOU_LOADER_HPP
-#define KOCHOU_LOADER_HPP
-
-#include <iostream>
-#include <mutex>
+#ifndef KTL_API_LOADER_HPP
+#define KTL_API_LOADER_HPP
 
 #include <ktl/errc.hpp>
 #include <ktl/fixed_string.hpp>
@@ -35,16 +32,9 @@ __get_last_error()
 
     return msg;
 }
-
-inline std::mutex &
-__get_mutex()
-{
-    static std::mutex mutex;
-    return mutex;
-}
 } // namespace
 
-namespace kochou::loader
+namespace ktl::loader
 {
 using handle_type = HMODULE;
 using proc_type   = FARPROC;
@@ -52,7 +42,6 @@ using proc_type   = FARPROC;
 inline ktl::result< handle_type, ktl::fixed_string< KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_ERROR_SIZE > >
 load()
 {
-    std::lock_guard< std::mutex > lock(__get_mutex());
     SetLastError(0);
 
     handle_type ptr = LoadLibraryA(KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_NAME);
@@ -66,7 +55,6 @@ load()
 inline ktl::result< proc_type, ktl::fixed_string< KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_ERROR_SIZE > >
 proc(handle_type _handle, const char * _name)
 {
-    std::lock_guard< std::mutex > lock(__get_mutex());
     SetLastError(0);
 
     proc_type ptr = GetProcAddress(_handle, _name);
@@ -80,7 +68,6 @@ proc(handle_type _handle, const char * _name)
 inline ktl::result< void *, ktl::fixed_string< KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_ERROR_SIZE > >
 free(handle_type _handle)
 {
-    std::lock_guard< std::mutex > lock(__get_mutex());
     SetLastError(0);
 
     int rc = FreeLibrary(_handle);
@@ -90,7 +77,7 @@ free(handle_type _handle)
     }
     return nullptr;
 }
-} // namespace kochou::loader
+} // namespace ktl::loader
 
 #elif defined(KOCHOU_PLATFORM_MACOS) || defined(KOCHOU_PLATFORM_LINUX)
 #include <dlfcn.h>
@@ -114,16 +101,9 @@ __get_last_error()
 
     return ktl::fixed_string< KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_ERROR_SIZE >(err, ::strlen(err));
 }
-
-inline std::mutex &
-__get_mutex()
-{
-    static std::mutex mutex;
-    return mutex;
-}
 } // namespace
 
-namespace kochou::loader
+namespace ktl::loader
 {
 using handle_type                = void *;
 using proc_type                  = void *;
@@ -132,7 +112,6 @@ static const proc_type proc_null = nullptr;
 inline ktl::result< handle_type, ktl::fixed_string< KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_ERROR_SIZE > >
 load()
 {
-    std::lock_guard< std::mutex > lock(__get_mutex());
     ::dlerror();
 
     handle_type ptr = ::dlopen(KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_NAME, RTLD_NOW | RTLD_LOCAL);
@@ -146,7 +125,6 @@ load()
 inline ktl::result< proc_type, ktl::fixed_string< KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_ERROR_SIZE > >
 proc(handle_type _handle, const char * _name)
 {
-    std::lock_guard< std::mutex > lock(__get_mutex());
     ::dlerror();
 
     proc_type ptr = ::dlsym(_handle, _name);
@@ -160,7 +138,6 @@ proc(handle_type _handle, const char * _name)
 inline ktl::result< void *, ktl::fixed_string< KOCHOU_LOADER_VULKAN_DYNAMIC_LIB_ERROR_SIZE > >
 free(handle_type _handle)
 {
-    std::lock_guard< std::mutex > lock(__get_mutex());
     ::dlerror();
 
     int rc = ::dlclose(_handle);
@@ -170,6 +147,6 @@ free(handle_type _handle)
     }
     return nullptr;
 }
-} // namespace kochou::loader
+} // namespace ktl::loader
 #endif
 #endif

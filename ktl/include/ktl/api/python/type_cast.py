@@ -159,5 +159,28 @@ def cast_type(_type : str) -> str | None:
         return "ktl::dvsize"
     if _type == "VkDeviceAddress":
         return "ktl::dvaddr"
+    
+    if _type == "PFN_vkInternalAllocationNotification":
+        return "ktl::api::pfn_internal_allocation_notification"
+    if _type == "PFN_vkInternalFreeNotification":
+        return "ktl::api::pfn_internal_free_notification"
+    if _type == "PFN_vkReallocationFunction":
+        return "ktl::api::pfn_reallocation_function"
+    if _type == "PFN_vkAllocationFunction":
+        return "ktl::api::pfn_allocation_function"
+    if _type == "PFN_vkFreeFunction":
+        return "ktl::api::pfn_free_function"
+    if _type == "PFN_vkVoidFunction":
+        return "ktl::api::pfn_void_function"
+    if _type == "PFN_vkDebugReportCallbackEXT":
+        return "ktl::api::pfn_debug_report_callback_ext"
+    if _type == "PFN_vkDebugUtilsMessengerCallbackEXT":
+        return "ktl::api::pfn_debug_utils_messenger_callback_ext"
+    if _type == "PFN_vkFaultCallbackFunction":
+        return "ktl::api::pfn_fault_callback_function"
+    if _type == "PFN_vkDeviceMemoryReportCallbackEXT":
+        return "ktl::api::pfn_device_memory_report_callback_ext"
+    if _type == "PFN_vkGetInstanceProcAddrLUNARG":
+        return "ktl::api::pfn_get_instance_proc_addr_lunarg"
 
     return None
