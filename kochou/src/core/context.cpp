@@ -1,7 +1,7 @@
-#include <kochou/core/context.hpp>
+#include <kochou/context.hpp>
 
 ktl::errc
-kochou::core::context::finalize()
+kochou::context::finalize()
 {
     return ktl::errc::unspecified;
     // instance_ = instance::make(instance_extensions_);

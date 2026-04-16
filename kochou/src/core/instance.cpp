@@ -1,7 +1,7 @@
-#include <kochou/core/external/instance.hpp>
+#include <kochou/external/instance.hpp>
 
-kochou::core::instance::instance(const extensions_type & _extensions, const layers_type & _layers,
-                                 const versions_type & _versions)
+kochou::instance::instance(const extensions_type & _extensions, const layers_type & _layers,
+                           const versions_type & _versions)
 // : instance_(nullptr)
 {
     /*

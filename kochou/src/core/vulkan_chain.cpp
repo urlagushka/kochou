@@ -1,4 +1,4 @@
-#include <kochou/core/vulkan_chain.hpp>
+#include <kochou/vulkan_chain.hpp>
 
 /*
 ktl::result< kochou::core::vulkan_struct_base *, kochou::errc >

@@ -1,4 +1,4 @@
-#include <kochou/api/window/metal.hpp>
+// #include <kochou/api/window/metal.hpp>
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CAMetalLayer.h>

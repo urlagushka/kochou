@@ -6,7 +6,7 @@
 #include <source_location>
 #include <tuple>
 
-#include <ktl/api.hpp>
+#include <ktl/api/api.hpp>
 #include <ktl/errc.hpp>
 #include <ktl/fixed_string.hpp>
 #include <ktl/flat_map.hpp>
@@ -15,11 +15,11 @@
 #include <ktl/result.hpp>
 #include <ktl/type.hpp>
 
-#include <kochou/core/external/device.hpp>
-#include <kochou/core/external/instance.hpp>
-#include <kochou/core/masks/extension.hpp>
-#include <kochou/core/masks/queue.hpp>
-#include <kochou/core/vulkan_chain.hpp>
+#include <kochou/external/device.hpp>
+#include <kochou/external/instance.hpp>
+#include <kochou/masks/extension.hpp>
+#include <kochou/masks/queue.hpp>
+#include <kochou/vulkan_chain.hpp>
 
 namespace kochou::core
 {

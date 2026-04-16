@@ -7,6 +7,7 @@
 
 namespace ktl::api
 {
+/*
 template < typename T >
 struct struct_meta final
 {
@@ -18,9 +19,9 @@ struct struct_meta final
         kochou::core::ensure< kochou::core::feature< ktl::api::feature_struct_typename, feature_struct_impl > >
         kochou::core::should< kochou::core::feature< ktl::api::feature_struct_typename, feature_struct_impl > >
         kochou::core::should< kochou::core::layer< ktl::fixed_string > >
-    */
-    static constexpr ktl::usize                                next_size = 0;
-    static constexpr ktl::flat_set< ktl::api::structure_type > next_data = {};
+
+static constexpr ktl::usize                                next_size = 0;
+static constexpr ktl::flat_set< ktl::api::structure_type > next_data = {};
 };
 
 struct extension_name final : ktl::fixed_string< KTL_API_MAX_EXTENSION_NAME_SIZE >
@@ -57,6 +58,7 @@ struct extension final
     ktl::flat_set< ktl::api::feature >        features;
     ktl::flat_set< ktl::api::extension_name > deps;
 };
+*/
 } // namespace ktl::api
 
 #endif
