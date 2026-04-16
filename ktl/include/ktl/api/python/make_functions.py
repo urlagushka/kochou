@@ -4,7 +4,7 @@ from utils import is_vulkan_video
 import xml.etree.ElementTree as ET
 
 
-def extract_function_field_impl(field) -> VkFunctionField:
+def extract_command_field_impl(field) -> VkFunctionField:
     type_str = field.find("type").text.strip()
     type_res = ""
     if make_type(type_str):
@@ -39,39 +39,42 @@ def extract_function_field_impl(field) -> VkFunctionField:
     is_const = "const" in raw_field
     is_pointer = "*" in raw_field
 
-    return VkFunctionField(type_res, name_str, is_const, is_pointer)
+    return VkFunctionField(type_res, f"_{name_str}", is_const, is_pointer)
 
 
-def extract_struct_impl(struct) -> VkFunction | None:
-    name = make_cpp_name(struct.get("name"))
+def extract_command_impl(command) -> VkFunction | None:
+    alias_name = make_cpp_name(command.get("name"))
+    raw_alias = command.get("alias")
+    pnf_alias = make_cpp_name(raw_alias)
+    if alias_name and raw_alias:
+        return VkFunction(f"pnf_{alias_name}", raw_alias, None, None, f"pnf_{pnf_alias}")
+
+    proto = command.find("proto")
+    tppe = make_type(proto.find("type").text.strip())
+    name = proto.find("name").text.strip()
     if is_vulkan_video(name):
         return None
 
     fields = []
-    for field in struct.findall("member"):
-        fields += [extract_function_field_impl(field)]
+    for field in command.findall("param"):
+        fields += [extract_command_field_impl(field)]
 
-    return VkFunction(name, fields)
+    return VkFunction(f"pnf_{make_cpp_name(name)}", name, tppe, fields, None)
+
 
 def extract_pointers(root) -> list:
     return []
+
 
 def extract_commands(root) -> list:
     functions = []
 
     commands = root.find("commands")
     for command in commands.findall("command"):
-        alias_name = command.get("name")
-        alias = command.get("alias")
-        if alias_name and alias:
-            functions += [VkFunction(alias_name, alias_name, None, None, alias)]
-            continue
-        proto = command.find("proto")
-        tppe = proto.find("type")
-        name = proto.find("name")
-        print(tppe.text, name.text)
+        functions += [extract_command_impl(command)]
 
     return functions
+
 
 def extract_functions(root) -> list:
     return extract_pointers(root) + extract_commands(root)

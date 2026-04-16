@@ -158,6 +158,7 @@ def main(argc: int, argv: list):
         header.fill_unions(file, unions)
         header.fill_structs(file, structs)
         header.fill_formats(file, formats)
+        header.fill_functions(file, functions)
 
         file.write(
             "}\n"

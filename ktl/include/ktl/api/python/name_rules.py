@@ -5,7 +5,7 @@ from type_cast import cast_type, DEFAULT_NEGATIVE_TYPE, DEFAULT_POSITIVE_TYPE
 def make_cpp_name(src: str) -> str | None:
     if src is None:
         return None
-    if not src.startswith("Vk"):
+    if not src.startswith("Vk") or not src.startswith("vk"):
         return c_name_to_cpp(src)
     return c_name_to_cpp(src[2:])
 

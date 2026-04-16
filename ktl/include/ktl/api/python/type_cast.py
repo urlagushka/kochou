@@ -145,6 +145,8 @@ def cast_type(_type : str) -> str | None:
     if _type == "size_t":
         return "ktl::usize"
 
+    if _type == "VkResult":
+        return "ktl::api::result"
     if _type == "VkSampleMask":
         return "ktl::spmask"
     if _type == "VkBool32":

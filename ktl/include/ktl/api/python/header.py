@@ -238,8 +238,24 @@ def fill_formats(file, formats: list) -> None:
         )
 
 
-def make_funcs_header() -> None:
-    pass
+def fill_functions(file, functions: list) -> None:
+    for function in functions:
+        if function.alias:
+            file.write(f"using {function.pnf} = {function.alias};\n")
+            continue
+        file.write(f"using {function.pnf} = {function.tppe}(*)(")
+        fields_str = ""
+        for field in function.fields:
+            if field.is_const:
+                fields_str += "const "
+            fields_str += f"{field.tppe} "
+            if field.is_pointer:
+                fields_str += "* "
+            fields_str += field.name
+            fields_str += ", "
+        fields_str = fields_str[:-2]
+        file.write(fields_str)
+        file.write(");\n")
 
 
 def make_extension_deps_header() -> None:

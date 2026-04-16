@@ -5,6 +5,8 @@ from dataclasses import dataclass
 class VkFunctionField:
     tppe: str
     name: str
+    is_const: bool
+    is_pointer: bool
 
 
 @dataclass
