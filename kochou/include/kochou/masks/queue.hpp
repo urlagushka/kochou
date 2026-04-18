@@ -2,6 +2,7 @@
 #define KOCHOU_CORE_MASKS_QUEUE_HPP
 
 #include <ktl/api/api.hpp>
+#include <ktl/api/enums.hpp>
 #include <ktl/mask.hpp>
 
 namespace kochou

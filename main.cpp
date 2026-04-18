@@ -1,6 +1,8 @@
 #include <iostream>
 
 #include <ktl/api/api.hpp>
+#include <ktl/api/enums.hpp>
+#include <ktl/api/handles.hpp>
 #include <ktl/reflection/selector.hpp>
 
 struct cat final

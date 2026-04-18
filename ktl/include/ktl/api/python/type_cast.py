@@ -148,18 +148,18 @@ def cast_type(_type : str) -> str | None:
     if _type == "VkResult":
         return "ktl::api::result"
     if _type == "VkSampleMask":
-        return "ktl::spmask"
+        return "ktl::api::spmask"
     if _type == "VkBool32":
-        return "ktl::bool32"
+        return "ktl::api::bool32"
     if _type == "VkFlags":
-        return "ktl::flag32"
+        return "ktl::api::flag32"
     if _type == "VkFlags64":
-        return "ktl::flag64"
+        return "ktl::api::flag64"
     if _type == "VkDeviceSize":
-        return "ktl::dvsize"
+        return "ktl::api::dvsize"
     if _type == "VkDeviceAddress":
-        return "ktl::dvaddr"
-    
+        return "ktl::api::dvaddr"
+
     if _type == "PFN_vkInternalAllocationNotification":
         return "ktl::api::pfn_internal_allocation_notification"
     if _type == "PFN_vkInternalFreeNotification":

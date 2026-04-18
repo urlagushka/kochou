@@ -1,13 +1,7 @@
-low level vulkan api
+# low level vulkan api
+### vulkan-video|vulkansc not supported!
 
 ```cpp
-ktl::api::create_instance <- VkCreateInstance
-
-objects:
-    ktl::api::extension
-    ktl::api::feature
-    ktl::api::version
-
 // constexpr
 struct ktl::api::extension
 {
@@ -17,17 +11,6 @@ struct ktl::api::extension
     ktl::flat_set< ktl::api::feature > features;
     ktl::flat_set< char[MAX_EXTENSION_NAME_SIZE] > deps;
 };
-
-// constexpr
-constexpr ktl::flat_map< char[MAX_EXTENSION_NAME_SIZE], ktl::api::extension >
-get_all_extensions() noexcept
-{
-    static constexpr ktl::flat_map< char[MAX_EXTENSION_NAME_SIZE], ktl::api::extension > all = {
-        // ...
-    }
-    return all;
-}
-// contains/at noexcept
 
 // constexpr
 struct ktl::api::feature
@@ -50,7 +33,4 @@ get_all_extensions() noexcept
     }
     return all;
 }
-// contains/at noexcept
-
-using ktl::api::version = std::uint32_t;
 ```

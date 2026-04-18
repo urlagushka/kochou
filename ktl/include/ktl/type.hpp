@@ -1,7 +1,6 @@
 #ifndef KTL_TYPE_HPP
 #define KTL_TYPE_HPP
 
-#include <cstddef>
 #include <cstdint>
 
 namespace ktl
@@ -16,15 +15,8 @@ using u16 = std::uint16_t;
 using u32 = std::uint32_t;
 using u64 = std::uint64_t;
 
-using bool32 = std::uint32_t;
-using flag32 = std::uint32_t;
-using flag64 = std::uint64_t;
-using dvsize = std::uint64_t;
-using dvaddr = std::uint64_t;
-using spmask = std::uint32_t;
-
-using usize = std::size_t;
-using isize = long long;
+using usize = unsigned long;
+using isize = long;
 } // namespace ktl
 
 #endif

@@ -1,26 +1,3 @@
-category="funcpointer"
-
-<feature
-<extension
-
-* spirvextensions
-* spirvcapabilities
-* videocodecs
-* sync
-
-## PNF
-```cpp
-namespace ktl::api
-{
-    using pnf_create_instance = ktl::api::result (*)(const vk_instance_create_info *, const allocator_callbacks *,
-                                                    opaque_instance **);
-}
-```
-
-queues="VK_QUEUE_SPARSE_BINDING_BIT"
-<command name="vkResetQueryPoolEXT"                        alias="vkResetQueryPool"/>
-
-
 <command export="vulkan" allownoqueues="true" successcodes="VK_SUCCESS" errorcodes="VK_ERROR_OUT_OF_HOST_MEMORY,VK_ERROR_OUT_OF_DEVICE_MEMORY,VK_ERROR_INVALID_SHADER_NV,VK_ERROR_UNKNOWN,VK_ERROR_VALIDATION_FAILED">
             <proto><type>VkResult</type> <name>vkCreateShaderModule</name></proto>
             <param><type>VkDevice</type> <name>device</name></param>
@@ -36,3 +13,35 @@ queues="VK_QUEUE_SPARSE_BINDING_BIT"
             <param><type>VkPipelineBindPoint</type> <name>pipelineBindPoint</name></param>
             <param><type>VkPipeline</type> <name>pipeline</name></param>
         </command>
+
+```cpp
+template< typename ENUM, typename TARGET >
+requiers std::is_enum_v< ENUM >
+struct enum_cast
+{};
+
+template< typename ENUM >
+requiers std::is_enum_v< ENUM >
+struct enum_cast< std::string >
+{
+    consteval auto operator()(ENUM _enum)
+    {
+        constexpr ktl::flat_map< ENUM > enum_map = {};
+        if constexpr (enum_map.contains(_enum))
+        {
+            return enum_map.at(_enum);
+        }
+        return "invalid_value";
+    }
+};
+
+template< typename ENUM >
+requiers std::is_enum_v< ENUM >
+struct enum_cast< std::underling_type< ENUM > >
+{
+    consteval auto operator()(ENUM _enum)
+    {
+        return static_cast< std::underling_type< ENUM > >(_enum);
+    }
+};
+```

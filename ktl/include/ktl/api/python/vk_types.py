@@ -2,6 +2,21 @@ from dataclasses import dataclass
 
 
 @dataclass
+class VkConstant:
+    name: str
+    tppe: str
+    value: str
+
+    def __hash__(self) -> int:
+        return hash(self.name)
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, VkEnumField):
+            return True
+        return self.name == other.name
+
+
+@dataclass
 class VkFunctionField:
     tppe: str
     name: str
@@ -63,28 +78,6 @@ class VkFormat:
 
 
 @dataclass
-class VkUnionField:
-    tppe: str
-    name: str
-
-
-@dataclass
-class VkUnion:
-    name: str
-    fields: list
-
-
-@dataclass
-class VkEntension:
-    name: str
-    spec_version: str
-    promoted_to: str
-    features: list
-    extension: list
-    functions: list
-
-
-@dataclass
 class VkBitMask:
     name: str
     tppe: str
@@ -114,14 +107,8 @@ class VkStructField:
 class VkStruct:
     name: str
     fields: list
+    is_union: bool
     alias: str | None
-
-
-@dataclass
-class VkConstant:
-    name: str
-    tppe: str
-    value: str
 
 
 @dataclass
@@ -146,3 +133,31 @@ class VkEnum:
     fields: dict
     underling_type: str
     alias : str | None
+
+
+@dataclass
+class VkFeatureDependency:
+    tppe: str
+    offset: str
+
+
+@dataclass
+class VkFeature:
+    parent: str
+    name: str
+    version: str
+    platform: str
+    bits: list
+    features: list
+    extensions: list
+    commands: list
+
+
+@dataclass
+class VkEntension:
+    name: str
+    spec_version: str
+    promoted_to: str
+    features: list
+    extension: list
+    functions: list

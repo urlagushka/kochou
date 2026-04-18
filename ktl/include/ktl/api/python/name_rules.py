@@ -38,9 +38,9 @@ def make_type(_src: str) -> str | None:
 def make_bitpos(src: str, underling_type: str) -> str | None:
     if src is None:
         return None
-    if underling_type == "ktl::u32":
+    if underling_type in ("ktl::u32", "ktl::i32"):
         return f"(1U << {src})"
-    if underling_type == "ktl::u64":
+    if underling_type in ("ktl::u64", "ktl::i64"):
         return f"(1ULL << {src})"
     return None # non valid for vulkan spec
 
