@@ -11,7 +11,7 @@ import formats
 import pointers
 import commands
 import features
-from make_extensions import extract_extensions
+import extensions
 
 
 COMMON_HEADER_FILE     = "common.hpp"
@@ -34,7 +34,7 @@ def main(_root):
     POINTERS          = pointers.extract(_root) 
     COMMANDS          = commands.extract(_root)
     _          = features.extract(_root, ENUMS, COMMANDS)
-    EXTENSIONS        = extract_extensions(_root, ENUMS)
+    EXTENSIONS        = extensions.extract(_root, ENUMS)
 
     headers.fill_common(COMMON_HEADER_FILE,
                         CONSTANTS,
@@ -71,7 +71,10 @@ def main(_root):
                           COMMON_HEADER_FILE,
                           FEATURES_HEADER_FILE,
                           FEATURES)
-    headers.fill_extensions(COMMON_HEADER_FILE, EXTENSIONS_HEADER_FILE, EXTENSIONS)
+    headers.fill_extensions(API_HEADER_FILE,
+                            COMMON_HEADER_FILE,
+                            EXTENSIONS_HEADER_FILE,
+                            EXTENSIONS)
     headers.fill_api(API_HEADER_FILE,
                      COMMON_HEADER_FILE,
                      ENUMS_HEADER_FILE,

@@ -40,11 +40,10 @@ ENUM_META = """"""
 STRUCT_META = """"""
 
 
-COMMAND_META = """template< ktl::u32 >
+COMMAND_META = """template < ktl::u32 >
 struct command_meta
 {
     static constexpr ktl::api::version                    version;
-    static constexpr std::array< ktl::api::feature, 0 >   features;
     static constexpr std::array< ktl::api::extension, 0 > extensions;
     static constexpr bool                                 is_instance;
     static constexpr std::string_view                     raw_name;
@@ -64,21 +63,19 @@ FEATURE_META = """struct feature_dependency
     ktl::usize               offset;
 };
 
-template< ktl::api::feature >
+template < ktl::api::feature >
 struct feature_meta
 {
     static constexpr ktl::api::version                    version;
     static constexpr std::array< feature_dependency, 0 >  features;
     static constexpr std::array< ktl::api::extension, 0 > extensions;
-    static constexpr std::array< ktl::u32, 0 >            commands;
 };"""
 
 
-EXTENSION_META = """template< ktl::api::extension >
+EXTENSION_META = """template < ktl::api::extension >
 struct extension_meta
 {
     static constexpr ktl::api::version                    version;
-    static constexpr std::array< feature_dependency, 0 >  features;
     static constexpr std::array< ktl::api::extension, 0 > extensions;
     static constexpr std::array< ktl::u32, 0 >            commands;
     static constexpr bool                                 is_promoted;

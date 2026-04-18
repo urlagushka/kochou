@@ -9,6 +9,8 @@ def make_cpp_name(src: str) -> str | None:
         return c_name_to_cpp(src[2:])
     if src.startswith("PFN_"):
         return c_name_to_cpp(src[6:])
+    if src.startswith("VK_"):
+        return c_name_to_cpp(src[3:])
     return c_name_to_cpp(src)
 
 

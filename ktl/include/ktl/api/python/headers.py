@@ -8,6 +8,7 @@ import bitmasks
 import pointers
 import commands
 import features
+import extensions
 
 
 def make_header_guard(_filename: str) -> str | None:
@@ -235,11 +236,32 @@ def fill_features(_api_include: str,
         file.write("\n#endif\n")
 
 
-def fill_extensions(common_include: str, filename: str, extensions: list) -> None:
-    header_guard = make_header_guard(filename)
+def fill_extensions(_api_include: str,
+                    _common_include: str,
+                    _filename: str,
+                    _extensions: list) -> None:
+    header_guard = make_header_guard(_filename)
     if not header_guard:
         print("headers.fill_extensions header_guard is None")
         return
+    api_guard = make_header_guard(_api_include)
+    if not api_guard:
+        print("headers.fill_extensions api_guard is None")
+        return
+    
+    with open(_filename, "w", encoding="utf-8") as file:
+        file.write(f"""#ifndef {header_guard}
+#define {header_guard}
+
+#include <array>
+
+#ifndef {api_guard}
+#include "{_common_include}"
+#endif
+
+""")
+        extensions.fill_implementation(file, _extensions)
+        file.write("\n#endif\n")
 
 
 def fill_api(_filename,

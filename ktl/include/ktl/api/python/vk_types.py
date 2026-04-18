@@ -156,8 +156,8 @@ class VkFeature:
 @dataclass
 class VkEntension:
     name: str
-    spec_version: str
-    promoted_to: str
-    features: list
-    extension: list
-    functions: list
+    raw: str
+    version: str
+    promoted: str | None
+    extensions: list
+    commands: list
